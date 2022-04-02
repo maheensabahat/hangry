@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(bottom: 48),
+              padding: const EdgeInsets.only(top: 8, bottom: 48),
               child: SizedBox(
                 width: 220,
                 height: 40,
@@ -76,12 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: buttonStyle,
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => User_Signup()),);
+                      MaterialPageRoute(builder: (context) => User_Signup()),
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/googlelogo.png', width: 22, height: 22),
+                      Image.asset('assets/googlelogo.png',
+                          width: 22, height: 22),
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: const Text('Continue with Google'),
@@ -90,10 +92,38 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+//For Button:
+// SizedBox(
+// width: 220,
+// height: 40,
+// child: ElevatedButton(
+// style: ElevatedButton.styleFrom(
+// onPrimary: Color(0xFF154038),
+// primary: Color(0xFF5ABFA3),
+// shape: RoundedRectangleBorder(
+// borderRadius: BorderRadius.all(Radius.circular(30)),
+// ),
+// textStyle: TextStyle(fontWeight: FontWeight.bold)),
+// onPressed: () {
+// // Navigator.of(context).push(widget.next_page);
+// },
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// Image.asset('assets/googlelogo.png', width: 22, height: 22),
+// Padding(
+// padding: const EdgeInsets.only(left: 8),
+// child: const Text('Continue with Google'),
+// ),
+// ],
+// ),
+// ),
+// );

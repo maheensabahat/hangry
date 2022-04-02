@@ -77,8 +77,6 @@ class _HomeState extends State<Home> {
                 cursorColor: Color(0xFF5ABFA3),
               ),
             ),
-
-
           ],
         ),
       ),
