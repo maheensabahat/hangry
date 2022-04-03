@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/RestaurantDetails.dart';
+import 'package:project/Profile.dart';
 import 'package:project/user_signup.dart';
 
 void main() {
@@ -15,11 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        backgroundColor: Color(0xFFF2F2F2),
+        scaffoldBackgroundColor: Color(0xFFF2F2F2),
       ),
-      // darkTheme: ThemeData.dark(),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const RestaurantDetails(),
+      darkTheme: ThemeData.dark(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
