@@ -14,6 +14,7 @@ class _ProfileState extends State<Profile> {
       body: Column(
         children: [
           Text('Profile'),
+
           //Profile Picture
           Text('Full Name'),
           Text('Location'),

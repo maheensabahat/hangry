@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/InputBox.dart';
+import 'package:project/MainPage.dart';
 import 'package:project/home.dart';
 
 class User_Signup extends StatefulWidget {
@@ -79,7 +80,7 @@ class _User_SignupState extends State<User_Signup> {
                       style: buttonStyle,
                       onPressed: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Home()),);
+                          MaterialPageRoute(builder: (context) => MainPage()));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
