@@ -17,6 +17,7 @@ class _HomeState extends State<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //Hi Jimmy
             Padding(
               padding: const EdgeInsets.only(top: 70, left: 24),
               child: Text('Hi, Jimmy!',
@@ -25,6 +26,8 @@ class _HomeState extends State<Home> {
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF5ABFA3))),
             ),
+
+            //Profile pic and Bold Text
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -46,37 +49,106 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
+
+            //Search Bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: TextField(
                 controller: search,
                 style: const TextStyle(color: Color(0xFF5ABFA3)),
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    border: OutlineInputBorder(
+                  contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide:
+                        const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(
-                          width: 1.0, color: Color(0xFF5ABFA3)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                            width: 2, color: Color(0xFF5ABFA3))),
-                    hintText: 'Search here',
-                    hintStyle: const TextStyle(
-                      color: Color(0xFFADD9C9),
-                      fontSize: 12,
-                    ),
-                    filled: true,
-                    fillColor: Color(0x30ADD9C9),
-                    suffixIcon: InkWell(
-                        child: Icon(
+                      borderSide:
+                          const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+                  hintText: 'Search here',
+                  hintStyle: const TextStyle(
+                    color: Color(0xFFADD9C9),
+                    fontSize: 12,
+                  ),
+                  filled: true,
+                  fillColor: Color(0x30ADD9C9),
+                  suffixIcon: InkWell(
+                    child: Icon(
                       Icons.search,
                       color: Color(0xFF5ABFA3),
-                    ))),
+                    ),
+                  ),
+                ),
                 cursorColor: Color(0xFF5ABFA3),
               ),
             ),
+
+            //Categories
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 24),
+              child: Text(
+                'Categories',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  // color: Color(0xFF5ABFA3),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 36),
+              child: Container(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 10,
+                  itemBuilder: (context, index) => Container(
+                    width: 70,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0x90ADD9C9),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: ListTile(
+                      title: Icon(
+                        Icons.soup_kitchen,
+                        // color: Color(0xFF5ABFA3),
+                      ),
+                      subtitle: Text(
+                        'Soup',
+                        style:
+                            TextStyle(color: Color(0xFF5ABFA3), fontSize: 10),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Restuarants',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          // color: Color(0xFF5ABFA3),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
