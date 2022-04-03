@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:project/Profile.dart';
 import 'package:project/Settings.dart';
 import 'package:project/home.dart';
+import 'package:project/Cart.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -22,9 +23,15 @@ class _MainPageState extends State<MainPage> {
         controller: controller,
         children: [
           Home(),
+          Cart(),
           Profile(),
-          Settings()
+          Settings(),
         ],
+        onPageChanged: (index) {
+          setState(() {
+            selected = index;
+          });
+        },
       ),
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
@@ -39,16 +46,12 @@ class _MainPageState extends State<MainPage> {
         ],
         index: selected,
         onTap: (index) {
-          onTapp(index);
+          setState(() {
+            selected = index;
+          });
+          controller.jumpToPage(index);
         },
       ),
     );
-  }
-
-  void onTapp(int index){
-    setState(() {
-      selected = index;
-    });
-    controller.jumpToPage(index);
   }
 }
