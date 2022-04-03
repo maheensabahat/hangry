@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/ReserveTable.dart';
+import 'package:project/Voucher.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class _ProfileState extends State<Profile> {
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Color(0xF0ADD9C9),
-                        child: Icon(Icons.edit, color: Color(0xFF5ABFA3)),
+                        child: Icon(Icons.edit, color: Color(0xFFF2F2F2)),
                       ),
                     )
                   ],
@@ -77,6 +79,7 @@ class _ProfileState extends State<Profile> {
                   icon: 'assets/voucher.png',
                   width: 150,
                   height: 150,
+                  istable: false,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
@@ -85,6 +88,7 @@ class _ProfileState extends State<Profile> {
                     icon: 'assets/Table.png',
                     width: 100,
                     height: 60,
+                    istable: true,
                   ),
                 )
               ],
@@ -108,6 +112,7 @@ class _ProfileState extends State<Profile> {
 }
 
 class buttons extends StatelessWidget {
+  bool istable;
   String icon;
   double width;
   double height;
@@ -118,7 +123,8 @@ class buttons extends StatelessWidget {
       required this.name,
       required this.icon,
       required this.width,
-      required this.height})
+      required this.height,
+      required this.istable})
       : super(key: key);
 
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
@@ -134,9 +140,14 @@ class buttons extends StatelessWidget {
       child: ElevatedButton(
         style: buttonStyle,
         onPressed: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(builder: (context) => User_Signup()),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context){
+              if(istable){
+                return ReserveTable();
+              }
+              return Voucher();
+            }),
+          );
         },
         child: Stack(
           children: [
