@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/user_signup.dart';
+import 'RestaurantMenu.dart';
+import 'RestaurantEditDish.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +16,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-         scaffoldBackgroundColor: Color(0xFFF2F2F2),
+        scaffoldBackgroundColor: Color(0xFFF2F2F2),
       ),
-        // darkTheme: ThemeData.dark(),
+      // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: const RestaurantMenu(),
+      //home: const RestaurantEditDish(),
     );
   }
 }
@@ -48,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             //Logo
-
             //Heading
             const Text(
               'Welcome to Hangry!',
