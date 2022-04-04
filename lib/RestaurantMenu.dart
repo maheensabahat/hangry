@@ -9,10 +9,22 @@ class RestaurantMenu extends StatefulWidget {
 }
 
 class _RestaurantMenuState extends State<RestaurantMenu> {
-  List items = ['Dish', 'Dish', 'Dish', 'Dish', 'Dish', 'Dish', 'Dish', 'Dish'];
+  List items = [
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish',
+    'Dish'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -26,7 +38,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
             },
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -37,7 +49,6 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         ),
         centerTitle: true,
       ),
-      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff5abfa3),
         child: const Icon(Icons.add),
@@ -76,10 +87,10 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                         child: Container(
                           height: 100,
                           width: 70,
-                          color: Color(0xff5abfa3),
+                          color: const Color(0xff5abfa3),
                         ),
                       ),
-                      tileColor: Color(0xffadd9c9),
+                      tileColor: const Color(0xffadd9c9),
                       title: Text(
                         items[index],
                         style: const TextStyle(color: Colors.black),

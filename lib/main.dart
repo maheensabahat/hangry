@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/user_signup.dart';
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
+import 'RestaurantOrder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFF2F2F2),
-      ),
+      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),
+      //home: const RestaurantOrder(),
     );
   }
 }
@@ -37,12 +37,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      onPrimary: Color(0xFF154038),
-      primary: Color(0xFF5ABFA3),
+      onPrimary: const Color(0xFF154038),
+      primary: const Color(0xFF5ABFA3),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
-      textStyle: TextStyle(fontWeight: FontWeight.bold));
+      textStyle: const TextStyle(fontWeight: FontWeight.bold));
 
   @override
   Widget build(BuildContext context) {
