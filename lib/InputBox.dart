@@ -27,7 +27,7 @@ class _InputBoxState extends State<InputBox> {
       children: [
         Text(
           widget.label,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 24),

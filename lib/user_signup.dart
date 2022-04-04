@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/InputBox.dart';
 import 'package:project/MainPage.dart';
-import 'package:project/home.dart';
 
 class User_Signup extends StatefulWidget {
   const User_Signup({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class _User_SignupState extends State<User_Signup> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 90),
+              padding: const EdgeInsets.only(top: 50),
               child: Image.asset(
                 'assets/Pasta.png',
                 width: 200,
@@ -73,20 +72,23 @@ class _User_SignupState extends State<User_Signup> {
                     icon: Icon(Icons.location_on, color: Color(0xFF5ABFA3)),
                     controller: TextEditingController(),
                   ),
-                  SizedBox(
-                    width: 220,
-                    height: 40,
-                    child: ElevatedButton(
-                      style: buttonStyle,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => MainPage()));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Continue'),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.only(top:10, bottom: 24),
+                    child: SizedBox(
+                      width: 220,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: buttonStyle,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => MainPage()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Continue'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
