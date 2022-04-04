@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+  int i = 3;
+  Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +10,13 @@ class Settings extends StatelessWidget {
         body: Column(
       children: [
 
-        Text('Settings'),
+        Padding(
+          padding: const EdgeInsets.only(top: 70, bottom: 40),
+          child: Text(
+            'Settings',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+        ),
 
         SizedBox(
           width: 220,

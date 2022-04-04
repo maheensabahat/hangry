@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:project/Settings.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  int i = 0;
+
+  Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int i = 0;
   TextEditingController search = TextEditingController();
 
   @override
