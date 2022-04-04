@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'RestaurantHome.dart';
+
 class RestaurantOrder extends StatefulWidget {
   const RestaurantOrder({Key? key}) : super(key: key);
 
@@ -119,7 +121,11 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
                     width: 80,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RestaurantHome()),
+                        );
                       },
                       child: const Text('Accept'),
                       style: ElevatedButton.styleFrom(
