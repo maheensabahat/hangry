@@ -1,6 +1,6 @@
 # project
 
-A new Flutter project.
+This project is under development
 
 ## Getting Started
 
