@@ -13,6 +13,7 @@ class _ReserveTableState extends State<ReserveTable> {
   TextStyle h2 = TextStyle(fontSize: 13, fontWeight: FontWeight.w500);
   TextEditingController name = TextEditingController();
   TextEditingController contact = TextEditingController();
+  Color c = Color(0xFF154038);
 
   @override
   Widget build(BuildContext context) {
@@ -87,16 +88,23 @@ class _ReserveTableState extends State<ReserveTable> {
                           height: 80,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color(0xFF5ABFA3),
+                              color: Color(0xF0ADD9C9),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('assets/googlelogo.png',
-                                    width: 50, height: 50),
-                                Text('Indoor'),
+                                Image.asset(
+                                  'assets/indoor.png',
+                                  width: 50,
+                                  height: 50,
+                                  color: c,
+                                ),
+                                Text(
+                                  'Indoor',
+                                  style: TextStyle(color: c, fontSize: 13),
+                                ),
                               ],
                             ),
                           ),
@@ -108,16 +116,21 @@ class _ReserveTableState extends State<ReserveTable> {
                             height: 80,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xFF5ABFA3),
+                                color: Color(0xFFADD9C9),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset('assets/googlelogo.png',
-                                      width: 50, height: 50),
-                                  Text('Outdoor'),
+                                  Image.asset(
+                                    'assets/outdoor.png',
+                                    width: 50,
+                                    height: 50,
+                                    color: c,
+                                  ),
+                                  Text('Outdoor',
+                                      style: TextStyle(color: c, fontSize: 13)),
                                 ],
                               ),
                             ),
@@ -129,22 +142,26 @@ class _ReserveTableState extends State<ReserveTable> {
                       padding: const EdgeInsets.only(top: 24),
                       child: Column(
                         children: [
-                          Text('How many seats?', style: h2),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('How many seats?', style: h2),
+                          ),
                           SizedBox(
                             width: 80,
                             height: 80,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Color(0xFF5ABFA3),
+                                color: Color(0xFFADD9C9),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset('assets/googlelogo.png',
-                                      width: 50, height: 50),
-                                  Text('Seats'),
+                                  Text('4',
+                                      style: TextStyle(color: c, fontSize: 28)),
+                                  Text('Seats',
+                                      style: TextStyle(color: c, fontSize: 13)),
                                 ],
                               ),
                             ),
@@ -159,16 +176,19 @@ class _ReserveTableState extends State<ReserveTable> {
                           children: [
                             Column(
                               children: [
-                                Text(
-                                  'Date',
-                                  style: h2,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Time',
+                                    style: h2,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 80,
                                   height: 80,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF5ABFA3),
+                                      color: Color(0xFFADD9C9),
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(10)),
                                     ),
@@ -176,9 +196,18 @@ class _ReserveTableState extends State<ReserveTable> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/googlelogo.png',
-                                            width: 50, height: 50),
-                                        Text('Date'),
+                                        Text('03:00',
+                                            style: TextStyle(
+                                                color: c,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold)),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 2.0),
+                                          child: Text('PM',
+                                              style: TextStyle(
+                                                  color: c, fontSize: 12)),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -189,13 +218,16 @@ class _ReserveTableState extends State<ReserveTable> {
                               padding: const EdgeInsets.only(left: 36),
                               child: Column(
                                 children: [
-                                  Text('Time', style: h2),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Date', style: h2),
+                                  ),
                                   SizedBox(
                                     width: 80,
                                     height: 80,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF5ABFA3),
+                                        color: Color(0xFFADD9C9),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
@@ -203,9 +235,18 @@ class _ReserveTableState extends State<ReserveTable> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Image.asset('assets/googlelogo.png',
-                                              width: 50, height: 50),
-                                          Text('Time'),
+                                          Text('18',
+                                              style: TextStyle(
+                                                  color: c,
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.bold)),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 2.0),
+                                            child: Text('March, 2022',
+                                                style: TextStyle(
+                                                    color: c, fontSize: 10)),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -233,31 +274,28 @@ class _ReserveTableState extends State<ReserveTable> {
                     ),
                   ],
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.only(left: 150, right: 150, bottom: 48),
+                  padding: const EdgeInsets.only(
+                      top: 10, left: 80, right: 80, bottom: 50),
                   child: SizedBox(
                     width: 40,
                     height: 40,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          onPrimary: Color(0xFF154038),
                           primary: Color(0xFF5ABFA3),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
                           textStyle: TextStyle(fontWeight: FontWeight.bold)),
                       onPressed: () {
-                          // Navigator.of(context).push(widget.next_page);
+                        // Navigator.of(context).push(widget.next_page);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/googlelogo.png',
-                              width: 22, height: 22),
                           Padding(
                             padding: const EdgeInsets.only(left: 8),
-                            child: const Text('Continue with Google'),
+                            child: const Text('Confirm Reservation'),
                           ),
                         ],
                       ),
@@ -275,8 +313,8 @@ class _ReserveTableState extends State<ReserveTable> {
           Navigator.of(context).pop();
         },
         child: Icon(Icons.arrow_back),
-        backgroundColor: Color(0xFFADD9C9),
-        foregroundColor: Color(0xFF5ABFA3),
+        foregroundColor: Color(0xFFADD9C9),
+        backgroundColor: Color(0xFF5ABFA3),
       ),
     );
   }

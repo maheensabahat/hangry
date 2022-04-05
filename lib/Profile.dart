@@ -54,7 +54,7 @@ class _ProfileState extends State<Profile> {
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Color(0xF0ADD9C9),
-                        child: Icon(Icons.edit, color: Color(0xFFF2F2F2)),
+                        child: Icon(Icons.edit, color: Color(0xFF154038)),
                       ),
                     )
                   ],
@@ -141,8 +141,8 @@ class buttons extends StatelessWidget {
         style: buttonStyle,
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context){
-              if(istable){
+            MaterialPageRoute(builder: (context) {
+              if (istable) {
                 return ReserveTable();
               }
               return Voucher();

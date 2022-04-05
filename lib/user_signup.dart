@@ -12,7 +12,6 @@ class User_Signup extends StatefulWidget {
 
 class _User_SignupState extends State<User_Signup> {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      onPrimary: Color(0xFF154038),
       primary: Color(0xFF5ABFA3),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),

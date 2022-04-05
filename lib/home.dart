@@ -11,6 +11,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController search = TextEditingController();
+  List<Category> Categories = [
+    Category(Icon(Icons.soup_kitchen,), 'Chinese'),
+    Category(Icon(Icons.fastfood), 'Fast food'),
+    Category(Icon(Icons.local_cafe_sharp), 'Cafe'),
+    Category(Icon(Icons.dinner_dining), 'Italian'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -104,26 +110,27 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 10, bottom: 36),
               child: Container(
-                height: 50,
+                height: 60,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: Categories.length,
                   itemBuilder: (context, index) => Container(
-                    width: 70,
+                    width: 80,
                     margin: const EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(
                       color: Color(0x905ABFA3),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                     child: ListTile(
-                      title: Icon(
-                        Icons.soup_kitchen,
-                        // color: Color(0xFF5ABFA3),
-                      ),
-                      subtitle: Text(
-                        'Soup',
-                        style:
-                            TextStyle(color: Color(0xFF5ABFA3), fontSize: 10),
+                      title: Categories[index].icon,
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(left: 0),
+                        child: Text(
+                          Categories[index].label,
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 10),
+                        ),
                       ),
                     ),
                   ),
@@ -157,4 +164,12 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+}
+
+class Category{
+  Icon icon;
+  String label;
+
+  Category(this.icon, this.label);
+
 }
