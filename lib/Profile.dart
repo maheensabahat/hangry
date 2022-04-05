@@ -129,7 +129,7 @@ class _ProfileState extends State<Profile> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
-              height: 250,
+              height: MediaQuery.of(context).size.height* 0.25,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,

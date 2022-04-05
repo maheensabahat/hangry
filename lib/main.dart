@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
-      // darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),

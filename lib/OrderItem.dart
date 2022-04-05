@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/Counter.dart';
 
 class OrderItem{
   String name;
   String price;
+  Counter c;
   
-  OrderItem(this.name, this.price);
+  OrderItem(this.name, this.price, this.c);
 }
 
 class itemsInCart extends StatefulWidget {
@@ -17,6 +19,7 @@ class itemsInCart extends StatefulWidget {
 class _itemsInCartState extends State<itemsInCart> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+    );
   }
 }

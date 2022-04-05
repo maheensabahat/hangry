@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
                   Center(
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.35,
                       child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,

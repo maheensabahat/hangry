@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Counter extends StatefulWidget {
@@ -21,69 +22,65 @@ class Counter extends StatefulWidget {
 class _CounterState extends State<Counter> {
   Widget build(BuildContext context) {
     int v = widget.value;
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          child: Container(
+            width: 18,
+            height: 18,
+            decoration: BoxDecoration(
+                color: Color(0xFF5ABFA3),
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Center(
+              child: Icon(
+                Icons.remove,
+                color: Color(0xFF154038),
+                size: 13,
+              ),
+            ),
+          ),
+          onTap: () {
+            sub();
+            setState(() {});
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: Center(
+            child: Text(
+              '$v',
+              style: TextStyle(
+                  color: Color(0xFF154038),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: InkWell(
             child: Container(
-              width: 22,
-              height: 22,
+              width: 18,
+              height: 18,
               decoration: BoxDecoration(
-                  color: Color(0xFFADD9C9),
+                  color: Color(0xFF5ABFA3),
                   borderRadius: BorderRadius.all(Radius.circular(5))),
               child: Center(
                 child: Icon(
-                  Icons.remove,
-                  size: 15,
+                  Icons.add,
+                  size: 13,
+                  color: Color(0xFF154038),
                 ),
               ),
             ),
             onTap: () {
-              sub();
+              add();
               setState(() {});
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  color: Color(0xFFADD9C9),
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child: Center(
-                child: Text(
-                  '$v',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: InkWell(
-              child: Container(
-                width: 22,
-                height: 22,
-                decoration: BoxDecoration(
-                    color: Color(0xFFADD9C9),
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: Center(
-                  child: Icon(
-                    Icons.add,
-                    size: 15,
-                  ),
-                ),
-              ),
-              onTap: () {
-                add();
-                setState(() {});
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
