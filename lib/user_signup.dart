@@ -19,7 +19,7 @@ class _User_SignupState extends State<User_Signup> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.only(top: 70),
               child: Image.asset(
                 'assets/Pasta.png',
                 width: 200,

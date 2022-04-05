@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Counter.dart';
 
 class Cart extends StatefulWidget {
   Cart({Key? key}) : super(key: key);
@@ -21,9 +22,10 @@ class _CartState extends State<Cart> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: MyUnplacedOrder(),
-          )
+          ),
+          Counter(min: 0, max: 5, value: 0, increments: 1)
         ],
       ),
     );
@@ -80,3 +82,4 @@ class _MyUnplacedOrderState extends State<MyUnplacedOrder> {
     );
   }
 }
+

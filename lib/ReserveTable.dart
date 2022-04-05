@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/InputBox.dart';
+import 'package:project/MainPage.dart';
+
+import 'Profile.dart';
 
 class ReserveTable extends StatefulWidget {
   const ReserveTable({Key? key}) : super(key: key);
@@ -26,7 +29,8 @@ class _ReserveTableState extends State<ReserveTable> {
               Image.asset('assets/restaurant.jpg',
                   width: MediaQuery.of(context).size.width,
                   height: 258,
-                  color: const Color.fromRGBO(255, 255, 255, 0.4),
+                  color: const Color.fromRGBO(255, 255, 255, 0.6),
+                  fit: BoxFit.fill,
                   colorBlendMode: BlendMode.modulate),
               const Text(
                 "Restaurant's Name",
@@ -61,16 +65,17 @@ class _ReserveTableState extends State<ReserveTable> {
           ),
           Expanded(
             child: ListView(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               children: [
                 Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 30),
+                      padding: EdgeInsets.only(top: 10 ,bottom: 30),
                       child: Text(
                         'Reserve Table',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 19, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
@@ -309,11 +314,12 @@ class _ReserveTableState extends State<ReserveTable> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: FloatingActionButton.small(
+        heroTag: "backbtn1",
         onPressed: () {
           Navigator.of(context).pop();
         },
         child: Icon(Icons.arrow_back),
-        foregroundColor: Color(0xFFADD9C9),
+        foregroundColor: Color(0xFFF2F2F2),
         backgroundColor: Color(0xFF5ABFA3),
       ),
     );

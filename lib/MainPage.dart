@@ -6,15 +6,23 @@ import 'package:project/home.dart';
 import 'package:project/Cart.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  int i = 0;
+  MainPage({Key? key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int selected = 0;
+  late int selected;
   PageController controller = PageController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selected = widget.i;
+  }
 
   @override
   Widget build(BuildContext context) {

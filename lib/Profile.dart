@@ -129,7 +129,7 @@ class _ProfileState extends State<Profile> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Container(
-              height: 200,
+              height: 250,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,

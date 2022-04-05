@@ -115,6 +115,7 @@ class _RestaurantState extends State<Restaurant> {
             left: 250,
             bottom: 15,
             child: FloatingActionButton.small(
+              heroTag: null,
               onPressed: () {},
               backgroundColor: Color(0xFF5ABFA3),
               child: Icon(Icons.arrow_forward_sharp),

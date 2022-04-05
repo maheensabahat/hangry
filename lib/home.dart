@@ -22,21 +22,21 @@ class _HomeState extends State<Home> {
     Restaurant(
         name: "Xander's",
         desc:
-        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
         category: 'Cafe',
         isFav: false,
         image: 'assets/restaurant.jpg'),
     Restaurant(
         name: "Xander's",
         desc:
-        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
         category: 'Cafe',
         isFav: false,
         image: 'assets/restaurant.jpg'),
     Restaurant(
         name: "Xander's",
         desc:
-        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
         category: 'Cafe',
         isFav: false,
         image: 'assets/restaurant.jpg')
@@ -93,12 +93,12 @@ class _HomeState extends State<Home> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide:
-                    const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
+                        const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                      const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+                          const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
                   hintText: 'Search here',
                   hintStyle: const TextStyle(
                       color: Color(0xFFADD9C9),
@@ -138,27 +138,25 @@ class _HomeState extends State<Home> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: Categories.length,
-                  itemBuilder: (context, index) =>
-                      Container(
-                        width: 80,
-                        margin: const EdgeInsets.only(right: 10),
-                        decoration: BoxDecoration(
-                          color: Color(0x905ABFA3),
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(10)),
-                        ),
-                        child: ListTile(
-                          title: Categories[index].icon,
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(left: 0),
-                            child: Text(
-                              Categories[index].label,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
+                  itemBuilder: (context, index) => Container(
+                    width: 80,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0x905ABFA3),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: ListTile(
+                      title: Categories[index].icon,
+                      subtitle: Padding(
+                        padding: const EdgeInsets.only(left: 0),
+                        child: Text(
+                          Categories[index].label,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 10),
                         ),
                       ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -168,21 +166,26 @@ class _HomeState extends State<Home> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Restuarants',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      // color: Color(0xFF5ABFA3),
+
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      'Restuarants',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        // color: Color(0xFF5ABFA3),
+                      ),
                     ),
                   ),
 
                   Center(
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.85,
-                      height: 300,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       child: ListView.builder(
-                        shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
                           itemCount: restaurants.length,
                           itemBuilder: (BuildContext context, int index) {
                             return restaurants[index];
