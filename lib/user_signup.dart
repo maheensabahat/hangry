@@ -11,13 +11,6 @@ class User_Signup extends StatefulWidget {
 }
 
 class _User_SignupState extends State<User_Signup> {
-  final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      primary: Color(0xFF5ABFA3),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-      ),
-      textStyle: TextStyle(fontWeight: FontWeight.bold));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,15 +65,22 @@ class _User_SignupState extends State<User_Signup> {
                     controller: TextEditingController(),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:10, bottom: 24),
+                    padding: const EdgeInsets.only(top: 10, bottom: 24),
                     child: SizedBox(
                       width: 220,
                       height: 40,
                       child: ElevatedButton(
-                        style: buttonStyle,
+                        style: ElevatedButton.styleFrom(
+                            primary: const Color(0xFF5ABFA3),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            textStyle:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => MainPage()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MainPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

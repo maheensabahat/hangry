@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/Restaurant.dart';
 
 class Home extends StatefulWidget {
-  int i = 0;
-
   Home({Key? key}) : super(key: key);
 
   @override
@@ -11,11 +10,36 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController search = TextEditingController();
+
   List<Category> Categories = [
-    Category(Icon(Icons.soup_kitchen,), 'Chinese'),
+    Category(Icon(Icons.soup_kitchen), 'Chinese'),
     Category(Icon(Icons.fastfood), 'Fast food'),
     Category(Icon(Icons.local_cafe_sharp), 'Cafe'),
     Category(Icon(Icons.dinner_dining), 'Italian'),
+  ];
+
+  List<Restaurant> restaurants = [
+    Restaurant(
+        name: "Xander's",
+        desc:
+        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: false,
+        image: 'assets/restaurant.jpg'),
+    Restaurant(
+        name: "Xander's",
+        desc:
+        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: false,
+        image: 'assets/restaurant.jpg'),
+    Restaurant(
+        name: "Xander's",
+        desc:
+        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: false,
+        image: 'assets/restaurant.jpg')
   ];
 
   @override
@@ -69,12 +93,12 @@ class _HomeState extends State<Home> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide:
-                        const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
+                    const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide:
-                          const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+                      const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
                   hintText: 'Search here',
                   hintStyle: const TextStyle(
                       color: Color(0xFFADD9C9),
@@ -114,49 +138,58 @@ class _HomeState extends State<Home> {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: Categories.length,
-                  itemBuilder: (context, index) => Container(
-                    width: 80,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: Color(0x905ABFA3),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: ListTile(
-                      title: Categories[index].icon,
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(left: 0),
-                        child: Text(
-                          Categories[index].label,
-                          textAlign: TextAlign.center,
-                          style:
-                              TextStyle(fontSize: 10),
+                  itemBuilder: (context, index) =>
+                      Container(
+                        width: 80,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: BoxDecoration(
+                          color: Color(0x905ABFA3),
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(10)),
+                        ),
+                        child: ListTile(
+                          title: Categories[index].icon,
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(left: 0),
+                            child: Text(
+                              Categories[index].label,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 10),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                 ),
               ),
             ),
 
-            Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Restuarants',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          // color: Color(0xFF5ABFA3),
-                        ),
-                      ),
-                    ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Restuarants',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      // color: Color(0xFF5ABFA3),
+                    ),
                   ),
-                ),
+
+                  Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: 300,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          itemCount: restaurants.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return restaurants[index];
+                          }),
+                    ),
+                  )
+                ],
               ),
             )
           ],
@@ -166,10 +199,9 @@ class _HomeState extends State<Home> {
   }
 }
 
-class Category{
+class Category {
   Icon icon;
   String label;
 
   Category(this.icon, this.label);
-
 }
