@@ -19,12 +19,15 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 70, bottom: 20),
-            child: Text(
-              'Cart',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 70, bottom: 20),
+              child: Text(
+                'Cart',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           Padding(
@@ -34,9 +37,13 @@ class _CartState extends State<Cart> {
                 : MyUnplacedOrder(),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+            padding: const EdgeInsets.only(top: 24, left: 36, bottom: 12),
+            child: Text('Friends', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
             child: Container(
-              height: 120,
+              height: 150,
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: widget.friends.length,
@@ -44,6 +51,10 @@ class _CartState extends State<Cart> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 36),
+            child: Summary(),
+          )
         ],
       ),
     );
@@ -61,14 +72,14 @@ class _MyUnplacedOrderState extends State<MyUnplacedOrder> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 380,
+      height: 330,
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 360,
+              height: 310,
               decoration: const BoxDecoration(
                 color: Color(0xF0ADD9C9),
                 borderRadius: BorderRadius.only(
@@ -113,7 +124,7 @@ class _MyUnplacedOrderState extends State<MyUnplacedOrder> {
               padding: const EdgeInsets.only(top: 30),
               child: Container(
                 width: 300,
-                height: 200,
+                height: 150,
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: 4,
@@ -208,7 +219,9 @@ class _MyUnplacedOrderState extends State<MyUnplacedOrder> {
                 height: 42,
                 child: FittedBox(
                   child: FloatingActionButton.extended(
-                      onPressed: () {},
+                      onPressed: (){
+
+                      },
                       backgroundColor: Color(0xFF5ABFA3),
                       label: Text('Place Order')),
                 ),
@@ -231,13 +244,14 @@ class Order extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 8),
       child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(6.0),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 110,
+              height: 90,
               decoration: const BoxDecoration(
                 color: Color(0xF0ADD9C9),
                 borderRadius: BorderRadius.only(
@@ -248,15 +262,15 @@ class Order extends StatelessWidget {
           ),
           CircleAvatar(
             backgroundColor: Color(0xFF5ABFA3),
-            radius: 44,
+            radius: 38,
             child: CircleAvatar(
-              radius: 40,
+              radius: 35,
               backgroundImage: AssetImage('assets/profile.png'),
               backgroundColor: Colors.transparent,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 100, top: 20),
+            padding: const EdgeInsets.only(left: 90, top: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -269,7 +283,7 @@ class Order extends StatelessWidget {
                 ),
                 if (isDeciding) ...[
                   Text(
-                    'are deciding..',
+                    'is deciding..',
                     style: TextStyle(
                         color: Color(0xFF154038),
                         fontSize: 14,
@@ -317,6 +331,93 @@ class Order extends StatelessWidget {
               ),
             ),
           ]
+        ],
+      ),
+    );
+  }
+}
+
+class Summary extends StatefulWidget {
+  const Summary({Key? key}) : super(key: key);
+
+  @override
+  _SummaryState createState() => _SummaryState();
+}
+
+class _SummaryState extends State<Summary> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Grand Total:',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text(
+                  '\$20',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Tax:',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text(
+                  '\$20',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Net Total:',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: Text(
+                  '\$20',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              )
+            ],
+          )
         ],
       ),
     );

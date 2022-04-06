@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
-       darkTheme: ThemeData.dark(),
+       // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),
@@ -54,10 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             //Logo
+            Image.asset('assets/Hangry.png', width: 280, height: 280,),
             //Heading
-            const Text(
-              'Welcome to Hangry!',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.only(top: 80),
+              child: const Text(
+                'Welcome to Hangry!',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
             ),
 
             //Sub heading
@@ -73,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 48),
+              padding: const EdgeInsets.only(top: 8, bottom: 90),
               child: SizedBox(
                 width: 220,
                 height: 40,

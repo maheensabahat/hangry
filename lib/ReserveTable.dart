@@ -40,12 +40,12 @@ class _ReserveTableState extends State<ReserveTable> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 45),
                 child: const Text(
                   'Cuisine',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),

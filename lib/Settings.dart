@@ -52,7 +52,7 @@ class Settings extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
                     onPrimary: Color(0xFF154038),
-                    primary: Color(0xFF5ABFA3),
+                    primary: Color(0xAF5ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
@@ -84,7 +84,7 @@ class Settings extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
                     onPrimary: Color(0xFF154038),
-                    primary: Color(0xFF5ABFA3),
+                    primary: Color(0x7F5ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
