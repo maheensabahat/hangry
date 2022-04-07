@@ -1,6 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// <<<<<<< HEAD
+import 'package:project/Order_history.dart';
+// import 'package:project/Signup_View.dart';
+import 'package:project/Signup_history.dart';
+import 'package:project/Table_reservation.dart';
+// import 'package:project/user_signup.dart';
+// =======
+//import 'package:project/user_signup.dart';
+import 'Favorites.dart';
+import 'MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
+// >>>>>>> 90eb3c31f2d15043ea98f858ef6d4e48c6f46be5
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
 import 'RestaurantOrder.dart';
@@ -64,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 280,
               height: 280,
             ),
-
             //Heading
             Padding(
               padding: const EdgeInsets.only(top: 80),
