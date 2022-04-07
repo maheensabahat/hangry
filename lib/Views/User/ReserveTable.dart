@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/InputBox.dart';
-import 'package:project/MainPage.dart';
+import 'package:project/Views/User/Widgets/InputBox.dart';
+import 'package:project/Views/User/MainPage.dart';
 
 import 'Profile.dart';
 

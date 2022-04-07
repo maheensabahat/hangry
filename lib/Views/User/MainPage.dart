@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:project/Profile.dart';
-import 'package:project/Settings.dart';
-import 'package:project/home.dart';
-import 'package:project/Cart.dart';
+import 'package:project/Views/User/Profile.dart';
+import 'package:project/Views/User/Settings.dart';
+import 'package:project/Views/User/home.dart';
+import 'package:project/Views/User/Cart.dart';
+import 'package:project/Entities/User.dart';
 
 class MainPage extends StatefulWidget {
+  User user;
+
   int i = 0;
-  MainPage({Key? key}) : super(key: key);
+  MainPage({Key? key, required this.user}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -30,9 +33,9 @@ class _MainPageState extends State<MainPage> {
       body: PageView(
         controller: controller,
         children: [
-          Home(),
+          Home(user: widget.user),
           Cart(),
-          Profile(),
+          Profile(user: widget.user),
           Settings(),
         ],
         onPageChanged: (index) {

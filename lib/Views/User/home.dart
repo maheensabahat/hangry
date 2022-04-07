@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:project/Restaurant.dart';
+import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+
+import '../../Entities/Restaurant.dart';
+import '../../Entities/User.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  User user;
+
+  Home({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,28 +23,23 @@ class _HomeState extends State<Home> {
     Category(Icon(Icons.dinner_dining), 'Italian'),
   ];
 
-  List<Restaurant> restaurants = [
-    Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: false,
-        image: 'assets/restaurant.jpg'),
-    Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: false,
-        image: 'assets/restaurant.jpg'),
-    Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: false,
-        image: 'assets/restaurant.jpg')
+  List<RestaurantWidget> restaurants = [
+    RestaurantWidget(
+      restaurant: Restaurant(
+          "Xander's",
+          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+          'Cafe',
+          true,
+          'assets/restaurant.jpg'),
+    ),
+    RestaurantWidget(
+      restaurant: Restaurant(
+          "Xander's",
+          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+          'Cafe',
+          true,
+          'assets/restaurant.jpg'),
+    ),
   ];
 
   @override
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
             //Hi Jimmy
             Padding(
               padding: const EdgeInsets.only(top: 70, left: 24),
-              child: Text('Hi, Jimmy!',
+              child: Text('Hi, ${widget.user.Name}!',
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
@@ -60,26 +60,26 @@ class _HomeState extends State<Home> {
             ),
 
             //Profile pic and Bold Text
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, right: 24),
-                  child: Text(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
                     'What do you\nwant to eat today?',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                ),
-                CircleAvatar(
-                  backgroundColor: Color(0xFF5ABFA3),
-                  radius: 42,
-                  child: CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage('assets/profile.png'),
-                    backgroundColor: Colors.transparent,
+                  CircleAvatar(
+                    backgroundColor: Color(0xFF5ABFA3),
+                    radius: 42,
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage('assets/profile.png'),
+                      backgroundColor: Colors.transparent,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
             //Search Bar
@@ -166,7 +166,6 @@ class _HomeState extends State<Home> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Text(
@@ -178,7 +177,6 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-
                   Center(
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.85,
