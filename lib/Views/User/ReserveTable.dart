@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/Widgets/InputBox.dart';
-import 'package:project/Views/User/MainPage.dart';
-
-import 'Profile.dart';
 
 class ReserveTable extends StatefulWidget {
   const ReserveTable({Key? key}) : super(key: key);
@@ -14,8 +11,10 @@ class ReserveTable extends StatefulWidget {
 
 class _ReserveTableState extends State<ReserveTable> {
   TextStyle h2 = TextStyle(fontSize: 13, fontWeight: FontWeight.w500);
+
   TextEditingController name = TextEditingController();
   TextEditingController contact = TextEditingController();
+
   Color c = Color(0xFF154038);
 
   @override
@@ -23,46 +22,9 @@ class _ReserveTableState extends State<ReserveTable> {
     return Scaffold(
       body: Column(
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset('assets/restaurant.jpg',
-                  width: MediaQuery.of(context).size.width,
-                  height: 258,
-                  color: const Color.fromRGBO(255, 255, 255, 0.6),
-                  fit: BoxFit.fill,
-                  colorBlendMode: BlendMode.modulate),
-              const Text(
-                "Restaurant's Name",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 45),
-                child: const Text(
-                  'Cuisine',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 240),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    border: Border(
-                        top: BorderSide(width: 2, color: Color(0xFF5ABFA3))),
-                  ),
-                  child: Text(''),
-                ),
-              ),
-            ],
-          ),
+          //Image Banner
+          Banner(),
+
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -70,14 +32,16 @@ class _ReserveTableState extends State<ReserveTable> {
               children: [
                 Column(
                   children: [
+                    //Heading
                     Padding(
-                      padding: EdgeInsets.only(top: 10 ,bottom: 30),
+                      padding: EdgeInsets.only(top: 10, bottom: 30),
                       child: Text(
                         'Reserve Table',
                         style: TextStyle(
                             fontSize: 19, fontWeight: FontWeight.bold),
                       ),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -85,64 +49,20 @@ class _ReserveTableState extends State<ReserveTable> {
                         style: h2,
                       ),
                     ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 80,
-                          height: 80,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xF0ADD9C9),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/indoor.png',
-                                  width: 50,
-                                  height: 50,
-                                  color: c,
-                                ),
-                                Text(
-                                  'Indoor',
-                                  style: TextStyle(color: c, fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        ButtonOption(
+                            title: 'Indoor', image: 'assets/indoor.png'),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
-                          child: SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFADD9C9),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/outdoor.png',
-                                    width: 50,
-                                    height: 50,
-                                    color: c,
-                                  ),
-                                  Text('Outdoor',
-                                      style: TextStyle(color: c, fontSize: 13)),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: ButtonOption(
+                              title: 'Outdoor', image: 'assets/outdoor.png'),
                         ),
                       ],
                     ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 24),
                       child: Column(
@@ -151,29 +71,12 @@ class _ReserveTableState extends State<ReserveTable> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text('How many seats?', style: h2),
                           ),
-                          SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFADD9C9),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('4',
-                                      style: TextStyle(color: c, fontSize: 28)),
-                                  Text('Seats',
-                                      style: TextStyle(color: c, fontSize: 13)),
-                                ],
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
+
+                    // SelectionButton(),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 24, bottom: 36),
                       child: Row(
@@ -321,6 +224,144 @@ class _ReserveTableState extends State<ReserveTable> {
         child: Icon(Icons.arrow_back),
         foregroundColor: Color(0xFFF2F2F2),
         backgroundColor: Color(0xFF5ABFA3),
+      ),
+    );
+  }
+}
+
+class Banner extends StatelessWidget {
+  const Banner({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        //Image
+        Image.asset('assets/restaurant.jpg',
+            width: MediaQuery.of(context).size.width,
+            height: 258,
+            color: const Color.fromRGBO(255, 255, 255, 0.6),
+            fit: BoxFit.fill,
+            colorBlendMode: BlendMode.modulate),
+
+        //Rest. Name
+        const Text(
+          "Restaurant's Name",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        //Rest. Cuisine
+        Padding(
+          padding: const EdgeInsets.only(top: 45),
+          child: const Text(
+            'Cuisine',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+
+        //Bottom Highlight
+        Padding(
+          padding: const EdgeInsets.only(top: 240),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              border:
+                  Border(top: BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+            ),
+            child: Text(''),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ButtonOption extends StatefulWidget {
+  String title;
+  String image;
+  bool isSelected = false;
+
+  ButtonOption({Key? key, required this.title, required this.image})
+      : super(key: key);
+
+  @override
+  _ButtonOptionState createState() => _ButtonOptionState();
+}
+
+class _ButtonOptionState extends State<ButtonOption> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: SizedBox(
+        width: 80,
+        height: 80,
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.isSelected ? Color(0xFF5ABFA3) : Color(0xF0ADD9C9),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                widget.image,
+                width: 50,
+                height: 50,
+                color: Color(0xFF154038),
+              ),
+              Text(
+                widget.title,
+                style: TextStyle(color: Color(0xFF154038), fontSize: 13),
+              ),
+            ],
+          ),
+        ),
+      ),
+      onTap: () {
+        widget.isSelected = !widget.isSelected;
+        setState(() {});
+      },
+    );
+  }
+}
+
+class SelectionButton extends StatefulWidget {
+  bool isSeats;
+  bool isSelected = false;
+
+  SelectionButton({Key? key, required this.isSeats}) : super(key: key);
+
+  @override
+  _SelectionButtonState createState() => _SelectionButtonState();
+}
+
+class _SelectionButtonState extends State<SelectionButton> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 80,
+      height: 80,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xFFADD9C9),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('4', style: TextStyle(color: Color(0xFF154038), fontSize: 28)),
+            Text('Seats',
+                style: TextStyle(color: Color(0xFF154038), fontSize: 13)),
+          ],
+        ),
       ),
     );
   }

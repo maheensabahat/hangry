@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Widgets/InputBox.dart';
+import 'Views/User/Widgets/InputBox.dart';
 
 class PendingSignups extends StatefulWidget {
   const PendingSignups({Key? key}) : super(key: key);

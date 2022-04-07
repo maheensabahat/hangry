@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Views/User/Widgets/Header.dart';
 
 class Settings extends StatelessWidget {
   Settings({Key? key}) : super(key: key);
@@ -9,20 +10,16 @@ class Settings extends StatelessWidget {
         body: Center(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 70, bottom: 40),
-            child: Text(
-              'Settings',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-          ),
+          
+          Header(title: 'Settings', bottom: 60,),
+          
           SizedBox(
             width: 300,
             height: 50,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   elevation: 3,
-                  onPrimary: Color(0xFF154038),
+                  // onPrimary: Color(0xFF154038),
                   primary: Color(0xFF5ABFA3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -51,8 +48,8 @@ class Settings extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    onPrimary: Color(0xFF154038),
-                    primary: Color(0xAF5ABFA3),
+                    // onPrimary: Color(0xFF154038),
+                    primary: Color(0xE05ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
@@ -83,8 +80,8 @@ class Settings extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    onPrimary: Color(0xFF154038),
-                    primary: Color(0x7F5ABFA3),
+                    // onPrimary: Color(0xFF154038),
+                    primary: Color(0xAF5ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
