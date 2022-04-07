@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Order_history.dart';
+import 'package:project/Signup_View.dart';
+import 'package:project/Signup_history.dart';
+import 'package:project/Table_reservation.dart';
 import 'package:project/user_signup.dart';
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
@@ -20,7 +24,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
        darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const Order_history(),
+      // MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),
       //home: const RestaurantOrder(),
