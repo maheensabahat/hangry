@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/Restaurant.dart';
 
-class Restaurant extends StatefulWidget {
-  String name;
-  String desc;
-  String category;
-  bool isFav;
-  String image;
+class RestaurantWidget extends StatefulWidget {
+  Restaurant restaurant;
 
-  Restaurant(
-      {Key? key,
-      required this.name,
-      required this.desc,
-      required this.category,
-      required this.isFav,
-      required this.image})
-      : super(key: key);
+  RestaurantWidget({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   _RestaurantState createState() => _RestaurantState();
 }
 
-class _RestaurantState extends State<Restaurant> {
+class _RestaurantState extends State<RestaurantWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +22,7 @@ class _RestaurantState extends State<Restaurant> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-            color:  Color(0xFF5ABFA3).withOpacity(0.2),
+            color: Color(0xFF5ABFA3).withOpacity(0.2),
             blurRadius: 4,
             spreadRadius: 2,
             offset: const Offset(4, 4),
@@ -44,7 +34,7 @@ class _RestaurantState extends State<Restaurant> {
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(8)),
             child: Image.asset(
-              widget.image,
+              widget.restaurant.image,
               width: MediaQuery.of(context).size.width * 0.85,
               color: const Color.fromRGBO(255, 255, 255, 0.7),
               colorBlendMode: BlendMode.modulate,
@@ -76,7 +66,7 @@ class _RestaurantState extends State<Restaurant> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name,
+                  widget.restaurant.name,
                   style: TextStyle(
                       color: Color(0xFFADD9C9),
                       fontSize: 18,
@@ -84,18 +74,18 @@ class _RestaurantState extends State<Restaurant> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: Text(widget.desc,
+                  child: Text(widget.restaurant.desc,
                       style: TextStyle(color: Color(0xFFF2F2F2), fontSize: 12)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(widget.category,
+                  child: Text(widget.restaurant.category,
                       style: TextStyle(
                           color: Color(0xFFADD9C9),
                           fontSize: 14,
                           fontWeight: FontWeight.w700)),
                 ),
-                if (widget.isFav) ...[
+                if (widget.restaurant.isFav) ...[
                   Icon(
                     Icons.favorite,
                     size: 40,
