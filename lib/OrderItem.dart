@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/Counter.dart';
+import 'package:project/Views/User/Counter.dart';
 
 class OrderItem{
   String name;

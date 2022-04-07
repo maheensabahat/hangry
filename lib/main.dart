@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/user_signup.dart';
+import 'package:project/Views/User/user_signup.dart';
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
 import 'RestaurantOrder.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
-       // darkTheme: ThemeData.dark(),
+      // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const UserMenuBeforeScanning(),
       //home: const ScanQR(),
@@ -59,7 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             //Logo
-            Image.asset('assets/Hangry.png', width: 280, height: 280,),
+            Image.asset(
+              'assets/Hangry.png',
+              width: 280,
+              height: 280,
+            ),
+
             //Heading
             Padding(
               padding: const EdgeInsets.only(top: 80),
@@ -81,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
 
+            //Button
             Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 90),
               child: SizedBox(
