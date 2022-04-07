@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:project/ReserveTable.dart';
 import 'package:project/Voucher.dart';
 
+import 'Restaurant.dart';
+
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
 
@@ -11,6 +13,23 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  List<Restaurant> fav = [
+    Restaurant(
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg'),
+    Restaurant(
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg'),
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -20,7 +39,7 @@ class _ProfileState extends State<Profile> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 70, bottom: 40),
+                  padding: const EdgeInsets.only(top: 70, bottom: 20),
                   child: Text(
                     'Profile',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -54,7 +73,7 @@ class _ProfileState extends State<Profile> {
                       child: CircleAvatar(
                         radius: 20,
                         backgroundColor: Color(0xF0ADD9C9),
-                        child: Icon(Icons.edit, color: Color(0xFFF2F2F2)),
+                        child: Icon(Icons.edit, color: Color(0xFF154038)),
                       ),
                     )
                   ],
@@ -70,7 +89,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 24, bottom: 36),
+            padding: const EdgeInsets.only(top: 24, bottom: 28),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -94,15 +113,30 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.only(left: 24),
+            padding: const EdgeInsets.only(left: 24, bottom: 8),
             child: Text(
               'Your Favourites',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
                 // color: Color(0xFF5ABFA3),
               ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Container(
+              height: MediaQuery.of(context).size.height* 0.25,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: fav.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return fav[index];
+                  }),
             ),
           ),
         ],
@@ -141,8 +175,8 @@ class buttons extends StatelessWidget {
         style: buttonStyle,
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context){
-              if(istable){
+            MaterialPageRoute(builder: (context) {
+              if (istable) {
                 return ReserveTable();
               }
               return Voucher();
