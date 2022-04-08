@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Views/User/Widgets/RestaurantBanner.dart';
 
 class UserMenu extends StatefulWidget {
   const UserMenu({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class UserMenu extends StatefulWidget {
 class _UserMenuState extends State<UserMenu> {
   List cat1 = ['Italian 1', 'Italian 2', 'Italian 3', 'Italian 4', 'Italian 5'];
   List cat2 = ['Desi 1', 'Desi 2', 'Desi 3', 'Desi 4', 'Desi 5', 'Desi 6'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,42 +19,47 @@ class _UserMenuState extends State<UserMenu> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 250,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(color: Color(0xff51bfa3)),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.chevron_left,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
-                    child: Text(
-                      'Restaurant Name',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const Text(
-                    'This is the Restaurant\'s Address',
-                    style: TextStyle(fontSize: 18),
-                  )
-                ],
-              ),
-            ),
+            // Container(
+            //   height: 250,
+            //   width: MediaQuery.of(context).size.width,
+            //   decoration: const BoxDecoration(color: Color(0xff51bfa3)),
+            //   child: Column(
+            //     children: [
+            //       Align(
+            //         alignment: Alignment.topLeft,
+            //         child: Padding(
+            //           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            //           child: IconButton(
+            //             icon: const Icon(
+            //               Icons.chevron_left,
+            //               color: Colors.black,
+            //             ),
+            //             onPressed: () {
+            //               Navigator.of(context).pop();
+            //             },
+            //           ),
+            //         ),
+            //       ),
+            //       const Padding(
+            //         padding: EdgeInsets.fromLTRB(0, 40, 0, 10),
+            //         child: Text(
+            //           'Restaurant Name',
+            //           style:
+            //               TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            //         ),
+            //       ),
+            //       const Text(
+            //         'This is the Restaurant\'s Address',
+            //         style: TextStyle(fontSize: 18),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            RestaurantBanner(
+                Name: "Restaurant's Name",
+                Cuisine: 'Cuisine',
+                image: 'assets/restaurant.jpg'),
+
             const Padding(
               padding: EdgeInsets.all(16),
               child: Text(

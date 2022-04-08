@@ -48,6 +48,14 @@ class _ScanQRState extends State<ScanQR> {
               height: MediaQuery.of(context).size.height / 2.7,
               width: MediaQuery.of(context).size.width / 1.7,
               color: const Color(0xff51bfa3),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 36),
+              child: FloatingActionButton.extended(
+                onPressed: () {},
+                label: Text('Next'),
+                icon: Icon(Icons.arrow_forward),
+              ),
             )
           ],
         ),
