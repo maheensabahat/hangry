@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Views/User/UserMenu.dart';
 
 class ScanQR extends StatefulWidget {
-  const ScanQR({Key? key}) : super(key: key);
+  Restaurant restaurant;
+
+  ScanQR({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   State<ScanQR> createState() => _ScanQRState();
@@ -52,7 +56,14 @@ class _ScanQRState extends State<ScanQR> {
             Padding(
               padding: const EdgeInsets.only(top: 36),
               child: FloatingActionButton.extended(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => UserMenu(
+                            scanned: true,
+                            restaurant: widget.restaurant,
+                          )));
+                },
+                backgroundColor: Color(0xFF5ABFA3),
                 label: Text('Next'),
                 icon: Icon(Icons.arrow_forward),
               ),

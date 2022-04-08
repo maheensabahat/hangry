@@ -17,7 +17,7 @@ import 'RestaurantEditDish.dart';
 import 'RestaurantOrder.dart';
 import 'Views/User/ScanQR.dart';
 import 'Views/User/UserMenu.dart';
-import 'Views/User/UserMenuBeforeScanning.dart';
+import 'Views/User/UserMenu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,8 +34,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
          darkTheme: ThemeData.dark(),
-       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-       // home: const UserMenuBeforeScanning(),
+     home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: const ScanQR(),
       // home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),
