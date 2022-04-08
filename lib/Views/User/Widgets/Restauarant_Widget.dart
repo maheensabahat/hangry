@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
 
+import '../../../Entities/User.dart';
 import '../UserMenu.dart';
 
 class RestaurantWidget extends StatefulWidget {
   Restaurant restaurant;
+  late User user;
 
-  RestaurantWidget({Key? key, required this.restaurant}) : super(key: key);
+  RestaurantWidget({Key? key, required this.restaurant})
+      : super(key: key);
 
   @override
   _RestaurantState createState() => _RestaurantState();
@@ -111,6 +114,7 @@ class _RestaurantState extends State<RestaurantWidget> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => UserMenu(
+                          user: widget.user,
                           scanned: false,
                           restaurant: widget.restaurant,
                         )));

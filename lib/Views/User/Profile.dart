@@ -20,6 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
   List<RestaurantWidget> fav = [
     RestaurantWidget(
       restaurant: Restaurant(

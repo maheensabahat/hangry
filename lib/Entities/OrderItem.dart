@@ -12,4 +12,8 @@ class OrderItem{
     return this.price * this.quantity;
   }
 
+  @override
+  String toString() {
+    return 'OrderItem{name: $name}';
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import 'OrderItem.dart';
 
 class cart extends ChangeNotifier{
@@ -11,7 +10,13 @@ class cart extends ChangeNotifier{
   void calculateTotal(){
     list.forEach((element) {
       total += element.calculatePrice();
+      notifyListeners();
     });
+  }
+
+  void addItem(OrderItem item){
+    list.add(item);
+    notifyListeners();
   }
 
 }

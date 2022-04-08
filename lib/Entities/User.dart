@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'cart.dart';
+
 class User {
   String Name;
   late String _first;
@@ -8,7 +10,7 @@ class User {
   String Location;
   late Image dp;
 
-  //Cart
+  late cart currentCart;
   //Orders
   //Favs
 

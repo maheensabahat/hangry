@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Entities/User.dart';
+import 'package:project/Entities/cart.dart';
 import 'package:project/Views/User/ReserveTable.dart';
 
+import '../../Entities/cart.dart';
+import '../../Entities/cart.dart';
 import 'ScanQR.dart';
 import 'Widgets/RestaurantBanner.dart';
 
 class UserMenu extends StatefulWidget {
   bool scanned;
   Restaurant restaurant;
+  User user;
 
-  UserMenu({Key? key, required this.scanned, required this.restaurant})
+  UserMenu(
+      {Key? key,
+      required this.user,
+      required this.scanned,
+      required this.restaurant})
       : super(key: key);
 
   @override
@@ -149,7 +159,15 @@ class _UserMenuState extends State<UserMenu> {
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(bottom: 8),
-                                          child: Icon(Icons.shopping_cart),
+                                          child: InkWell(
+                                            child: Icon(Icons.shopping_cart),
+                                            onTap: () {
+                                              widget.user.currentCart.addItem(
+                                                  OrderItem('Pizza',
+                                                      'Chicken Fajita', 20, 1));
+                                              print(widget.user.currentCart);
+                                            },
+                                          ),
                                         ),
                                       ],
                                       const Text('Rs. 1000')
@@ -165,42 +183,10 @@ class _UserMenuState extends State<UserMenu> {
                   ),
                 ],
               ),
+
+              //Table reservation and qr scan
               if (!widget.scanned) ...[
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 30, 10, 0),
-                        child: FloatingActionButton(
-                          heroTag: null,
-                          backgroundColor: Color(0xff51bfa3),
-                          child: Icon(Icons.table_restaurant),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ReserveTable()));
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        child: FloatingActionButton(
-                          heroTag: null,
-                          child: Icon(Icons.qr_code),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ScanQR(
-                                      restaurant: widget.restaurant,
-                                    )));
-                          },
-                          backgroundColor: Color(0xff51bfa3),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                Reserve_QR(user: widget.user, restaurant: widget.restaurant)
               ]
             ],
           ),
@@ -209,5 +195,52 @@ class _UserMenuState extends State<UserMenu> {
         //Back
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: BackButton());
+  }
+}
+
+class Reserve_QR extends StatelessWidget {
+  Restaurant restaurant;
+  User user;
+
+  Reserve_QR({Key? key, required this.user, required this.restaurant})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 30, 10, 0),
+            child: FloatingActionButton(
+              heroTag: null,
+              backgroundColor: Color(0xff51bfa3),
+              child: Icon(Icons.table_restaurant),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ReserveTable()));
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: FloatingActionButton(
+              heroTag: null,
+              child: Icon(Icons.qr_code),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ScanQR(
+                          user: user,
+                          restaurant: restaurant,
+                        )));
+              },
+              backgroundColor: Color(0xff51bfa3),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
