@@ -22,7 +22,7 @@ class _TempMainState extends State<TempMain> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
             child: Text(
-              'Log in as',
+              'Log in as:',
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
           ),

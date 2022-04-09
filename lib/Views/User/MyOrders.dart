@@ -24,7 +24,6 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: ScrollAppBar(
         controller: controller,
         leading: Padding(
@@ -32,34 +31,33 @@ class _MyOrdersState extends State<MyOrders> {
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back,
+              color: Colors.black,
             ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
         ),
-
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        title: const Padding(
+        title: Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             'My Orders',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
         ),
         centerTitle: true,
       ),
-
       body: Column(
         children: [
           SizedBox(
             height: 20,
           ),
-
 
           //Orders list view
           Expanded(
@@ -80,9 +78,11 @@ class _MyOrdersState extends State<MyOrders> {
 
                       //List Tile - Each Order
                       child: ListTile(
-
                         //Order date
-                        trailing: const Text('10-March-2022', style: TextStyle(fontSize: 11),),
+                        trailing: const Text(
+                          '10-March-2022',
+                          style: TextStyle(fontSize: 11),
+                        ),
                         //Image
                         leading: Container(
                           height: 100,

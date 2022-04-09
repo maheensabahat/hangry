@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Signup_View.dart';
@@ -12,7 +13,6 @@ class Signup_history extends StatefulWidget {
 
 class _Signup_historyState extends State<Signup_history> {
   @override
-
   List<Signups> Pending_signups = [
     Signups(name: "O Donuts"),
     Signups(name: "Moos n Clucks"),
@@ -47,41 +47,49 @@ class _Signup_historyState extends State<Signup_history> {
   ];
 
   Widget build(BuildContext context) => Scaffold(
-    body: DefaultTabController(
+        body: DefaultTabController(
           length: 3,
           child: NestedScrollView(
             headerSliverBuilder: (context, value) {
               return [
                 SliverAppBar(
                   pinned: true,
-                  expandedHeight: 200,
+                  expandedHeight: 180,
                   backgroundColor: Color(0xFF5ABFA3),
                   flexibleSpace: FlexibleSpaceBar(
                     title: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 1,
-                          child: Container(),
+                      children: const <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 80, left: 13),
+                          child: Text(
+                            "Welcome, Admin!",
+                            style: TextStyle(fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        Flexible(
-                            child: Text(
-                          "Welcome Admin",
-                          textAlign: TextAlign.center,
-                        )),
+                        Padding(
+                          padding: EdgeInsets.only(top: 6, left: 13),
+                          child: Text(
+                            "Restaurant Sign Ups",
+                            style: TextStyle(
+                                fontSize: 9, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   bottom: TabBar(
                     tabs: [
                       Tab(
-                        text: 'Pending Signups',
+                        text: 'Pending',
                       ),
                       Tab(
-                        text: 'Approved Signups',
+                        text: 'Approved',
                       ),
                       Tab(
-                        text: 'Rejected Signups',
+                        text: 'Rejected',
                       ),
                     ],
                   ),
@@ -112,7 +120,7 @@ class _Signup_historyState extends State<Signup_history> {
       );
 }
 
-class Signups{
+class Signups {
   final String name;
 
   Signups({required this.name});
@@ -126,13 +134,18 @@ ListView list(List x) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
         child: Container(
-          decoration: const BoxDecoration(color: Color(0xffadd9c9)),
+          decoration: BoxDecoration(
+              color: const Color(0x905ABFA3),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           height: 100,
           child: Align(
             alignment: const Alignment(0, 0),
             child: InkWell(
               child: ListTile(
-                title: Text(x[index].name),
+                title: Text(
+                  x[index].name,
+                  style: TextStyle(color: Colors.black87, fontSize: 15),
+                ),
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => Signup_View()));
@@ -140,21 +153,24 @@ ListView list(List x) {
                 //if conditions here to see from which tab bar is it clicked from
                 //if it's not clicked from pending then it wouldn't show approve reject buttons in the next phase
                 trailing: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chevron_right,
-                    color: Colors.black,
+                    color: Colors.black87,
                   ),
                   onPressed: () {},
                 ),
-                leading: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Container(
-                    height: 100,
-                    width: 70,
-                    color: const Color(0xff5abfa3),
-                  ),
+                leading: Container(
+                  height: 100,
+                  width: 70,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          'assets/restaurant.jpg',
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
                 ),
-                tileColor: const Color(0xffadd9c9),
               ),
             ),
           ),

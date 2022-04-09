@@ -22,9 +22,7 @@ class _FavoritesState extends State<Favorites> {
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-            ),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -36,7 +34,7 @@ class _FavoritesState extends State<Favorites> {
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             'Favorites',
-            style: TextStyle(fontSize: 22),
+            style: TextStyle(fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         centerTitle: true,
