@@ -129,7 +129,8 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
                       },
                       child: const Text('Accept'),
                       style: ElevatedButton.styleFrom(
-                          primary: const Color(0xff5abfa3)),
+                        primary: const Color(0xff5abfa3),
+                      ),
                     ),
                   ),
                 ],

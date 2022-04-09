@@ -9,7 +9,6 @@ class Table_reservation extends StatefulWidget {
 
 class _Table_reservationState extends State<Table_reservation> {
   @override
-
   List<tables> Pending_tables = [
     tables(name: "Table 4", time: "18:00"),
     tables(name: "Table 2", time: "17:00"),
@@ -40,80 +39,85 @@ class _Table_reservationState extends State<Table_reservation> {
     tables(name: "Table 16", time: "5:00"),
   ];
 
+  @override
   Widget build(BuildContext context) => Scaffold(
-    body: DefaultTabController(
-      length: 3,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, value) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 200,
-              backgroundColor: Color(0xFF5ABFA3),
-              flexibleSpace: FlexibleSpaceBar(
-                title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 2,
-                      child: Container(),
+        body: DefaultTabController(
+          length: 3,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  pinned: true,
+                  expandedHeight: 200,
+                  backgroundColor: const Color(0xFF5ABFA3),
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 2,
+                          child: Container(),
+                        ),
+                        const Flexible(
+                          child: Align(
+                            child: Text(
+                              "Restaurant name",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        const Flexible(
+                          child: Text(
+                            "Table reservation history",
+                            style: TextStyle(fontSize: 10),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
-                    Flexible(
-                        child: Text(
-                          "Restaurant name",
-                          textAlign: TextAlign.center,
-                        )),
-                    Flexible(
-                        child: Text(
-                          "Table reservation history",
-                          style: TextStyle(fontSize: 10),
-                          textAlign: TextAlign.center,
-                        )),
-                  ],
+                  ),
+                  bottom: const TabBar(
+                    tabs: [
+                      Tab(
+                        text: 'Pending tables',
+                      ),
+                      Tab(
+                        text: 'Approved tables',
+                      ),
+                      Tab(
+                        text: 'Rejected tables',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              bottom: TabBar(
-                tabs: [
-                  Tab(
-                    text: 'Pending tables',
+              ];
+            },
+            body: TabBarView(
+              children: [
+                MaterialApp(
+                  home: Center(
+                    child: list(Pending_tables),
                   ),
-                  Tab(
-                    text: 'Approved tables',
+                ),
+                MaterialApp(
+                  home: Center(
+                    child: list(Approved_tables),
                   ),
-                  Tab(
-                    text: 'Rejected tables',
+                ),
+                MaterialApp(
+                  home: Center(
+                    child: list(Rejected_reservation),
                   ),
-                ],
-              ),
-            )
-          ];
-        },
-        body: TabBarView(
-          children: [
-            MaterialApp(
-              home: Center(
-                child: list(Pending_tables),
-              ),
+                ),
+              ],
             ),
-            MaterialApp(
-              home: Center(
-                child: list(Approved_tables),
-              ),
-            ),
-            MaterialApp(
-              home: Center(
-                child: list(Rejected_reservation),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
 }
 
-class tables{
+class tables {
   final String name;
   final String time;
 
@@ -132,28 +136,20 @@ ListView list(List x) {
           height: 100,
           child: Align(
             alignment: const Alignment(0, 0),
-            child: InkWell(
-              child: ListTile(
-                title: Text(x[index].name),
-                // leading: Icon(Icons.restaurant),
-                subtitle: Text(x[index].time),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.chevron_right,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {},
+            child: ListTile(
+              title: Text(x[index].name),
+              // leading: Icon(Icons.restaurant),
+              subtitle: Text(x[index].time),
+
+              leading: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Container(
+                  height: 100,
+                  width: 70,
+                  color: const Color(0xff5abfa3),
                 ),
-                leading: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Container(
-                    height: 100,
-                    width: 70,
-                    color: const Color(0xff5abfa3),
-                  ),
-                ),
-                tileColor: const Color(0xffadd9c9),
               ),
+              tileColor: const Color(0xffadd9c9),
             ),
           ),
         ),
@@ -161,4 +157,3 @@ ListView list(List x) {
     },
   );
 }
-
