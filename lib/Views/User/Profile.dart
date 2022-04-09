@@ -20,6 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
   List<RestaurantWidget> fav = [
     RestaurantWidget(
       restaurant: Restaurant(
@@ -48,7 +49,7 @@ class _ProfileState extends State<Profile> {
             Center(
               child: Column(
                 children: [
-                  Header(title: 'Profile'),
+                  Header(title: 'Profile', bottom: 25,),
                   ProfilePicture(),
                   ProfileDetails(user: widget.user)
                 ],

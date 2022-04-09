@@ -8,7 +8,6 @@ import 'package:project/Entities/User.dart';
 
 class MainPage extends StatefulWidget {
   User user;
-
   int i = 0;
   MainPage({Key? key, required this.user}) : super(key: key);
 

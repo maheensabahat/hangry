@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'Widgets/InputBox.dart';
+import 'Views/User/Widgets/InputBox.dart';
 
-class PendingSignups extends StatefulWidget {
-  const PendingSignups({Key? key}) : super(key: key);
+class Signup_View extends StatefulWidget {
+  const Signup_View({Key? key}) : super(key: key);
 
   @override
-  _PendingSignupsState createState() => _PendingSignupsState();
+  _Signup_ViewState createState() => _Signup_ViewState();
 }
 
-class _PendingSignupsState extends State<PendingSignups> {
+class _Signup_ViewState extends State<Signup_View> {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: Color(0xFF154038),
       primary: Color(0xFF5ABFA3),
@@ -27,6 +27,9 @@ class _PendingSignupsState extends State<PendingSignups> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Signup_View'),
+        ),
         body: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -92,6 +95,7 @@ class _PendingSignupsState extends State<PendingSignups> {
                       //     MaterialPageRoute(builder: (context) => Rejected_Signups()));
                     },
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Reject'),
                       ],
