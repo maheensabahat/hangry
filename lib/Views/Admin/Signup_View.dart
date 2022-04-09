@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Views/User/Widgets/InputBox.dart';
+import 'package:project/Views/User/Widgets/InputBox.dart';
 
 class Signup_View extends StatefulWidget {
   const Signup_View({Key? key}) : super(key: key);

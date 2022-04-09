@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/RestaurantMenu.dart';
-import 'package:project/RestaurantOrder.dart';
-import 'package:project/TableReservations.dart';
+import 'package:project/Views/Restaurant/Order_history.dart';
+import 'package:project/Views/Restaurant/RestaurantMenu.dart';
+import 'package:project/Views/Restaurant/TableReservations.dart';
+
+import 'TableReservations.dart';
 
 class RestaurantHome extends StatefulWidget {
   const RestaurantHome({Key? key}) : super(key: key);
@@ -42,6 +44,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                     },
                     child: const Text('Menu'),
                     style: ElevatedButton.styleFrom(
+                        onPrimary: Color(0xFF154038),
                         primary: const Color(0xff5abfa3)),
                   ),
                 ),
@@ -56,11 +59,12 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RestaurantOrder()),
+                            builder: (context) => const Order_history()),
                       );
                     },
                     child: const Text('Orders'),
                     style: ElevatedButton.styleFrom(
+                        onPrimary: Color(0xFF154038),
                         primary: const Color(0xff5abfa3)),
                   ),
                 ),
@@ -80,6 +84,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                     },
                     child: const Text('Tables'),
                     style: ElevatedButton.styleFrom(
+                        onPrimary: Color(0xFF154038),
                         primary: const Color(0xff5abfa3)),
                   ),
                 ),

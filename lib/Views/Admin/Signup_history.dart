@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Signup_View.dart';
-import 'Signup_View.dart';
+
+
 
 class Signup_history extends StatefulWidget {
   const Signup_history({Key? key}) : super(key: key);
@@ -11,7 +12,9 @@ class Signup_history extends StatefulWidget {
   _Signup_historyState createState() => _Signup_historyState();
 }
 
-class _Signup_historyState extends State<Signup_history> {
+class _Signup_historyState extends State<Signup_history>
+    with SingleTickerProviderStateMixin {
+  late final _tabController = TabController(length: 3, vsync: this);
   @override
   List<Signups> Pending_signups = [
     Signups(name: "O Donuts"),
@@ -47,75 +50,57 @@ class _Signup_historyState extends State<Signup_history> {
   ];
 
   Widget build(BuildContext context) => Scaffold(
-        body: DefaultTabController(
-          length: 3,
-          child: NestedScrollView(
-            headerSliverBuilder: (context, value) {
-              return [
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 180,
-                  backgroundColor: Color(0xFF5ABFA3),
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 80, left: 13),
-                          child: Text(
-                            "Welcome, Admin!",
-                            style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 6, left: 13),
-                          child: Text(
-                            "Restaurant Sign Ups",
-                            style: TextStyle(
-                                fontSize: 9, fontWeight: FontWeight.w400),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  bottom: TabBar(
-                    tabs: [
-                      Tab(
-                        text: 'Pending',
-                      ),
-                      Tab(
-                        text: 'Approved',
-                      ),
-                      Tab(
-                        text: 'Rejected',
-                      ),
-                    ],
-                  ),
-                )
-              ];
-            },
-            body: TabBarView(
-              children: [
-                MaterialApp(
-                  home: Center(
-                    child: list(Pending_signups),
-                  ),
-                ),
-                MaterialApp(
-                  home: Center(
-                    child: list(Approved_signups),
-                  ),
-                ),
-                MaterialApp(
-                  home: Center(
-                    child: list(Signup_history),
-                  ),
-                ),
-              ],
+        appBar: AppBar(
+          toolbarHeight: 150,
+          foregroundColor: Colors.black,
+          backgroundColor: Color(0xA05ABFA3),
+          title: Column(children: [
+            Text(
+              "Welcome, Admin!",
+              style: TextStyle(fontSize: 22),
+              textAlign: TextAlign.center,
             ),
+            Padding(
+              padding: EdgeInsets.only(top: 6, left: 13),
+              child: Text(
+                "Restaurant Sign Ups",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ]),
+          centerTitle: true,
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: [
+              Tab(text: 'Pending'),
+              Tab(text: 'Approved'),
+              Tab(text: 'Rejected'),
+            ],
           ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 20),
+                child: list(Pending_signups),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 20),
+              child: Container(
+                child: list(Approved_signups),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 20),
+              child: Container(
+                child: list(Signup_history),
+              ),
+            ),
+          ],
         ),
       );
 }
@@ -132,10 +117,10 @@ ListView list(List x) {
     itemCount: x.length,
     itemBuilder: (context, index) {
       return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
         child: Container(
           decoration: BoxDecoration(
-              color: const Color(0x905ABFA3),
+              color: const Color(0x505ABFA3),
               borderRadius: BorderRadius.all(Radius.circular(10))),
           height: 100,
           child: Align(

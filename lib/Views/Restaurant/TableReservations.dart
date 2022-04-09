@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project/Entities/Restaurant.dart';
-import 'package:project/Views/User/Widgets/RestaurantBanner.dart';
-import '../../ReservationRequests.dart';
+import 'package:project/Views/Restaurant/ReservationRequests.dart';
+import 'ReservationRequests.dart';
 
 class TableReservations extends StatefulWidget {
+
   const TableReservations({Key? key}) : super(key: key);
 
   @override
@@ -84,18 +84,21 @@ class _TableReservationsState extends State<TableReservations>
         body: TabBarView(
           controller: _tabController,
           children: [
-            MaterialApp(
-              home: Center(
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 20),
                 child: list(Pending_tables, 'Pending'),
               ),
             ),
-            MaterialApp(
-              home: Center(
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 20),
+              child: Container(
                 child: list(Approved_tables, 'Approved'),
               ),
             ),
-            MaterialApp(
-              home: Center(
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 20),
+              child: Container(
                 child: list(Rejected_reservation, 'Rejected'),
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Views/User/Widgets/InputBox.dart';
+import '../User/Widgets/InputBox.dart';
 
 class ReservationRequests extends StatefulWidget {
   String type;
@@ -33,14 +33,23 @@ class _ReservationRequestsState extends State<ReservationRequests> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
-          title: Text('Reservation Request',
-              style: TextStyle(color: Color(0xFF5ABFA3))),
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Text('Reservation Request',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
+          ),
           centerTitle: true,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.clear, color: Color(0xFF5ABFA3))),
+          leading: Padding(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.clear, color: Colors.black)),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(

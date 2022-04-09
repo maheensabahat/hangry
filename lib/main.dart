@@ -1,28 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/RestaurantDetails.dart';
-import 'package:project/Signup_View.dart';
-import 'package:project/ReservationRequests.dart';
 import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
-
-import 'package:project/Order_history.dart';
-
-import 'package:project/Signup_history.dart';
-import 'package:project/Views/User/TableReservations.dart';
-
-// import 'package:project/user_signup.dart';
 import 'Entities/cart.dart';
-import 'Views/User/Favorites.dart';
-import 'Views/User/MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
 
-import 'RestaurantMenu.dart';
-import 'RestaurantEditDish.dart';
-import 'RestaurantOrder.dart';
-import 'Views/User/ScanQR.dart';
-import 'Views/User/UserMenu.dart';
-import 'Views/User/UserMenu.dart';
 
 void main() {
   runApp(

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/MyOrders.dart';
-import 'package:project/TableReservations.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+import 'User_TableReservations.dart';
 
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
@@ -152,7 +152,7 @@ class buttons extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               if (istable) {
-                return TableReservations();
+                return UserTableReservations();
               }
               return MyOrders();
             }),

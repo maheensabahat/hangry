@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project/Views/User/Widgets/InputBox.dart';
 import 'package:project/Views/User/MainPage.dart';
 import 'package:project/Entities/User.dart';
-import 'package:project/Views/User/Profile.dart';
 
 class User_Signup extends StatefulWidget {
   const User_Signup({Key? key}) : super(key: key);
@@ -20,6 +19,7 @@ class _User_SignupState extends State<User_Signup> {
   var location;
 
   ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+      onPrimary: Color(0xFF154038),
       primary: const Color(0xFF5ABFA3),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -106,7 +106,7 @@ class _User_SignupState extends State<User_Signup> {
                                   name.controller.text,
                                   int.parse(phone.controller.text),
                                   location.controller.text);
-                                  print(user);
+                              print(user);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MainPage(user: user)));
                             }
