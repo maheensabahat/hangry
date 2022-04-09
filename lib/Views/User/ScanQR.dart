@@ -25,7 +25,7 @@ class _ScanQRState extends State<ScanQR> {
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: IconButton(
             icon: const Icon(
-              Icons.chevron_left,
+              Icons.arrow_back,
               color: Colors.black,
             ),
             onPressed: () {
@@ -68,8 +68,8 @@ class _ScanQRState extends State<ScanQR> {
               padding: const EdgeInsets.only(top: 36),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  if (widget.user.currentCart != null) {
-                    widget.user.currentCart = cart();
+                  if (!widget.user.qr) {
+                    widget.user.qr = true;
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             UserMenu(

@@ -10,7 +10,8 @@ class User {
   String Location;
   late Image dp;
 
-  late cart currentCart;
+  cart currentCart = cart();
+  bool qr = false;
   //Orders
   //Favs
 

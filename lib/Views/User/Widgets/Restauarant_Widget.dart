@@ -94,13 +94,13 @@ class _RestaurantState extends State<RestaurantWidget> {
                   Icon(
                     Icons.favorite,
                     size: 40,
-                    color: Color(0xFFF29191),
+                    color: Color(0xFF5ABFA3),
                   )
                 ] else ...[
                   Icon(
                     Icons.favorite_border,
                     size: 40,
-                    color: Color(0xFFF29191),
+                    color: Color(0xFF5ABFA3),
                   )
                 ],
               ],
@@ -115,11 +115,12 @@ class _RestaurantState extends State<RestaurantWidget> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => UserMenu(
                           user: widget.user,
-                          scanned: false,
+                          scanned: widget.user.qr,
                           restaurant: widget.restaurant,
                         )));
               },
               backgroundColor: Color(0xFF5ABFA3),
+              foregroundColor: Color(0xFFF2F2F2),
               child: Icon(Icons.arrow_forward_sharp),
             ),
           )

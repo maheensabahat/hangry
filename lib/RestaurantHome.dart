@@ -16,13 +16,13 @@ class _RestaurantHomeState extends State<RestaurantHome> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Container(
-        //   child: new Image.asset(
-        //     'assets/chef.png',
-        //     height: 60.0,
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
+        Container(
+          child: new Image.asset(
+            'assets/chef.png',
+            height: 60.0,
+            fit: BoxFit.cover,
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

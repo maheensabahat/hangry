@@ -21,7 +21,6 @@ class Counter extends StatefulWidget {
 
 class _CounterState extends State<Counter> {
   Widget build(BuildContext context) {
-    int v = widget.value;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -49,7 +48,7 @@ class _CounterState extends State<Counter> {
           padding: const EdgeInsets.only(left: 8),
           child: Center(
             child: Text(
-              '$v',
+              '${widget.value}',
               style: TextStyle(
                   color: Color(0xFF154038),
                   fontSize: 16,

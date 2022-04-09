@@ -6,15 +6,14 @@ import 'package:provider/provider.dart';
 
 import 'package:project/Order_history.dart';
 
-// import 'package:project/Signup_View.dart';
 import 'package:project/Signup_history.dart';
 import 'package:project/Table_reservation.dart';
 
 // import 'package:project/user_signup.dart';
 //import 'package:project/user_signup.dart';
 import 'Entities/cart.dart';
-import 'Favorites.dart';
-import 'MyOrders.dart';
+import 'Views/User/Favorites.dart';
+import 'Views/User/MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
 
 import 'RestaurantMenu.dart';
@@ -141,31 +140,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-//For Button:
-// SizedBox(
-// width: 220,
-// height: 40,
-// child: ElevatedButton(
-// style: ElevatedButton.styleFrom(
-// onPrimary: Color(0xFF154038),
-// primary: Color(0xFF5ABFA3),
-// shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.all(Radius.circular(30)),
-// ),
-// textStyle: TextStyle(fontWeight: FontWeight.bold)),
-// onPressed: () {
-// // Navigator.of(context).push(widget.next_page);
-// },
-// child: Row(
-// mainAxisAlignment: MainAxisAlignment.center,
-// children: [
-// Image.asset('assets/googlelogo.png', width: 22, height: 22),
-// Padding(
-// padding: const EdgeInsets.only(left: 8),
-// child: const Text('Continue with Google'),
-// ),
-// ],
-// ),
-// ),
-// );

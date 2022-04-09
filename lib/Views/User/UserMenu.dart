@@ -92,7 +92,29 @@ class _UserMenuState extends State<UserMenu> {
                               ),
                               subtitle: const Text('This is a dish',
                                   style: TextStyle(color: Colors.black)),
-                              trailing: const Text('Rs. 1000'),
+                              trailing: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (widget.scanned) ...[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: InkWell(
+                                          child: Icon(Icons.shopping_cart),
+                                          onTap: () {
+                                            widget.user.currentCart.addItem(
+                                                OrderItem('Pizza',
+                                                    'Chicken Fajita', 20, 1));
+                                            print(widget.user.currentCart);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                    const Text('Rs. 1000')
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
