@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Signup_View.dart';
+
 class Signup_history extends StatefulWidget {
   const Signup_history({Key? key}) : super(key: key);
 
@@ -131,6 +133,10 @@ ListView list(List x) {
             child: InkWell(
               child: ListTile(
                 title: Text(x[index].name),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Signup_View()));
+                },
                 // leading: Icon(Icons.restaurant),
                 trailing: IconButton(
                   icon: const Icon(

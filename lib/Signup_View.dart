@@ -18,7 +18,7 @@ class _Signup_ViewState extends State<Signup_View> {
       ),
       textStyle: TextStyle(fontWeight: FontWeight.bold));
   final ButtonStyle buttonStyle2 = ElevatedButton.styleFrom(
-      onPrimary: Colors.red,
+      onPrimary: Colors.black,
       primary: Colors.red,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -40,31 +40,31 @@ class _Signup_ViewState extends State<Signup_View> {
               children: [
                 InputBox(
                   label: 'Restaurant Name',
-                  hintText: 'Enter your restaurant name',
+                  hintText: 'Pre-filled data with Restaurant name',
                   icon: Icon(Icons.restaurant, color: Color(0xFF5ABFA3)),
                   controller: TextEditingController(),
                 ),
                 InputBox(
                   label: 'Owner\'s name' ,
-                  hintText: 'Enter your full name',
+                  hintText: 'Pre-filled data with Owner\'s name',
                   icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
                   controller: TextEditingController(),
                 ),
                 InputBox(
                   label: 'Cuisines Served',
-                  hintText: 'eg. Chinese',
+                  hintText: 'Pre-filled data with cuisines served',
                   icon: Icon(Icons.fastfood, color: Color(0xFF5ABFA3)),
                   controller: TextEditingController(),
                 ),
                 InputBox(
                   label: 'Timings',
-                  hintText: 'eg. 11:00 - 23:00',
+                  hintText: 'Pre-filled data with open timings for the restaurant',
                   icon: Icon(Icons.access_time_outlined, color: Color(0xFF5ABFA3)),
                   controller: TextEditingController(),
                 ),
                 InputBox(
                   label: 'Restaurant\'s Location',
-                  hintText: 'eg. Karachi',
+                  hintText: 'Pre-filled data with Restaurant\'s locationss',
                   icon: Icon(Icons.location_on, color: Color(0xFF5ABFA3)),
                   controller: TextEditingController(),
                 ),

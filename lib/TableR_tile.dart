@@ -18,7 +18,7 @@ class _Signup_ViewState extends State<Signup_View> {
       ),
       textStyle: TextStyle(fontWeight: FontWeight.bold));
   final ButtonStyle buttonStyle2 = ElevatedButton.styleFrom(
-      onPrimary: Colors.red,
+      onPrimary: Colors.black,
       primary: Colors.red,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -72,7 +72,7 @@ class _Signup_ViewState extends State<Signup_View> {
                         style: buttonStyle,
                         onPressed: () {
                           // Navigator.of(context).push(
-                          //     MaterialPageRoute(builder: (context) => Approved_Signups()));
+                          //     MaterialPageRoute(builder: (context) => Approved_tables()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +89,7 @@ class _Signup_ViewState extends State<Signup_View> {
                         style: buttonStyle2,
                         onPressed: () {
                           // Navigator.of(context).push(
-                          //     MaterialPageRoute(builder: (context) => Rejected_Signups()));
+                          //     MaterialPageRoute(builder: (context) => Rejected_Tables()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

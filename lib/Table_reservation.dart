@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/TableR_tile.dart';
 
 class Table_reservation extends StatefulWidget {
   const Table_reservation({Key? key}) : super(key: key);
@@ -135,6 +136,10 @@ ListView list(List x) {
             child: InkWell(
               child: ListTile(
                 title: Text(x[index].name),
+                // onTap: () {
+                //   Navigator.of(context).push(
+                //       MaterialPageRoute(builder: (context) => TableR_tile()));
+                // },
                 // leading: Icon(Icons.restaurant),
                 subtitle: Text(x[index].time),
                 trailing: IconButton(
