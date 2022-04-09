@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/RestaurantAddDish.dart';
 import 'package:project/RestaurantEditDish.dart';
 
 class RestaurantMenu extends StatefulWidget {
@@ -52,7 +53,12 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff5abfa3),
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const RestaurantAddDish()),
+          );
+        },
       ),
       body: Center(
         child: ListView.builder(

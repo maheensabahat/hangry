@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project/RestaurantOrder.dart';
+import 'package:project/Views/User/Cart.dart';
 
 class Order_history extends StatefulWidget {
   const Order_history({Key? key}) : super(key: key);
@@ -9,7 +11,6 @@ class Order_history extends StatefulWidget {
 
 class _Order_historyState extends State<Order_history> {
   @override
-
   List<Orders> Pending_Orders = [
     Orders(name: "Order 4", time: "18:00"),
     Orders(name: "Order 2", time: "17:00"),
@@ -41,79 +42,79 @@ class _Order_historyState extends State<Order_history> {
   ];
 
   Widget build(BuildContext context) => Scaffold(
-    body: DefaultTabController(
-      length: 3,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, value) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              expandedHeight: 200,
-              backgroundColor: Color(0xFF5ABFA3),
-              flexibleSpace: FlexibleSpaceBar(
-                title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 2,
-                      child: Container(),
-                    ),
-                    Flexible(
-                        child: Text(
+        body: DefaultTabController(
+          length: 3,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  pinned: true,
+                  expandedHeight: 200,
+                  backgroundColor: Color(0xFF5ABFA3),
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 2,
+                          child: Container(),
+                        ),
+                        Flexible(
+                            child: Text(
                           "Restaurant name",
                           textAlign: TextAlign.center,
                         )),
-                    Flexible(
-                        child: Text(
+                        Flexible(
+                            child: Text(
                           "Orders history",
                           style: TextStyle(fontSize: 10),
                           textAlign: TextAlign.center,
                         )),
-                  ],
+                      ],
+                    ),
+                  ),
+                  bottom: TabBar(
+                    tabs: [
+                      Tab(
+                        text: 'Pending Orders',
+                      ),
+                      Tab(
+                        text: 'Approved Orders',
+                      ),
+                      Tab(
+                        text: 'Rejected Orders',
+                      ),
+                    ],
+                  ),
+                )
+              ];
+            },
+            body: TabBarView(
+              children: [
+                MaterialApp(
+                  home: Center(
+                    child: list(Pending_Orders),
+                  ),
                 ),
-              ),
-              bottom: TabBar(
-                tabs: [
-                  Tab(
-                    text: 'Pending Orders',
+                MaterialApp(
+                  home: Center(
+                    child: list(Approved_Orders),
                   ),
-                  Tab(
-                    text: 'Approved Orders',
+                ),
+                MaterialApp(
+                  home: Center(
+                    child: list(Rejected_reservation),
                   ),
-                  Tab(
-                    text: 'Rejected Orders',
-                  ),
-                ],
-              ),
-            )
-          ];
-        },
-        body: TabBarView(
-          children: [
-            MaterialApp(
-              home: Center(
-                child: list(Pending_Orders),
-              ),
+                ),
+              ],
             ),
-            MaterialApp(
-              home: Center(
-                child: list(Approved_Orders),
-              ),
-            ),
-            MaterialApp(
-              home: Center(
-                child: list(Rejected_reservation),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
 }
 
-class Orders{
+class Orders {
   final String name;
   final String time;
 
@@ -133,17 +134,22 @@ ListView list(List x) {
           child: Align(
             alignment: const Alignment(0, 0),
             child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RestaurantOrder()),
+                );
+              },
               child: ListTile(
                 title: Text(x[index].name),
                 // leading: Icon(Icons.restaurant),
                 subtitle: Text(x[index].time),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.chevron_right,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {},
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: Colors.black,
                 ),
+
                 leading: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Container(
@@ -161,4 +167,3 @@ ListView list(List x) {
     },
   );
 }
-
