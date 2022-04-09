@@ -136,11 +136,12 @@ ListView list(List x) {
             child: InkWell(
               child: ListTile(
                 title: Text(x[index].name),
-                // onTap: () {
-                //   Navigator.of(context).push(
-                //       MaterialPageRoute(builder: (context) => ()));
-                // },
-                // leading: Icon(Icons.restaurant),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => TableR_tile()));
+                },
+                //if conditions here to see from which tab bar is it clicked from
+                //if it's not clicked from pending then it wouldn't show approve reject buttons in the next phase
                 subtitle: Text(x[index].time),
                 trailing: IconButton(
                   icon: const Icon(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'Views/User/Widgets/InputBox.dart';
 
 class Signup_View extends StatefulWidget {
@@ -28,7 +27,8 @@ class _Signup_ViewState extends State<Signup_View> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Signup_View'),
+          title: const Text('Signup #'),
+          backgroundColor: Color(0xFF5ABFA3) ,
         ),
         body: SingleChildScrollView(
       child: Column(
@@ -77,6 +77,7 @@ class _Signup_ViewState extends State<Signup_View> {
                       // Navigator.of(context).push(
                       //     MaterialPageRoute(builder: (context) => Approved_Signups()));
                     },
+                    //if clicked on approved it will add to the approved list in next phase
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -94,6 +95,7 @@ class _Signup_ViewState extends State<Signup_View> {
                       // Navigator.of(context).push(
                       //     MaterialPageRoute(builder: (context) => Rejected_Signups()));
                     },
+                    //if clicked on rejected it will add to the rejected list in next phase
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
