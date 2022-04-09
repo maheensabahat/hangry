@@ -9,6 +9,7 @@ class TableReservation extends StatefulWidget {
 }
 
 class _TableReservationState extends State<TableReservation> {
+
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: Color(0xFF154038),
       primary: Color(0xFF5ABFA3),
@@ -16,6 +17,7 @@ class _TableReservationState extends State<TableReservation> {
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       textStyle: TextStyle(fontWeight: FontWeight.bold));
+
   final ButtonStyle buttonStyle2 = ElevatedButton.styleFrom(
       onPrimary: Colors.black,
       primary: Colors.red,

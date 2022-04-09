@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/RestaurantDetails.dart';
+import 'package:project/Signup_View.dart';
+import 'package:project/Views/User/TableReservation.dart';
 import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
 
@@ -43,8 +45,8 @@ class MyApp extends StatelessWidget {
           primaryColor: Color(0xFF5ABFA3)),
       darkTheme: ThemeData.dark(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: RestaurantMenu(),
-      home: TempMain(),
+      home: Signup_history(),
+      // home: TempMain(),
     );
   }
 }

@@ -59,7 +59,6 @@ class _Signup_historyState extends State<Signup_history> {
                   flexibleSpace: FlexibleSpaceBar(
                     title: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Flexible(
                           flex: 1,
