@@ -137,7 +137,8 @@ ListView list(List x) {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => Signup_View()));
                 },
-                // leading: Icon(Icons.restaurant),
+                //if conditions here to see from which tab bar is it clicked from
+                //if it's not clicked from pending then it wouldn't show approve reject buttons in the next phase
                 trailing: IconButton(
                   icon: const Icon(
                     Icons.chevron_right,

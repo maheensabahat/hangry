@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'Views/User/Widgets/InputBox.dart';
 
-class Signup_View extends StatefulWidget {
-  const Signup_View({Key? key}) : super(key: key);
+class TableR_tile extends StatefulWidget {
+  const TableR_tile({Key? key}) : super(key: key);
 
   @override
-  _Signup_ViewState createState() => _Signup_ViewState();
+  _TableR_tileState createState() => _TableR_tileState();
 }
 
-class _Signup_ViewState extends State<Signup_View> {
+class _TableR_tileState extends State<TableR_tile> {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: Color(0xFF154038),
       primary: Color(0xFF5ABFA3),
@@ -28,7 +28,8 @@ class _Signup_ViewState extends State<Signup_View> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('TableR_tile'),
+          title: const Text('Booking #'),
+          backgroundColor: Color(0xFF5ABFA3) ,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -72,6 +73,7 @@ class _Signup_ViewState extends State<Signup_View> {
                         onPressed: () {
                           // Navigator.of(context).push(
                           //     MaterialPageRoute(builder: (context) => Approved_tables()));
+                          //if clicked on approve it will add to the approved list in next phase
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -89,6 +91,7 @@ class _Signup_ViewState extends State<Signup_View> {
                         onPressed: () {
                           // Navigator.of(context).push(
                           //     MaterialPageRoute(builder: (context) => Rejected_Tables()));
+                          //if clicked on rejected it will add to the rejected list in next phase
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
