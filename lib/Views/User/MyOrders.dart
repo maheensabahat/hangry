@@ -53,8 +53,9 @@ class _MyOrdersState extends State<MyOrders> {
       body: Snap(
         controller: controller.appBar,
         child: Padding(
-          padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+          padding: const EdgeInsets.all(24),
           child: ListView.builder(
+            padding: EdgeInsets.zero,
             itemExtent: 100,
             itemCount: orders.length,
             itemBuilder: (context, index) {
