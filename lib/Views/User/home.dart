@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
             CategoriesList(list: Categories),
 
             //Restaurants
-            RestaurantDisplay(restaurants: restaurants)
+            RestaurantDisplay(user: widget.user, restaurants: restaurants)
           ],
         ),
       ),
@@ -221,8 +221,10 @@ class _CategoriesListState extends State<CategoriesList> {
 
 class RestaurantDisplay extends StatelessWidget {
   List<RestaurantWidget> restaurants;
+  User user;
 
-  RestaurantDisplay({Key? key, required this.restaurants}) : super(key: key);
+  RestaurantDisplay({Key? key, required this.user, required this.restaurants})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +246,7 @@ class RestaurantDisplay extends StatelessWidget {
           ),
 
           //List of Restaurants
-          RestaurantList(restaurants: restaurants)
+          RestaurantList(user: user, restaurants: restaurants)
         ],
       ),
     );
@@ -253,8 +255,10 @@ class RestaurantDisplay extends StatelessWidget {
 
 class RestaurantList extends StatelessWidget {
   List<RestaurantWidget> restaurants;
+  User user;
 
-  RestaurantList({Key? key, required this.restaurants}) : super(key: key);
+  RestaurantList({Key? key, required this.user, required this.restaurants})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -267,6 +271,7 @@ class RestaurantList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: restaurants.length,
             itemBuilder: (BuildContext context, int index) {
+              restaurants[index].user = user;
               return restaurants[index];
             }),
       ),

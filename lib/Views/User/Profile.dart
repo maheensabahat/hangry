@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Views/User/MyOrders.dart';
 import 'package:project/Views/User/ReserveTable.dart';
 import 'package:project/Views/User/Voucher.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
@@ -48,7 +49,10 @@ class _ProfileState extends State<Profile> {
             Center(
               child: Column(
                 children: [
-                  Header(title: 'Profile', bottom: 25,),
+                  Header(
+                    title: 'Profile',
+                    bottom: 25,
+                  ),
                   ProfilePicture(),
                   ProfileDetails(user: widget.user)
                 ],
@@ -94,8 +98,8 @@ class ButtonMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buttons(
-            name: 'Voucher',
-            icon: 'assets/voucher.png',
+            name: 'My orders',
+            icon: 'assets/Order.png',
             width: 150,
             height: 150,
             istable: false,
@@ -150,7 +154,7 @@ class buttons extends StatelessWidget {
               if (istable) {
                 return ReserveTable();
               }
-              return Voucher();
+              return MyOrders();
             }),
           );
         },
@@ -189,18 +193,29 @@ class FavListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Text(
-              'Your Favourites',
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                // color: Color(0xFF5ABFA3),
-              ),
+            padding: const EdgeInsets.only(bottom: 6, left: 8, right: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Your Favourites',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    // color: Color(0xFF5ABFA3),
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'view all',
+                      style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
+                    ))
+              ],
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.3,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,

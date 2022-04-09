@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
 
+import '../../../Entities/User.dart';
+import '../UserMenu.dart';
+
 class RestaurantWidget extends StatefulWidget {
   Restaurant restaurant;
+  late User user;
 
-  RestaurantWidget({Key? key, required this.restaurant}) : super(key: key);
+  RestaurantWidget({Key? key, required this.restaurant})
+      : super(key: key);
 
   @override
   _RestaurantState createState() => _RestaurantState();
@@ -106,7 +111,14 @@ class _RestaurantState extends State<RestaurantWidget> {
             bottom: 15,
             child: FloatingActionButton.small(
               heroTag: null,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UserMenu(
+                          user: widget.user,
+                          scanned: widget.user.qr,
+                          restaurant: widget.restaurant,
+                        )));
+              },
               backgroundColor: Color(0xFF5ABFA3),
               child: Icon(Icons.arrow_forward_sharp),
             ),
