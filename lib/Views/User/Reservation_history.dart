@@ -1,53 +1,41 @@
 import 'package:flutter/material.dart';
 
-import 'Signup_View.dart';
-
-class Signup_history extends StatefulWidget {
-  const Signup_history({Key? key}) : super(key: key);
+class Reservation_history extends StatefulWidget {
+  const Reservation_history({Key? key}) : super(key: key);
 
   @override
-  _Signup_historyState createState() => _Signup_historyState();
+  _Reservation_historyState createState() => _Reservation_historyState();
 }
 
-class _Signup_historyState extends State<Signup_history> {
+class _Reservation_historyState extends State<Reservation_history> {
   @override
-
-  List<Signups> Pending_signups = [
-    Signups(name: "O Donuts"),
-    Signups(name: "Moos n Clucks"),
-    Signups(name: "Fibbi Cafe"),
-    Signups(name: "KFC"),
-    Signups(name: "Cafe Praha"),
-    Signups(name: "Cafe Picante"),
-    Signups(name: "CFU"),
-    Signups(name: "Vegas"),
+  List<Reservations> Approved_reservations = [
+    Reservations(name: "Restaurant name 4", time: "18:00", status: "Today"),
+    Reservations(name: "Restaurant name 2", time: "17:00", status: "Today"),
+    Reservations(name: "Restaurant name 6", time: "19:00", status: "Today"),
+    Reservations(name: "Restaurant name 1", time: "11:00", status: "Today"),
+    Reservations(name: "Restaurant name 8", time: "1:00", status: "Upcoming"),
+    Reservations(name: "Restaurant name 17", time: "12:00", status: "Upcoming"),
+    Reservations(name: "Restaurant name 23", time: "19:00", status: "Upcoming"),
+    Reservations(name: "Restaurant name 29", time: "18:00", status: "Upcoming"),
   ];
 
-  List<Signups> Approved_signups = [
-    Signups(name: "Mcdonalds"),
-    Signups(name: "Cafe two or more"),
-    Signups(name: "Ziist"),
-    Signups(name: "Big C restaurant"),
-    Signups(name: "Cafe Aylanto"),
-    Signups(name: "Burger o clock"),
-    Signups(name: "Kababjees Express"),
-    Signups(name: "De Valley"),
-    Signups(name: "Xander\'s"),
-    Signups(name: "Sizzlers"),
-    Signups(name: "Del Frio"),
-  ];
-
-  List<Signups> Signup_history = [
-    Signups(name: "Boxd"),
-    Signups(name: "Big Bash"),
-    Signups(name: "Burger Lab"),
-    Signups(name: "2 guys bistro"),
-    Signups(name: "Thirsty"),
+  List<Reservations> Unapproved_reservations = [
+    Reservations(name: "Restaurant name 3", time: "02:00", status: "Pending"),
+    Reservations(name: "Restaurant name 7", time: "12:30", status: "Pending"),
+    Reservations(name: "Restaurant name 9", time: "01:30", status: "Pending"),
+    Reservations(name: "Restaurant name 11", time: "01:45", status: "Pending"),
+    Reservations(name: "Restaurant name 15", time: "16:45", status: "Pending"),
+    Reservations(
+        name: "Restaurant name 20", time: "16:00", status: "Cancelled"),
+    Reservations(
+        name: "Restaurant name 25", time: "17:30", status: "Cancelled"),
+    Reservations(name: "Restaurant name 19", time: "17:30", status: "Cancelled")
   ];
 
   Widget build(BuildContext context) => Scaffold(
-    body: DefaultTabController(
-          length: 3,
+        body: DefaultTabController(
+          length: 2,
           child: NestedScrollView(
             headerSliverBuilder: (context, value) {
               return [
@@ -61,12 +49,21 @@ class _Signup_historyState extends State<Signup_history> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Flexible(
-                          flex: 1,
+                          flex: 2,
                           child: Container(),
                         ),
                         Flexible(
                             child: Text(
-                          "Welcome Admin",
+                          "Restaurant name",
+                          textAlign: TextAlign.center,
+                        )),
+                        Flexible(
+                            child: Text(
+                          "Reservation requests status",
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black.withOpacity(0.75)),
                           textAlign: TextAlign.center,
                         )),
                       ],
@@ -75,13 +72,10 @@ class _Signup_historyState extends State<Signup_history> {
                   bottom: TabBar(
                     tabs: [
                       Tab(
-                        text: 'Pending Signups',
+                        text: 'Approved',
                       ),
                       Tab(
-                        text: 'Approved Signups',
-                      ),
-                      Tab(
-                        text: 'Rejected Signups',
+                        text: 'Unapproved',
                       ),
                     ],
                   ),
@@ -92,17 +86,12 @@ class _Signup_historyState extends State<Signup_history> {
               children: [
                 MaterialApp(
                   home: Center(
-                    child: list(Pending_signups),
+                    child: list(Approved_reservations),
                   ),
                 ),
                 MaterialApp(
                   home: Center(
-                    child: list(Approved_signups),
-                  ),
-                ),
-                MaterialApp(
-                  home: Center(
-                    child: list(Signup_history),
+                    child: list(Unapproved_reservations),
                   ),
                 ),
               ],
@@ -112,10 +101,12 @@ class _Signup_historyState extends State<Signup_history> {
       );
 }
 
-class Signups{
+class Reservations {
   final String name;
+  final String time;
+  final String status;
 
-  Signups({required this.name});
+  Reservations({required this.name, required this.time, required this.status});
 }
 
 ListView list(List x) {
@@ -133,11 +124,8 @@ ListView list(List x) {
             child: InkWell(
               child: ListTile(
                 title: Text(x[index].name),
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Signup_View()));
-                },
                 // leading: Icon(Icons.restaurant),
+                subtitle: Text(x[index].time + "   " + x[index].status),
                 trailing: IconButton(
                   icon: const Icon(
                     Icons.chevron_right,
