@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'Views/User/Widgets/InputBox.dart';
+import 'Widgets/InputBox.dart';
 
-class Signup_View extends StatefulWidget {
-  const Signup_View({Key? key}) : super(key: key);
+class TableReservation extends StatefulWidget {
+  const TableReservation({Key? key}) : super(key: key);
 
   @override
-  _Signup_ViewState createState() => _Signup_ViewState();
+  _TableReservationState createState() => _TableReservationState();
 }
 
-class _Signup_ViewState extends State<Signup_View> {
+class _TableReservationState extends State<TableReservation> {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: Color(0xFF154038),
       primary: Color(0xFF5ABFA3),

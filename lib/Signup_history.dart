@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'Signup_View.dart';
+import 'Signup_View.dart';
 
 class Signup_history extends StatefulWidget {
   const Signup_history({Key? key}) : super(key: key);

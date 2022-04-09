@@ -7,6 +7,7 @@ import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 
+import 'Favorites.dart';
 import 'Widgets/Header.dart';
 import 'Widgets/ProfilePicture.dart';
 
@@ -99,8 +100,8 @@ class ButtonMenu extends StatelessWidget {
           buttons(
             name: 'My orders',
             icon: 'assets/Order.png',
-            width: 150,
-            height: 150,
+            width: 100,
+            height: 65,
             istable: false,
           ),
           Padding(
@@ -192,7 +193,7 @@ class FavListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 6, left: 8, right: 12),
+            padding: const EdgeInsets.only(left: 8, right: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -205,7 +206,12 @@ class FavListView extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => Favorites(
+                                favorites: favourites,
+                              )));
+                    },
                     child: Text(
                       'view all',
                       style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
@@ -214,7 +220,7 @@ class FavListView extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.25,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,

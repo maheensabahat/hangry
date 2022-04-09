@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'TableR_tile.dart';
+import 'Views/User/TableReservation.dart';
 
 class Table_reservation extends StatefulWidget {
   const Table_reservation({Key? key}) : super(key: key);

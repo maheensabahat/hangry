@@ -24,6 +24,7 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: ScrollAppBar(
         controller: controller,
         leading: Padding(
@@ -31,13 +32,13 @@ class _MyOrdersState extends State<MyOrders> {
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
             ),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
         ),
+
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: const Padding(
@@ -45,34 +46,45 @@ class _MyOrdersState extends State<MyOrders> {
           child: Text(
             'My Orders',
             style: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         centerTitle: true,
       ),
-      body: Snap(
-        controller: controller.appBar,
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemExtent: 100,
-            itemCount: orders.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: const Color(0xffADD9C9),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  height: 100,
-                  child: Align(
-                    alignment: const Alignment(0, 0),
-                    child: ListTile(
-                      trailing: const Text('Order Date'),
-                      leading: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Container(
+
+      body: Column(
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+
+
+          //Orders list view
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+              child: ListView.builder(
+                // padding: EdgeInsets.zero,
+                itemExtent: 100,
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: const Color(0x905ABFA3),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      height: 100,
+
+                      //List Tile - Each Order
+                      child: ListTile(
+
+                        //Order date
+                        trailing: const Text('10-March-2022', style: TextStyle(fontSize: 11),),
+                        //Image
+                        leading: Container(
                           height: 100,
                           width: 70,
                           decoration: BoxDecoration(
@@ -84,24 +96,27 @@ class _MyOrdersState extends State<MyOrders> {
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                      ),
-                      tileColor: const Color(0xffadd9c9),
-                      title: Text(
-                        orders[index],
-                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: const Text('Order ID 12345678',
-                            style: TextStyle(color: Colors.black, fontSize: 12)),
+
+                        //Order Title
+                        title: Text(
+                          orders[index],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+
+                        //Order No.
+                        subtitle: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: const Text('Order ID 12345678',
+                              style: TextStyle(fontSize: 12)),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

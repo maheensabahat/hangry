@@ -83,7 +83,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                       style: TextStyle(color: Color(0xFFF2F2F2), fontSize: 12)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
+                  padding: const EdgeInsets.only(bottom: 16),
                   child: Text(widget.restaurant.category,
                       style: TextStyle(
                           color: Color(0xFFADD9C9),
@@ -120,6 +120,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                         )));
               },
               backgroundColor: Color(0xFF5ABFA3),
+              foregroundColor: Color(0xFFF2F2F2),
               child: Icon(Icons.arrow_forward_sharp),
             ),
           )
