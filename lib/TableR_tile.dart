@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'Views/User/Widgets/InputBox.dart';
 
 class Signup_View extends StatefulWidget {
