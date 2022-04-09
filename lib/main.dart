@@ -2,19 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/RestaurantDetails.dart';
 import 'package:project/temporary_main_page.dart';
+import 'package:provider/provider.dart';
+
+// <<<<<<< HEAD
+import 'package:project/Order_history.dart';
+
+// import 'package:project/Signup_View.dart';
+import 'package:project/Signup_history.dart';
+import 'package:project/Table_reservation.dart';
+
+// import 'package:project/user_signup.dart';
+// =======
 //import 'package:project/user_signup.dart';
+import 'Entities/cart.dart';
 import 'Favorites.dart';
 import 'MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
+
+// >>>>>>> 90eb3c31f2d15043ea98f858ef6d4e48c6f46be5
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
 import 'RestaurantOrder.dart';
-import 'ScanQR.dart';
-import 'UserMenu.dart';
-import 'UserMenuBeforeScanning.dart';
+import 'Views/User/ScanQR.dart';
+import 'Views/User/UserMenu.dart';
+import 'Views/User/UserMenu.dart';
 
 void main() {
-  runApp(const MyApp());
+  ChangeNotifierProvider(
+    create: (_) => cart(),
+    child: const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +50,7 @@ class MyApp extends StatelessWidget {
       home: TempMain(),
       //home: const UserMenuBeforeScanning(),
       //home: const ScanQR(),
-      //home: const RestaurantMenu(),
+      // home: const RestaurantMenu(),
       //home: const RestaurantEditDish(),
       //home: const RestaurantOrder(),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 
+import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 
@@ -14,8 +16,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextEditingController search = TextEditingController();
-
   List<Category> Categories = [
     Category(Icon(Icons.soup_kitchen), 'Chinese'),
     Category(Icon(Icons.fastfood), 'Fast food'),
@@ -49,75 +49,15 @@ class _HomeState extends State<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Hi Jimmy
-            Padding(
-              padding: const EdgeInsets.only(top: 70, left: 24),
-              child: Text('Hi, ${widget.user.Name}!',
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF5ABFA3))),
-            ),
-
-            //Profile pic and Bold Text
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'What do you\nwant to eat today?',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Color(0xFF5ABFA3),
-                    radius: 42,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage('assets/profile.png'),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                ],
-              ),
+            //Header
+            HomeHeader(
+              userName: widget.user.first,
             ),
 
             //Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: TextField(
-                controller: search,
-                style: const TextStyle(color: Color(0xFF5ABFA3)),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide:
-                        const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide:
-                          const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
-                  hintText: 'Search here',
-                  hintStyle: const TextStyle(
-                      color: Color(0xFFADD9C9),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500),
-                  filled: true,
-                  fillColor: Color(0x20ADD9C9),
-                  suffixIcon: InkWell(
-                    child: Icon(
-                      Icons.search,
-                      color: Color(0xFF5ABFA3),
-                    ),
-                  ),
-                ),
-                cursorColor: Color(0xFF5ABFA3),
-              ),
-            ),
+            SearchBar(),
 
-            //Categories
+            //Categories - heading
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 24),
               child: Text(
@@ -130,69 +70,11 @@ class _HomeState extends State<Home> {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 10, bottom: 36),
-              child: Container(
-                height: 60,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Categories.length,
-                  itemBuilder: (context, index) => Container(
-                    width: 80,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: Color(0x905ABFA3),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: ListTile(
-                      title: Categories[index].icon,
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(left: 0),
-                        child: Text(
-                          Categories[index].label,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            //Categories ListView
+            CategoriesList(list: Categories),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      'Restuarants',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        // color: Color(0xFF5ABFA3),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.35,
-                      child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: restaurants.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return restaurants[index];
-                          }),
-                    ),
-                  )
-                ],
-              ),
-            )
+            //Restaurants
+            RestaurantDisplay(restaurants: restaurants)
           ],
         ),
       ),
@@ -200,9 +82,194 @@ class _HomeState extends State<Home> {
   }
 }
 
-class Category {
-  Icon icon;
-  String label;
+class HomeHeader extends StatelessWidget {
+  String userName;
 
-  Category(this.icon, this.label);
+  HomeHeader({Key? key, required this.userName}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        //Hi Jimmy
+        Padding(
+          padding: const EdgeInsets.only(top: 70, left: 24),
+          child: Text('Hi, $userName!',
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF5ABFA3))),
+        ),
+
+        //Profile pic and Bold Text
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'What do you\nwant to eat today?',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              Picture(radius: 40, border: 2, image: 'assets/profile.png'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SearchBar extends StatefulWidget {
+  const SearchBar({Key? key}) : super(key: key);
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  TextEditingController search = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      child: TextField(
+        controller: search,
+        style: const TextStyle(color: Color(0xFF5ABFA3)),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: const BorderSide(width: 1.0, color: Color(0xFF5ABFA3)),
+          ),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+          hintText: 'Search here',
+          hintStyle: const TextStyle(
+              color: Color(0xFFADD9C9),
+              fontSize: 12,
+              fontWeight: FontWeight.w500),
+          filled: true,
+          fillColor: Color(0x20ADD9C9),
+          suffixIcon: InkWell(
+            child: Icon(
+              Icons.search,
+              color: Color(0xFF5ABFA3),
+            ),
+          ),
+        ),
+        cursorColor: Color(0xFF5ABFA3),
+      ),
+    );
+  }
+}
+
+class CategoriesList extends StatefulWidget {
+  List<Category> list;
+
+  CategoriesList({Key? key, required this.list}) : super(key: key);
+
+  @override
+  _CategoriesListState createState() => _CategoriesListState();
+}
+
+class _CategoriesListState extends State<CategoriesList> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 36),
+      child: Container(
+        height: 60,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: widget.list.length,
+          itemBuilder: (context, index) => Container(
+            width: 80,
+            margin: const EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              color: widget.list[index].isSelected
+                  ? Color(0x90F29191)
+                  : Color(0x905ABFA3),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: InkWell(
+              onTap: () {
+                widget.list[index].isSelected = !widget.list[index].isSelected;
+                setState(() {});
+              },
+              child: ListTile(
+                title: widget.list[index].icon,
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(left: 0),
+                  child: Text(
+                    widget.list[index].label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 10),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RestaurantDisplay extends StatelessWidget {
+  List<RestaurantWidget> restaurants;
+
+  RestaurantDisplay({Key? key, required this.restaurants}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Heading
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(
+              'Restuarants',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+          //List of Restaurants
+          RestaurantList(restaurants: restaurants)
+        ],
+      ),
+    );
+  }
+}
+
+class RestaurantList extends StatelessWidget {
+  List<RestaurantWidget> restaurants;
+
+  RestaurantList({Key? key, required this.restaurants}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: restaurants.length,
+            itemBuilder: (BuildContext context, int index) {
+              return restaurants[index];
+            }),
+      ),
+    );
+  }
 }
