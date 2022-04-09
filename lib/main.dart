@@ -42,9 +42,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
       darkTheme: ThemeData.dark(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: RestaurantMenu(),
-       home: TempMain(),
+      //  home: Favorites(),
     );
   }
 }
