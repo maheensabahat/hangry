@@ -115,7 +115,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => UserMenu(
                           user: widget.user,
-                          scanned: false,
+                          scanned: widget.user.qr,
                           restaurant: widget.restaurant,
                         )));
               },

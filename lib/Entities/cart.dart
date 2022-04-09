@@ -3,15 +3,15 @@ import 'OrderItem.dart';
 
 class cart extends ChangeNotifier{
 
-  double total = 0;
 
   List<OrderItem> list = [];
 
-  void calculateTotal(){
+  double calculateTotal(){
+    double total = 0;
     list.forEach((element) {
       total += element.calculatePrice();
-      notifyListeners();
     });
+    return total;
   }
 
   void addItem(OrderItem item){
@@ -19,4 +19,8 @@ class cart extends ChangeNotifier{
     notifyListeners();
   }
 
+  @override
+  String toString() {
+    return 'cart{list: $list}';
+  }
 }

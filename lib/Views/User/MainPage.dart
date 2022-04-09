@@ -9,6 +9,7 @@ import 'package:project/Entities/User.dart';
 class MainPage extends StatefulWidget {
   User user;
   int i = 0;
+
   MainPage({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -33,7 +34,7 @@ class _MainPageState extends State<MainPage> {
         controller: controller,
         children: [
           Home(user: widget.user),
-          Cart(),
+          Cart(user: widget.user),
           Profile(user: widget.user),
           Settings(),
         ],
