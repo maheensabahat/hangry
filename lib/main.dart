@@ -14,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'hangry',
     options: const FirebaseOptions(
         apiKey: "AIzaSyCoWVSEMj-UOOyFnV5_nuYNo238gMIsWdI",
         authDomain: "hangry-fad8f.firebaseapp.com",
