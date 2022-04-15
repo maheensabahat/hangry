@@ -40,7 +40,7 @@ class RestaurantBanner extends StatelessWidget {
           child: Text(
             Cuisine,
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -1,23 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/RestaurantDetails.dart';
 import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
-
-import 'package:project/Order_history.dart';
-
-import 'package:project/Signup_history.dart';
-import 'package:project/Table_reservation.dart';
-
-// import 'package:project/user_signup.dart';
-//import 'package:project/user_signup.dart';
 import 'Entities/cart.dart';
-import 'Views/User/Favorites.dart';
-import 'Views/User/MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
-import 'RestaurantMenu.dart';
-import 'RestaurantEditDish.dart';
-import 'RestaurantOrder.dart';
+
 import 'Views/User/ScanQR.dart';
 import 'Views/User/UserMenu.dart';
 import 'Views/User/UserMenu.dart';
@@ -54,14 +41,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      //home: RestaurantMenu(),
-      home: const TempMain(),
-      //home: const UserMenuBeforeScanning(),
-      //home: const ScanQR(),
-      // home: const RestaurantMenu(),
-      //home: const RestaurantEditDish(),
-      //home: const RestaurantOrder(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: TempMain(),
     );
   }
 }

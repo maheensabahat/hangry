@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/main.dart';
-import 'RestaurantHome.dart';
-import 'Signup_history.dart';
+import 'Views/Restaurant/RestaurantHome.dart';
+import 'Views/Admin/Signup_history.dart';
 
 class TempMain extends StatefulWidget {
   const TempMain({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _TempMainState extends State<TempMain> {
           const Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
             child: Text(
-              'Log in as',
+              'Log in as:',
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
           ),

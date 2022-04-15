@@ -10,16 +10,17 @@ class Settings extends StatelessWidget {
         body: Center(
       child: Column(
         children: [
-          
-          Header(title: 'Settings', bottom: 60,),
-          
+          Header(
+            title: 'Settings',
+            bottom: 60,
+          ),
           SizedBox(
             width: 300,
             height: 50,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   elevation: 3,
-                  // onPrimary: Color(0xFF154038),
+                  onPrimary: Color(0xFF154038),
                   primary: Color(0xFF5ABFA3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -48,7 +49,7 @@ class Settings extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    // onPrimary: Color(0xFF154038),
+                    onPrimary: Color(0xFF154038),
                     primary: Color(0xE05ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -70,8 +71,6 @@ class Settings extends StatelessWidget {
               ),
             ),
           ),
-
-
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: SizedBox(
@@ -80,7 +79,7 @@ class Settings extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     elevation: 3,
-                    // onPrimary: Color(0xFF154038),
+                    onPrimary: Color(0xFF154038),
                     primary: Color(0xAF5ABFA3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5)),

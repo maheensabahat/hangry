@@ -24,6 +24,7 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
     'item',
     'item',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +47,8 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             'Order Details',
-            style: TextStyle(fontSize: 30, color: Colors.black),
+            style: TextStyle(
+                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
         centerTitle: true,
@@ -55,17 +57,17 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
         child: Column(
           children: [
             const Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 7),
+              padding: EdgeInsets.fromLTRB(0, 16, 0, 8),
               child: Text(
                 'Order Number 12345678',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(0, 7, 0, 20),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: Text(
-                'Table Number 33',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                'Table Number: 33',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
@@ -74,13 +76,18 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
                 itemCount: item.length,
                 itemBuilder: ((context, index) {
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 5, 16, 5),
+                    padding: const EdgeInsets.fromLTRB(24, 5, 24, 5),
                     child: Container(
                       alignment: const Alignment(0, 0),
-                      color: const Color(0xffadd9c9),
-                      height: 100,
+                      decoration: BoxDecoration(
+                          color: const Color(0x505ABFA3),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      height: 80,
                       child: ListTile(
-                        title: Text(item[index]),
+                        title: Text(
+                          item[index],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         subtitle: const Text('Price comes here'),
                         leading: const CircleAvatar(
                           backgroundColor: Color(0xff5abfa3),
@@ -92,29 +99,26 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
               ),
             ),
             SizedBox(
-              height: 100,
+              height: 120,
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Text(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
                           'Items: 10',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Text(
-                          'fourth text field',
+                        Text(
+                          'Total: \$20',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 40,
@@ -127,7 +131,7 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
                               builder: (context) => const RestaurantHome()),
                         );
                       },
-                      child: const Text('Accept'),
+                      child: const Text('Serve'),
                       style: ElevatedButton.styleFrom(
                         primary: const Color(0xff5abfa3),
                       ),
