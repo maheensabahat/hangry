@@ -15,15 +15,26 @@ import 'Entities/cart.dart';
 import 'Views/User/Favorites.dart';
 import 'Views/User/MyOrders.dart';
 import 'package:project/Views/User/user_signup.dart';
-
 import 'RestaurantMenu.dart';
 import 'RestaurantEditDish.dart';
 import 'RestaurantOrder.dart';
 import 'Views/User/ScanQR.dart';
 import 'Views/User/UserMenu.dart';
 import 'Views/User/UserMenu.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyCoWVSEMj-UOOyFnV5_nuYNo238gMIsWdI",
+        authDomain: "hangry-fad8f.firebaseapp.com",
+        projectId: "hangry-fad8f",
+        storageBucket: "hangry-fad8f.appspot.com",
+        messagingSenderId: "159589195892",
+        appId: "1:159589195892:web:d4c6148160bfa273b1b121"),
+  );
   runApp(
     ChangeNotifierProvider(
       create: (_) => cart(),
