@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "159589195892",
+    "project_id": "hangry-fad8f",
+    "storage_bucket": "hangry-fad8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159589195892:android:0c7f51cf2f5bd288b1b121",
+        "android_client_info": {
+          "package_name": "com.example.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159589195892-qs1u4hq7p6a9lupv7kpmjb3i0kctkrhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT-Fo73JV7N93rzTr8l20i-lE9Nno-gSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159589195892-qs1u4hq7p6a9lupv7kpmjb3i0kctkrhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
