@@ -5,9 +5,6 @@ import 'package:provider/provider.dart';
 import 'Entities/cart.dart';
 import 'package:project/Views/User/user_signup.dart';
 
-import 'Views/User/ScanQR.dart';
-import 'Views/User/UserMenu.dart';
-import 'Views/User/UserMenu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
