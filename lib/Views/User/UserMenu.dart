@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
-import 'package:project/Entities/cart.dart';
+import 'package:project/Entities/My_Order.dart';
 import 'package:project/Views/User/ReserveTable.dart';
 
-import '../../Entities/cart.dart';
-import '../../Entities/cart.dart';
+import '../../Entities/My_Order.dart';
+import '../../Entities/My_Order.dart';
 import 'ScanQR.dart';
 import 'Widgets/RestaurantBanner.dart';
 
@@ -103,10 +103,10 @@ class _UserMenuState extends State<UserMenu> {
                                         child: InkWell(
                                           child: Icon(Icons.shopping_cart),
                                           onTap: () {
-                                            widget.user.currentCart.addItem(
+                                            widget.user.currentOrder.addItem(
                                                 OrderItem('Pizza',
                                                     'Chicken Fajita', 20, 1));
-                                            print(widget.user.currentCart);
+                                            print(widget.user.currentOrder);
                                           },
                                         ),
                                       ),
@@ -184,10 +184,10 @@ class _UserMenuState extends State<UserMenu> {
                                           child: InkWell(
                                             child: Icon(Icons.shopping_cart),
                                             onTap: () {
-                                              widget.user.currentCart.addItem(
+                                              widget.user.currentOrder.addItem(
                                                   OrderItem('Pizza',
                                                       'Chicken Fajita', 20, 1));
-                                              print(widget.user.currentCart);
+                                              print(widget.user.currentOrder);
                                             },
                                           ),
                                         ),

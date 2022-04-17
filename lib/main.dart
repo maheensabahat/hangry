@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
-import 'Entities/cart.dart';
+import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +22,7 @@ void main() async {
   );
   runApp(
     ChangeNotifierProvider(
-      create: (_) => cart(),
+      create: (_) => MyOrder(),
       child: const MyApp(),
     ),
   );
