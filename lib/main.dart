@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/provider/GoogleSignInProvider.dart';
 import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
 import 'Entities/cart.dart';
 import 'package:project/Views/User/user_signup.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -21,8 +21,11 @@ void main() async {
         appId: "1:159589195892:web:d4c6148160bfa273b1b121"),
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => cart(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => cart()),
+        ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -39,8 +42,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: TempMain(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: TempMain(),
     );
   }
 }
@@ -106,9 +109,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ElevatedButton(
                   style: buttonStyle,
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => User_Signup()),
-                    );
+                    context.read<GoogleSignInProvider>().googleLogin();
+
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(builder: (context) => User_Signup()),
+                    // );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
