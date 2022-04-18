@@ -3,7 +3,7 @@ import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Views/User/UserMenu.dart';
 
 import '../../Entities/User.dart';
-import '../../Entities/cart.dart';
+import '../../Entities/My_Order.dart';
 
 class ScanQR extends StatefulWidget {
   Restaurant restaurant;
@@ -70,6 +70,7 @@ class _ScanQRState extends State<ScanQR> {
                 onPressed: () {
                   if (!widget.user.qr) {
                     widget.user.qr = true;
+                    widget.user.CreateCart(widget.restaurant);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             UserMenu(

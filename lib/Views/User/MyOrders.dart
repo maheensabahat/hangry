@@ -69,12 +69,11 @@ class _MyOrdersState extends State<MyOrders> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.only(bottom: 25, left: 5, right: 5),
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color(0x905ABFA3),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
-                      height: 100,
 
                       //List Tile - Each Order
                       child: ListTile(
@@ -85,7 +84,7 @@ class _MyOrdersState extends State<MyOrders> {
                         ),
                         //Image
                         leading: Container(
-                          height: 100,
+                          height: 70,
                           width: 70,
                           decoration: BoxDecoration(
                               image: DecorationImage(
@@ -105,7 +104,7 @@ class _MyOrdersState extends State<MyOrders> {
 
                         //Order No.
                         subtitle: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.only(top: 4),
                           child: const Text('Order ID 12345678',
                               style: TextStyle(fontSize: 12)),
                         ),
