@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/provider/GoogleSignInProvider.dart';
-import 'package:project/temporary_main_page.dart';
 import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'Views/Restaurant/RestaurantHome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
-          primaryColor: Color(0xFF5ABFA3)),
+          primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       //home: TempMain(),
@@ -80,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 280,
             ),
             //Heading
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.only(top: 80),
+              child: Text(
                 'Welcome to Hangry!',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
@@ -112,27 +112,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     context
                         .read<GoogleSignInProvider>()
                         .googleLogin()
-                        .whenComplete(
-                          () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const User_Signup()),
-                          ),
+                        .whenComplete(() {
+                      if (context
+                          .read<GoogleSignInProvider>()
+                          .checkRestaurant()) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const RestaurantHome()),
                         );
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const User_Signup()),
+                        );
+                      }
+                    });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('assets/googlelogo.png',
                           width: 22, height: 22),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: const Text('Continue with Google'),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text('Continue with Google'),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
+            ElevatedButton(
+                child: const Text('Sign out (for testing)'),
+                onPressed: () {
+                  context.read<GoogleSignInProvider>().signOut();
+                })
           ],
         ),
       ),

@@ -19,13 +19,13 @@ class _RestaurantHomeState extends State<RestaurantHome> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            child: Image.asset(
-              'assets/Chef.png',
-              width: 500,
-              fit: BoxFit.cover,
-            ),
-          ),
+          // Container(
+          //   child: Image.asset(
+          //     'assets/Chef.png',
+          //     width: 500,
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
