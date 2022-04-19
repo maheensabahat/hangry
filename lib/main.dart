@@ -109,11 +109,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ElevatedButton(
                   style: buttonStyle,
                   onPressed: () {
-                    context.read<GoogleSignInProvider>().googleLogin();
-
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => User_Signup()),
-                    // );
+                    context
+                        .read<GoogleSignInProvider>()
+                        .googleLogin()
+                        .whenComplete(
+                          () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const User_Signup()),
+                          ),
+                        );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
