@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:project/Views/User/Widgets/InputBox.dart';
 import 'package:project/Views/User/MainPage.dart';
 import 'package:project/Entities/User.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/GoogleSignInProvider.dart';
 
 class User_Signup extends StatefulWidget {
   const User_Signup({Key? key}) : super(key: key);
@@ -42,22 +45,19 @@ class _User_SignupState extends State<User_Signup> {
                 height: 200,
               ),
             ),
-
             //SignUp Header
-            Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.only(top: 24),
+              child: Text(
                 'Sign Up',
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
                 'Provide the following details to continue:',
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.normal),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.normal),
               ),
             ),
 
@@ -72,7 +72,7 @@ class _User_SignupState extends State<User_Signup> {
                     name = InputBox(
                       label: 'Name',
                       hintText: 'Enter full name',
-                      icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
                     ),
 
@@ -80,7 +80,7 @@ class _User_SignupState extends State<User_Signup> {
                     phone = InputBox(
                       label: 'Phone Number',
                       hintText: '03xx-xxxxxxx',
-                      icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
+                      icon: const Icon(Icons.phone, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
                     ),
 
@@ -88,7 +88,8 @@ class _User_SignupState extends State<User_Signup> {
                     location = InputBox(
                       label: 'Location',
                       hintText: 'eg. Karachi',
-                      icon: Icon(Icons.location_on, color: Color(0xFF5ABFA3)),
+                      icon: const Icon(Icons.location_on,
+                          color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
                     ),
 
@@ -106,15 +107,15 @@ class _User_SignupState extends State<User_Signup> {
                                   name.controller.text,
                                   int.parse(phone.controller.text),
                                   location.controller.text);
-                              print(user);
+
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MainPage(user: user)));
                             }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('Continue'),
+                            children: const [
+                              Text('Continue'),
                             ],
                           ),
                         ),
