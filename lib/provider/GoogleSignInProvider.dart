@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _user;
+
   GoogleSignInAccount get user => _user!;
   bool isLoggedIn = false;
   bool _isRestaurant = false;
@@ -14,7 +15,9 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   Future googleLogin() async {
     isLoggedIn = false;
-    final googleUser = await googleSignIn.signIn();
+    final googleUser = await googleSignIn.signIn().catchError((onError) {
+      print("Error $onError");
+    });
     if (googleUser == null) return;
     _user = googleUser;
     final googleAuth = await googleUser.authentication;
@@ -22,7 +25,11 @@ class GoogleSignInProvider extends ChangeNotifier {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .catchError((onError) {
+      print("Error $onError");
+    });
     isLoggedIn = true;
 
     if (_user != null) {
@@ -45,7 +52,9 @@ class GoogleSignInProvider extends ChangeNotifier {
   }
 
   Future signOut() async {
-    await googleSignIn.disconnect();
+    await googleSignIn.disconnect().catchError((onError) {
+      print("Error $onError");
+    });
     notifyListeners();
   }
 
