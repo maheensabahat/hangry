@@ -4,16 +4,14 @@ import 'package:project/Entities/Restaurant.dart';
 import 'My_Order.dart';
 
 class User {
-
   //Name, phone no., location
-  String Name;
+  String name;
   late String _first;
-
-  int phone;
-  String Location;
+  String phone;
+  String location;
 
   //Profile picture
-  late Image dp;
+  late Image profilePicture;
 
   //Current order
   late MyOrder currentOrder;
@@ -25,13 +23,11 @@ class User {
 
   //Favs rests
 
-
-
-  User(this.Name, this.phone, this.Location) {
-    _first = Name.substring(0, Name.split(" ")[0].length);
+  User(this.name, this.phone, this.location) {
+    _first = name.substring(0, name.split(" ")[0].length);
   }
 
-  void CreateCart(Restaurant restaurant){
+  void CreateCart(Restaurant restaurant) {
     currentOrder = MyOrder();
     currentOrder.restaurant = restaurant;
   }
@@ -40,6 +36,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{Name: $Name, phone: $phone, Location: $Location}';
+    return 'User{Name: $name, phone: $phone, location;: $location}';
   }
 }

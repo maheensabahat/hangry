@@ -78,10 +78,10 @@ class ProfileDetails extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 4),
-          child: Text(user.Name,
+          child: Text(user.name,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
         ),
-        Text('${user.Location}, Pakistan', style: TextStyle(fontSize: 14)),
+        Text('${user.location}, Pakistan', style: TextStyle(fontSize: 14)),
       ],
     );
   }

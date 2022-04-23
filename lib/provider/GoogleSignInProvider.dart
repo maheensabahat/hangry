@@ -9,6 +9,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
   bool isLoggedIn = false;
+  bool isLoaded = false;
   bool _isRestaurant = false;
   List<String> restaurantEmails = [];
 
@@ -23,7 +24,6 @@ class GoogleSignInProvider extends ChangeNotifier {
       idToken: googleAuth.idToken,
     );
     await FirebaseAuth.instance.signInWithCredential(credential);
-    isLoggedIn = true;
 
     if (_user != null) {
       await FirebaseFirestore.instance
@@ -41,6 +41,7 @@ class GoogleSignInProvider extends ChangeNotifier {
         _isRestaurant = false;
       }
     }
+    isLoggedIn = true;
     notifyListeners();
   }
 

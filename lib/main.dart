@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/User.dart';
 import 'package:project/provider/GoogleSignInProvider.dart';
 import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
@@ -112,21 +113,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     context
                         .read<GoogleSignInProvider>()
                         .googleLogin()
-                        .whenComplete(() {
-                      if (context
-                          .read<GoogleSignInProvider>()
-                          .checkRestaurant()) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const RestaurantHome()),
-                        );
-                      } else {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const User_Signup()),
-                        );
-                      }
-                    });
+                        .whenComplete(
+                      () {
+                        if (context
+                            .read<GoogleSignInProvider>()
+                            .checkRestaurant()) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const RestaurantHome()),
+                          );
+                        } else {
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const User_Signup(user: User(name, phone, location),)),
+                          // );
+                        }
+                      },
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +146,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ElevatedButton(
-                child: const Text('Sign out (for testing)'),
-                onPressed: () {
-                  context.read<GoogleSignInProvider>().signOut();
-                })
+              child: const Text('Sign out (for testing)'),
+              onPressed: () {
+                context.read<GoogleSignInProvider>().signOut();
+              },
+            ),
           ],
         ),
       ),

@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 import '../../provider/GoogleSignInProvider.dart';
 
 class User_Signup extends StatefulWidget {
-  const User_Signup({Key? key}) : super(key: key);
+  final User user;
+  const User_Signup({Key? key, required this.user}) : super(key: key);
 
   @override
   _User_SignupState createState() => _User_SignupState();
@@ -105,7 +106,7 @@ class _User_SignupState extends State<User_Signup> {
                             if (validate()) {
                               User user = User(
                                   name.controller.text,
-                                  int.parse(phone.controller.text),
+                                  phone.controller.text,
                                   location.controller.text);
 
                               Navigator.of(context).push(MaterialPageRoute(
