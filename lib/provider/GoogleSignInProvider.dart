@@ -13,6 +13,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   bool isLoaded = false;
   bool _isRestaurant = false;
   List<String> restaurantEmails = [];
+  late User appUser;
 
   Future googleLogin() async {
     isLoggedIn = false;

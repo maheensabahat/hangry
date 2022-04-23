@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/User.dart';
 import 'package:project/provider/GoogleSignInProvider.dart';
+import 'package:project/provider/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'Views/Restaurant/RestaurantHome.dart';
 
 void main() async {
@@ -26,6 +26,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => MyOrder()),
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
     ),
@@ -123,10 +124,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => const RestaurantHome()),
                           );
                         } else {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const User_Signup(user: User(name, phone, location),)),
-                          // );
+                          context.read<UserProvider>().createUser(
+                              name: context
+                                  .read<GoogleSignInProvider>()
+                                  .user
+                                  .displayName,
+                              profilePicture: context
+                                  .read<GoogleSignInProvider>()
+                                  .user
+                                  .photoUrl,
+                              email: context
+                                  .read<GoogleSignInProvider>()
+                                  .user
+                                  .email);
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const User_Signup()),
+                          );
                         }
                       },
                     );

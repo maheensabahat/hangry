@@ -58,7 +58,7 @@ class _CartState extends State<Cart> {
                     User friend = widget.CurrentCart.friends[index];
                     if (index != 0) {
                       return Order(
-                          name: friend.name, order: friend.currentOrder);
+                          name: friend.name!, order: friend.currentOrder);
                     } else {
                       return Container();
                     }

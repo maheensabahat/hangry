@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Entities/User.dart';
+import '../../../provider/UserProvider.dart';
 import '../UserMenu.dart';
 
 class RestaurantWidget extends StatefulWidget {
   Restaurant restaurant;
-  late User user;
-
-  RestaurantWidget({Key? key, required this.restaurant})
-      : super(key: key);
+  RestaurantWidget({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   _RestaurantState createState() => _RestaurantState();
@@ -114,8 +113,8 @@ class _RestaurantState extends State<RestaurantWidget> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => UserMenu(
-                          user: widget.user,
-                          scanned: widget.user.qr,
+                          user: context.read<UserProvider>().getUser(),
+                          scanned: context.read<UserProvider>().getQR(),
                           restaurant: widget.restaurant,
                         )));
               },

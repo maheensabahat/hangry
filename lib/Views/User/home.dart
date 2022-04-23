@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
+import '../../provider/UserProvider.dart';
 
 class Home extends StatefulWidget {
-  User user;
-
-  Home({Key? key, required this.user}) : super(key: key);
+  Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -51,15 +51,15 @@ class _HomeState extends State<Home> {
           children: [
             //Header
             HomeHeader(
-              userName: widget.user.first,
+              userName: context.read<UserProvider>().getFirstName(),
             ),
 
             //Search Bar
             SearchBar(),
 
             //Categories - heading
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 24),
+            const Padding(
+              padding: EdgeInsets.only(top: 8, left: 24),
               child: Text(
                 'Categories',
                 style: TextStyle(
@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
             CategoriesList(list: Categories),
 
             //Restaurants
-            RestaurantDisplay(user: widget.user, restaurants: restaurants)
+            RestaurantDisplay(restaurants: restaurants)
           ],
         ),
       ),
@@ -96,7 +96,7 @@ class HomeHeader extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 70, left: 24),
           child: Text('Hi, $userName!',
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF5ABFA3))),
@@ -108,7 +108,7 @@ class HomeHeader extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'What do you\nwant to eat today?',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
@@ -221,10 +221,8 @@ class _CategoriesListState extends State<CategoriesList> {
 
 class RestaurantDisplay extends StatelessWidget {
   List<RestaurantWidget> restaurants;
-  User user;
 
-  RestaurantDisplay({Key? key, required this.user, required this.restaurants})
-      : super(key: key);
+  RestaurantDisplay({Key? key, required this.restaurants}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +244,7 @@ class RestaurantDisplay extends StatelessWidget {
           ),
 
           //List of Restaurants
-          RestaurantList(user: user, restaurants: restaurants)
+          RestaurantList(restaurants: restaurants)
         ],
       ),
     );
@@ -255,10 +253,8 @@ class RestaurantDisplay extends StatelessWidget {
 
 class RestaurantList extends StatelessWidget {
   List<RestaurantWidget> restaurants;
-  User user;
 
-  RestaurantList({Key? key, required this.user, required this.restaurants})
-      : super(key: key);
+  RestaurantList({Key? key, required this.restaurants}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +267,7 @@ class RestaurantList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: restaurants.length,
             itemBuilder: (BuildContext context, int index) {
-              restaurants[index].user = user;
+              // restaurants[index].user = context.read<UserProvider>().getUser();
               return restaurants[index];
             }),
       ),

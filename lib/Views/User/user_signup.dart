@@ -6,10 +6,10 @@ import 'package:project/Entities/User.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/GoogleSignInProvider.dart';
+import '../../provider/UserProvider.dart';
 
 class User_Signup extends StatefulWidget {
-  final User user;
-  const User_Signup({Key? key, required this.user}) : super(key: key);
+  const User_Signup({Key? key}) : super(key: key);
 
   @override
   _User_SignupState createState() => _User_SignupState();
@@ -17,11 +17,6 @@ class User_Signup extends StatefulWidget {
 
 class _User_SignupState extends State<User_Signup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  var name;
-  var phone;
-  var location;
-
   ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: Color(0xFF154038),
       primary: const Color(0xFF5ABFA3),
@@ -30,8 +25,17 @@ class _User_SignupState extends State<User_Signup> {
       ),
       textStyle: const TextStyle(fontWeight: FontWeight.bold));
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
+  setController(TextEditingController controller, String text) {
+    controller.text = text;
+  }
+
   @override
   Widget build(BuildContext context) {
+    setController(nameController, context.read<UserProvider>().getName());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -70,28 +74,28 @@ class _User_SignupState extends State<User_Signup> {
                 child: Column(
                   children: [
                     //Name
-                    name = InputBox(
+                    InputBox(
                       label: 'Name',
                       hintText: 'Enter full name',
                       icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                      controller: TextEditingController(),
+                      controller: nameController,
                     ),
 
                     //Phone
-                    phone = InputBox(
+                    InputBox(
                       label: 'Phone Number',
                       hintText: '03xx-xxxxxxx',
                       icon: const Icon(Icons.phone, color: Color(0xFF5ABFA3)),
-                      controller: TextEditingController(),
+                      controller: phoneController,
                     ),
 
                     //Location
-                    location = InputBox(
+                    InputBox(
                       label: 'Location',
                       hintText: 'eg. Karachi',
                       icon: const Icon(Icons.location_on,
                           color: Color(0xFF5ABFA3)),
-                      controller: TextEditingController(),
+                      controller: locationController,
                     ),
 
                     //Continue Button
@@ -104,13 +108,17 @@ class _User_SignupState extends State<User_Signup> {
                           style: buttonStyle,
                           onPressed: () {
                             if (validate()) {
-                              User user = User(
-                                  name.controller.text,
-                                  phone.controller.text,
-                                  location.controller.text);
-
+                              context
+                                  .read<UserProvider>()
+                                  .setName(nameController.text);
+                              context
+                                  .read<UserProvider>()
+                                  .setPhone(phoneController.text);
+                              context
+                                  .read<UserProvider>()
+                                  .setLocation(locationController.text);
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MainPage(user: user)));
+                                  builder: (context) => MainPage()));
                             }
                           },
                           child: Row(

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:provider/provider.dart';
 
 import 'My_Order.dart';
 
 class User {
   //Name, phone no., location
-  String name;
+  String? name;
   late String _first;
-  String phone;
-  String location;
+  late String phone;
+  late String location;
+  String? email;
 
   //Profile picture
-  late Image profilePicture;
+  String? profilePicture;
 
   //Current order
   late MyOrder currentOrder;
@@ -23,8 +25,16 @@ class User {
 
   //Favs rests
 
-  User(this.name, this.phone, this.location) {
-    _first = name.substring(0, name.split(" ")[0].length);
+  User({this.name, this.profilePicture, this.email}) {
+    _first = name!.substring(0, name!.split(" ")[0].length);
+  }
+
+  void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  void setLocation(String location) {
+    this.location = location;
   }
 
   void CreateCart(Restaurant restaurant) {

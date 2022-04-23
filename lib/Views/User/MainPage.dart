@@ -5,12 +5,17 @@ import 'package:project/Views/User/Settings.dart';
 import 'package:project/Views/User/home.dart';
 import 'package:project/Views/User/Cart.dart';
 import 'package:project/Entities/User.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/GoogleSignInProvider.dart';
+import '../../provider/UserProvider.dart';
 
 class MainPage extends StatefulWidget {
-  User user;
   int i = 0;
 
-  MainPage({Key? key, required this.user}) : super(key: key);
+  MainPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -33,9 +38,9 @@ class _MainPageState extends State<MainPage> {
       body: PageView(
         controller: controller,
         children: [
-          Home(user: widget.user),
-          Cart(user: widget.user),
-          Profile(user: widget.user),
+          Home(),
+          Cart(user: context.read<UserProvider>().getUser()),
+          Profile(),
           Settings(),
         ],
         onPageChanged: (index) {

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/MyOrders.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+import 'package:provider/provider.dart';
+import '../../provider/UserProvider.dart';
 import 'User_TableReservations.dart';
 
 import '../../Entities/Restaurant.dart';
@@ -12,9 +14,7 @@ import 'Widgets/Header.dart';
 import 'Widgets/ProfilePicture.dart';
 
 class Profile extends StatefulWidget {
-  User user;
-
-  Profile({Key? key, required this.user}) : super(key: key);
+  Profile({Key? key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -54,7 +54,7 @@ class _ProfileState extends State<Profile> {
                     bottom: 25,
                   ),
                   ProfilePicture(),
-                  ProfileDetails(user: widget.user)
+                  ProfileDetails()
                 ],
               ),
             ),
@@ -68,9 +68,7 @@ class _ProfileState extends State<Profile> {
 }
 
 class ProfileDetails extends StatelessWidget {
-  User user;
-
-  ProfileDetails({Key? key, required this.user}) : super(key: key);
+  ProfileDetails({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +76,12 @@ class ProfileDetails extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 24, bottom: 4),
-          child: Text(user.name,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
+          child: Text(context.read<UserProvider>().getName(),
+              style:
+                  const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
         ),
-        Text('${user.location}, Pakistan', style: TextStyle(fontSize: 14)),
+        Text('${context.read<UserProvider>().getLocation()}, Pakistan',
+            style: const TextStyle(fontSize: 14)),
       ],
     );
   }
