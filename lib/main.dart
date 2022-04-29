@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:project/Entities/User.dart';
-import 'package:project/provider/GoogleSignInProvider.dart';
-import 'package:project/provider/UserProvider.dart';
+import 'package:project/Providers/GoogleSignInProvider.dart';
+import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
+import 'Views/User/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         .read<GoogleSignInProvider>()
                         .googleLogin()
                         .whenComplete(
-                      () {
+                      () async {
                         if (context
                             .read<GoogleSignInProvider>()
                             .checkRestaurant()) {
@@ -124,24 +124,35 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => const RestaurantHome()),
                           );
                         } else {
-                          context.read<UserProvider>().createUser(
-                              name: context
-                                  .read<GoogleSignInProvider>()
-                                  .user
-                                  .displayName,
-                              profilePicture: context
-                                  .read<GoogleSignInProvider>()
-                                  .user
-                                  .photoUrl,
-                              email: context
-                                  .read<GoogleSignInProvider>()
-                                  .user
-                                  .email);
+                           var user = context.read<GoogleSignInProvider>().user;
+                           context.read<UserProvider>().createUser(
+                               name: user
+                                   ?.displayName,
+                               profilePicture: user
+                                   ?.photoUrl,
+                               email: user
+                                   ?.email);
 
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const User_Signup()),
-                          );
+                          if (user != null) {
+                            bool userExists = await context
+                                .read<UserProvider>()
+                                .checkUser(context
+                                    .read<GoogleSignInProvider>()
+                                    .user
+                                    ?.email);
+                            if (!userExists) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => const User_Signup()),
+                              );
+                            }
+                            else{
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage()),
+                              );
+                            }
+                          }
                         }
                       },
                     );

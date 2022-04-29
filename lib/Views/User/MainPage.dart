@@ -7,8 +7,8 @@ import 'package:project/Views/User/Cart.dart';
 import 'package:project/Entities/User.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/GoogleSignInProvider.dart';
-import '../../provider/UserProvider.dart';
+import '../../Providers/GoogleSignInProvider.dart';
+import '../../Providers/UserProvider.dart';
 
 class MainPage extends StatefulWidget {
   int i = 0;

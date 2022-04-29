@@ -3,7 +3,7 @@ import 'package:project/Entities/Restaurant.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Entities/User.dart';
-import '../../../provider/UserProvider.dart';
+import '../../../Providers/UserProvider.dart';
 import '../UserMenu.dart';
 
 class RestaurantWidget extends StatefulWidget {

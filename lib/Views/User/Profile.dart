@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Views/User/MyOrders.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:provider/provider.dart';
-import '../../provider/UserProvider.dart';
+import '../../Providers/UserProvider.dart';
 import 'User_TableReservations.dart';
 
 import '../../Entities/Restaurant.dart';

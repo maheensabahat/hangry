@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:project/Entities/User.dart';
+import '../NetworkLayer/NetworkCall.dart';
 
 class UserProvider extends ChangeNotifier {
   late User user;
+
+  NetworkCall networkCall = FirebaseNetworkCall();
 
   void createUser({name, profilePicture, email}) {
     user = User(name: name, profilePicture: profilePicture, email: email);
@@ -48,5 +51,20 @@ class UserProvider extends ChangeNotifier {
 
   bool getQR() {
     return user.qr;
+  }
+
+  Future checkUser(String? email) async {
+    // Firebase API call
+    if (email != null) {
+      var response = await networkCall.checkUser(email);
+      return response;
+    }
+    notifyListeners();
+  }
+
+  Future addUser(User user) async {
+    // Firebase API call
+    await networkCall.addUser(user);
+    notifyListeners();
   }
 }

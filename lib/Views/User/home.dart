@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
-import '../../provider/UserProvider.dart';
+import '../../Providers/UserProvider.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
