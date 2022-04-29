@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "159589195892",
+    "firebase_url": "https://hangry-fad8f-default-rtdb.firebaseio.com",
     "project_id": "hangry-fad8f",
     "storage_bucket": "hangry-fad8f.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "159589195892-b792sgk4f68c9hkgbap0bes3euq2qrmk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "f9fc595a96e3ab71237b6f50c341240886d4175c"
+          }
+        },
+        {
+          "client_id": "159589195892-df98lhvl97o0cqvqgjq236k4pg60s7rq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project",
+            "certificate_hash": "6540f68f1a75e3530eb588ae6ee523e013c63932"
+          }
+        },
         {
           "client_id": "159589195892-qs1u4hq7p6a9lupv7kpmjb3i0kctkrhj.apps.googleusercontent.com",
           "client_type": 3

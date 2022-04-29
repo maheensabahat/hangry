@@ -5,8 +5,8 @@ import 'package:project/Views/User/MainPage.dart';
 import 'package:project/Entities/User.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/GoogleSignInProvider.dart';
-import '../../provider/UserProvider.dart';
+import '../../Providers/GoogleSignInProvider.dart';
+import '../../Providers/UserProvider.dart';
 
 class User_Signup extends StatefulWidget {
   const User_Signup({Key? key}) : super(key: key);
@@ -117,6 +117,12 @@ class _User_SignupState extends State<User_Signup> {
                               context
                                   .read<UserProvider>()
                                   .setLocation(locationController.text);
+
+                              User user =
+                                  context.read<UserProvider>().getUser();
+
+                              context.read<UserProvider>().addUser(user);
+
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MainPage()));
                             }

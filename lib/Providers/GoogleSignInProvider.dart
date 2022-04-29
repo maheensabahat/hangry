@@ -8,7 +8,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _user;
 
-  GoogleSignInAccount get user => _user!;
+  GoogleSignInAccount? get user => _user;
   bool isLoggedIn = false;
   bool isLoaded = false;
   bool _isRestaurant = false;
@@ -20,6 +20,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     final googleUser = await googleSignIn.signIn().catchError((onError) {
       print("Error $onError");
     });
+
     if (googleUser == null) return;
     _user = googleUser;
     final googleAuth = await googleUser.authentication;
