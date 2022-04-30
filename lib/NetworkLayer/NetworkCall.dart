@@ -30,8 +30,12 @@ class FirebaseNetworkCall implements NetworkCall {
 
   Future<void> addUser(User user) {
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    UserModel userModel =
-        UserModel(name: user.name, email: user.email, location: user.location);
+    UserModel userModel = UserModel(
+        name: user.name,
+        email: user.email,
+        location: user.location,
+        phone: user.phone,
+        image: user.profilePicture);
 
     return users
         .add(userModel.toJson())

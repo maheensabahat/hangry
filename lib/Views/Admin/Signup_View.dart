@@ -59,18 +59,21 @@ class _Signup_ViewState extends State<Signup_View> {
                       hintText: 'Pre-filled data with Restaurant name',
                       icon: Icon(Icons.restaurant, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Owner\'s name',
                       hintText: 'Pre-filled data with Owner\'s name',
                       icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Cuisines Served',
                       hintText: 'Pre-filled data with cuisines served',
                       icon: Icon(Icons.fastfood, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Timings',
@@ -79,12 +82,14 @@ class _Signup_ViewState extends State<Signup_View> {
                       icon: Icon(Icons.access_time_outlined,
                           color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Restaurant\'s Location',
                       hintText: 'Pre-filled data with Restaurant\'s locationss',
                       icon: Icon(Icons.location_on, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),

@@ -246,21 +246,21 @@ class Reserve_QR extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: FloatingActionButton(
-              heroTag: null,
-              child: Icon(Icons.qr_code),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ScanQR(
-                          user: user,
-                          restaurant: restaurant,
-                        )));
-              },
-              backgroundColor: Color(0xff51bfa3),
-            ),
-          )
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          //   child: FloatingActionButton(
+          //     heroTag: null,
+          //     child: Icon(Icons.qr_code),
+          //     onPressed: () {
+          //       Navigator.of(context).push(MaterialPageRoute(
+          //           builder: (context) => ScanQR(
+          //                 user: user,
+          //                 restaurant: restaurant,
+          //               )));
+          //     },
+          //     backgroundColor: Color(0xff51bfa3),
+          //   ),
+          // )
         ],
       ),
     );

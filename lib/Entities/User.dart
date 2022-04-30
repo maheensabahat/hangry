@@ -8,7 +8,7 @@ class User {
   //Name, phone no., location
   String? name;
   late String _first;
-  late String phone;
+  late int phone;
   late String location;
   String? email;
 
@@ -29,7 +29,7 @@ class User {
     _first = name!.substring(0, name!.split(" ")[0].length);
   }
 
-  void setPhone(String phone) {
+  void setPhone(int phone) {
     this.phone = phone;
   }
 

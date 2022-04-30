@@ -18,7 +18,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPhone(String phone) {
+  void setPhone(int phone) {
     user.phone = phone;
     notifyListeners();
   }
@@ -51,6 +51,10 @@ class UserProvider extends ChangeNotifier {
 
   bool getQR() {
     return user.qr;
+  }
+
+  String? getImage() {
+    return user.profilePicture;
   }
 
   Future checkUser(String? email) async {

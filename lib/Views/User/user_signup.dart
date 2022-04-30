@@ -79,15 +79,16 @@ class _User_SignupState extends State<User_Signup> {
                       hintText: 'Enter full name',
                       icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
                       controller: nameController,
+                      isNum: false,
                     ),
 
                     //Phone
                     InputBox(
-                      label: 'Phone Number',
-                      hintText: '03xx-xxxxxxx',
-                      icon: const Icon(Icons.phone, color: Color(0xFF5ABFA3)),
-                      controller: phoneController,
-                    ),
+                        label: 'Phone Number',
+                        hintText: '03xx-xxxxxxx',
+                        icon: const Icon(Icons.phone, color: Color(0xFF5ABFA3)),
+                        controller: phoneController,
+                        isNum: true),
 
                     //Location
                     InputBox(
@@ -96,6 +97,7 @@ class _User_SignupState extends State<User_Signup> {
                       icon: const Icon(Icons.location_on,
                           color: Color(0xFF5ABFA3)),
                       controller: locationController,
+                      isNum: false,
                     ),
 
                     //Continue Button
@@ -113,7 +115,7 @@ class _User_SignupState extends State<User_Signup> {
                                   .setName(nameController.text);
                               context
                                   .read<UserProvider>()
-                                  .setPhone(phoneController.text);
+                                  .setPhone(int.parse(phoneController.text));
                               context
                                   .read<UserProvider>()
                                   .setLocation(locationController.text);

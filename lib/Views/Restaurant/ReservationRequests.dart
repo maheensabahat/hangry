@@ -65,12 +65,14 @@ class _ReservationRequestsState extends State<ReservationRequests> {
                       hintText: 'Pre-filled text field',
                       icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Table reserved',
                       hintText: 'Pre-filled text field containing table no.',
                       icon: Icon(Icons.chair, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'Time table reserved on',
@@ -78,6 +80,7 @@ class _ReservationRequestsState extends State<ReservationRequests> {
                       icon:
                           Icon(Icons.timer_outlined, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     InputBox(
                       label: 'No. of persons',
@@ -85,6 +88,7 @@ class _ReservationRequestsState extends State<ReservationRequests> {
                           'Pre-filled text field containing no. of persons',
                       icon: Icon(Icons.group, color: Color(0xFF5ABFA3)),
                       controller: TextEditingController(),
+                      isNum: false,
                     ),
                     if (widget.type == 'Pending' ||
                         widget.type == 'Rejected') ...[

@@ -7,9 +7,12 @@ import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 import '../../Providers/UserProvider.dart';
+import 'ScanQR.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  User user;
+
+  Home({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -78,6 +81,22 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: null,
+        label: Text('Scan QR', style: TextStyle(color: Colors.black)),
+        icon: Icon(
+          Icons.qr_code,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ScanQR(
+                    user: widget.user,
+                  )));
+        },
+        backgroundColor: Color(0xff51bfa3),
+      ),
     );
   }
 }
@@ -112,7 +131,10 @@ class HomeHeader extends StatelessWidget {
                 'What do you\nwant to eat today?',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              Picture(radius: 40, border: 2, image: 'assets/profile.png'),
+              Picture(
+                  radius: 40,
+                  border: 2,
+                  image: context.read<UserProvider>().getImage()),
             ],
           ),
         ),

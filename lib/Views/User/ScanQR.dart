@@ -6,10 +6,10 @@ import '../../Entities/User.dart';
 import '../../Entities/My_Order.dart';
 
 class ScanQR extends StatefulWidget {
-  Restaurant restaurant;
+  late Restaurant restaurant;
   User user;
 
-  ScanQR({Key? key, required this.user, required this.restaurant})
+  ScanQR({Key? key, required this.user})
       : super(key: key);
 
   @override
@@ -39,11 +39,13 @@ class _ScanQRState extends State<ScanQR> {
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             'Scan QR',
-            style: TextStyle(fontSize: 30, color: Colors.black),
+            style: TextStyle(fontSize: 22, color: Colors.black),
           ),
         ),
         centerTitle: true,
       ),
+
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
