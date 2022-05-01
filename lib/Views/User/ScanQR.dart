@@ -1,22 +1,46 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Views/User/UserMenu.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../Entities/User.dart';
 import '../../Entities/My_Order.dart';
 
 class ScanQR extends StatefulWidget {
-  late Restaurant restaurant;
+  Restaurant restaurant = Restaurant(
+      "Xander's",
+      "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+      'Cafe',
+      true,
+      'assets/restaurant.jpg');
   User user;
 
-  ScanQR({Key? key, required this.user})
-      : super(key: key);
+  ScanQR({Key? key, required this.user}) : super(key: key);
 
   @override
   State<ScanQR> createState() => _ScanQRState();
 }
 
 class _ScanQRState extends State<ScanQR> {
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,38 +68,39 @@ class _ScanQRState extends State<ScanQR> {
         ),
         centerTitle: true,
       ),
-
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               alignment: Alignment.center,
-              child: const Text(
-                'Camera will open here',
-                style: TextStyle(fontSize: 20),
-              ),
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 2.7,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width / 1.7,
+              child: _buildQrView(context),
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: MediaQuery.of(context).size.width * 0.85,
               color: const Color(0xff51bfa3),
+            ),
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  if (result != null)
+                    Text(
+                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                  else
+                    const Text('Scan a code'),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 36),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  if (!widget.user.qr) {
+                  if (!widget.user.qr && result != null) {
                     widget.user.qr = true;
                     widget.user.CreateCart(widget.restaurant);
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            UserMenu(
+                        builder: (context) => UserMenu(
                               user: widget.user,
                               scanned: true,
                               restaurant: widget.restaurant,
@@ -91,5 +116,52 @@ class _ScanQRState extends State<ScanQR> {
         ),
       ),
     );
+  }
+
+  Widget _buildQrView(BuildContext context) {
+    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 200.0
+        : 300.0;
+    // To ensure the Scanner view is properly sizes after rotation
+    // we need to listen for Flutter SizeChanged notification and update controller
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Color(0xff51bfa3),
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 7,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+    });
+  }
+
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

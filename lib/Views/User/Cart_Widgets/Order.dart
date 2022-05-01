@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/OrderSummary.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
+import 'package:provider/provider.dart';
 import '../../../Entities/My_Order.dart';
+import '../../../Providers/UserProvider.dart';
 
 class Order extends StatelessWidget {
   String name;
@@ -18,10 +20,7 @@ class Order extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(6.0),
             child: Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               height: 90,
               decoration: const BoxDecoration(
                 color: Color(0xF0ADD9C9),
@@ -34,7 +33,7 @@ class Order extends StatelessWidget {
           Picture(
             radius: 35,
             border: 3,
-            image: 'assets/profile.png',
+            image: context.read<UserProvider>().getImage(),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 90, top: 20),
@@ -56,24 +55,23 @@ class Order extends StatelessWidget {
                         fontSize: 13,
                         fontStyle: FontStyle.italic),
                   ),
-                ] else
-                  ...[
-                    name == 'You'
-                        ? Text(
-                      'have placed order',
-                      style: TextStyle(
-                          color: Color(0xFF154038),
-                          fontSize: 13,
-                          fontStyle: FontStyle.italic),
-                    )
-                        : Text(
-                      'has placed order',
-                      style: TextStyle(
-                          color: Color(0xFF154038),
-                          fontSize: 13,
-                          fontStyle: FontStyle.italic),
-                    )
-                  ],
+                ] else ...[
+                  name == 'You'
+                      ? Text(
+                          'have placed order',
+                          style: TextStyle(
+                              color: Color(0xFF154038),
+                              fontSize: 13,
+                              fontStyle: FontStyle.italic),
+                        )
+                      : Text(
+                          'has placed order',
+                          style: TextStyle(
+                              color: Color(0xFF154038),
+                              fontSize: 13,
+                              fontStyle: FontStyle.italic),
+                        )
+                ],
               ],
             ),
           ),

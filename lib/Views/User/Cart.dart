@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/ShoppingCart.dart';
 import 'package:project/Views/User/Widgets/Header.dart';
@@ -30,7 +31,7 @@ class _CartState extends State<Cart> {
           Center(
             child: Header(
               title: 'Cart',
-              bottom: 20,
+              bottom: 0,
             ),
           ),
           if (widget.user.qr) ...[

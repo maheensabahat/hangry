@@ -8,8 +8,8 @@ class User {
   //Name, phone no., location
   String? name;
   late String _first;
-  late int phone;
-  late String location;
+  late int? phone;
+  late String? location;
   String? email;
 
   //Profile picture

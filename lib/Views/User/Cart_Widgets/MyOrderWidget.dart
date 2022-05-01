@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project/Providers/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Entities/My_Order.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
@@ -36,7 +38,10 @@ class _MyOrderState extends State<MyOrderWidget> {
                     ),
                   ),
                 ),
-                Picture(radius: 40, border: 4, image: 'assets/profile.png'),
+                Picture(
+                    radius: 40,
+                    border: 4,
+                    image: context.read<UserProvider>().getImage()),
                 Padding(
                   padding: const EdgeInsets.only(left: 100, top: 20),
                   child: Column(
@@ -134,6 +139,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                                   ),
                                   Spacer(),
                                   Counter(
+                                      item: widget.myOrder.list[index],
                                       min: 0,
                                       max: 5,
                                       value:

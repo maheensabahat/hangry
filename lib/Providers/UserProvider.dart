@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:project/Entities/User.dart';
+import '../Models/UserModel.dart';
 import '../NetworkLayer/NetworkCall.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -13,12 +15,12 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLocation(String location) {
+  void setLocation(String? location) {
     user.location = location;
     notifyListeners();
   }
 
-  void setPhone(int phone) {
+  void setPhone(int? phone) {
     user.phone = phone;
     notifyListeners();
   }
@@ -41,7 +43,7 @@ class UserProvider extends ChangeNotifier {
     return user.first;
   }
 
-  String getLocation() {
+  String? getLocation() {
     return user.location;
   }
 
@@ -69,6 +71,22 @@ class UserProvider extends ChangeNotifier {
   Future addUser(User user) async {
     // Firebase API call
     await networkCall.addUser(user);
+    notifyListeners();
+  }
+
+  Future getUserFromDB(String email) async {
+    var response = await networkCall.getUser(email);
+    Map<String, dynamic> userMap = jsonDecode(response);
+
+    UserModel userModel = UserModel.fromJson(userMap);
+    if (userModel != null) {
+      this.user = User(
+          name: userModel.name,
+          profilePicture: userModel.image,
+          email: userModel.email);
+      setLocation(userModel.location);
+      setPhone(userModel.phone);
+    }
     notifyListeners();
   }
 }
