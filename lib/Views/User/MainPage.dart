@@ -4,10 +4,7 @@ import 'package:project/Views/User/Profile.dart';
 import 'package:project/Views/User/Settings.dart';
 import 'package:project/Views/User/home.dart';
 import 'package:project/Views/User/Cart.dart';
-import 'package:project/Entities/User.dart';
 import 'package:provider/provider.dart';
-
-import '../../Providers/GoogleSignInProvider.dart';
 import '../../Providers/UserProvider.dart';
 
 class MainPage extends StatefulWidget {
@@ -38,7 +35,7 @@ class _MainPageState extends State<MainPage> {
       body: PageView(
         controller: controller,
         children: [
-          Home(),
+          Home(user: context.read<UserProvider>().getUser()),
           Cart(user: context.read<UserProvider>().getUser()),
           Profile(),
           Settings(),

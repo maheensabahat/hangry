@@ -1,10 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../Providers/UserProvider.dart';
 
 class Picture extends StatelessWidget {
   double radius;
   double border;
-  String image;
+  String? image;
 
   Picture(
       {Key? key,
@@ -20,10 +23,15 @@ class Picture extends StatelessWidget {
       radius: radius + 4,
       child: CircleAvatar(
         radius: radius,
-        backgroundImage: AssetImage(image),
+        // backgroundImage: AssetImage(image),
+        backgroundImage: checkImage(image) ? NetworkImage(image!) : null,
         backgroundColor: Colors.transparent,
       ),
     );
+  }
+
+  bool checkImage(String? image) {
+    return image != null;
   }
 }
 
@@ -50,7 +58,7 @@ class ProfilePicture extends StatelessWidget {
             child: Picture(
               radius: 70,
               border: 4,
-              image: 'assets/profile.png',
+              image: context.read<UserProvider>().getImage(),
             )),
 
         //Edit Button

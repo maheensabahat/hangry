@@ -5,13 +5,15 @@ class InputBox extends StatefulWidget {
   String hintText;
   Icon icon;
   TextEditingController controller;
+  bool isNum = false;
 
   InputBox(
       {Key? key,
       required this.label,
       required this.hintText,
       required this.icon,
-      required this.controller})
+      required this.controller,
+      required this.isNum})
       : super(key: key);
 
   @override
@@ -33,9 +35,15 @@ class InputBoxState extends State<InputBox> {
           padding: const EdgeInsets.only(top: 8, bottom: 24),
           child: TextFormField(
             controller: widget.controller,
+            enableInteractiveSelection: false,
+            keyboardType:
+                widget.isNum ? TextInputType.number : TextInputType.text,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return '*Required';
+              }
+              if (widget.isNum && value.length != 11) {
+                return 'Invalid phone number';
               }
               return null;
             },

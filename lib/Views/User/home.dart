@@ -7,9 +7,20 @@ import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 import '../../Providers/UserProvider.dart';
+import 'Qr.dart';
+import 'ScanQR.dart';
+import 'UserMenu.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  Restaurant restaurant = Restaurant(
+      "Xander's",
+      "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+      'Cafe',
+      true,
+      'assets/restaurant.jpg');
+  User user;
+
+  Home({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -78,6 +89,40 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: !widget.user.qr
+          ? FloatingActionButton.extended(
+              heroTag: null,
+              label: Text('Scan QR', style: TextStyle(color: Colors.black)),
+              icon: Icon(
+                Icons.qr_code,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ScanQR(
+                          user: widget.user,
+                        )));
+              },
+              backgroundColor: Color(0xff51bfa3),
+            )
+          : FloatingActionButton.extended(
+              heroTag: null,
+              label: Text('Menu', style: TextStyle(color: Colors.black)),
+              icon: Icon(
+                Icons.restaurant_menu,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UserMenu(
+                          user: context.read<UserProvider>().getUser(),
+                          scanned: context.read<UserProvider>().getQR(),
+                          restaurant: widget.restaurant,
+                        )));
+              },
+              backgroundColor: Color(0xff51bfa3),
+            ),
     );
   }
 }
@@ -92,6 +137,12 @@ class HomeHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Padding(
+        //   padding: EdgeInsets.only(
+        //       top: 35, left: MediaQuery.of(context).size.width * 0.8),
+        //   child: Icon(Icons.logout),
+        // ),
+
         //Hi Jimmy
         Padding(
           padding: const EdgeInsets.only(top: 70, left: 24),
@@ -112,7 +163,10 @@ class HomeHeader extends StatelessWidget {
                 'What do you\nwant to eat today?',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              Picture(radius: 40, border: 2, image: 'assets/profile.png'),
+              Picture(
+                  radius: 40,
+                  border: 2,
+                  image: context.read<UserProvider>().getImage()),
             ],
           ),
         ),

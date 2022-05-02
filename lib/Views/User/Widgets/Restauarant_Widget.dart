@@ -114,7 +114,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => UserMenu(
                           user: context.read<UserProvider>().getUser(),
-                          scanned: context.read<UserProvider>().getQR(),
+                          scanned: false,
                           restaurant: widget.restaurant,
                         )));
               },

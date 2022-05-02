@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Models/UserModel.dart';
 
@@ -9,6 +11,8 @@ abstract class NetworkCall {
   Future<bool> checkUser(String email);
 
   Future addUser(User user);
+
+  Future<String> getUser(String email);
 }
 
 class FirebaseNetworkCall implements NetworkCall {
@@ -30,8 +34,12 @@ class FirebaseNetworkCall implements NetworkCall {
 
   Future<void> addUser(User user) {
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    UserModel userModel =
-        UserModel(name: user.name, email: user.email, location: user.location);
+    UserModel userModel = UserModel(
+        name: user.name,
+        email: user.email,
+        location: user.location,
+        phone: user.phone,
+        image: user.profilePicture);
 
     return users
         .add(userModel.toJson())
@@ -48,5 +56,21 @@ class FirebaseNetworkCall implements NetworkCall {
     var querySnapshot = await myMapQuery.get();
     var totalEquals = querySnapshot.docs.length;
     return totalEquals == 1;
+  }
+
+  @override
+  Future<String> getUser(String email) async {
+    String userQuery = "";
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        userQuery = jsonEncode(doc.data());
+      });
+      return userQuery;
+    });
+    return userQuery;
   }
 }

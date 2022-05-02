@@ -19,10 +19,11 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
   @override
   void initState() {
     super.initState();
-    if(widget.isEdit){
+    if (widget.isEdit) {
       title = 'Edit Dish';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -66,34 +67,42 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: InputBox(
-                        label: 'Name',
-                        hintText: "dish's name",
-                        icon: Icon(Icons.edit),
-                        controller: TextEditingController()),
+                      label: 'Name',
+                      hintText: "dish's name",
+                      icon: Icon(Icons.edit),
+                      controller: TextEditingController(),
+                      isNum: false,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: InputBox(
-                        label: 'Description',
-                        hintText: "dish's description",
-                        icon: Icon(Icons.edit),
-                        controller: TextEditingController()),
+                      label: 'Description',
+                      hintText: "dish's description",
+                      icon: Icon(Icons.edit),
+                      controller: TextEditingController(),
+                      isNum: false,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: InputBox(
-                        label: 'Category',
-                        hintText: "dish's Category",
-                        icon: Icon(Icons.edit),
-                        controller: TextEditingController()),
+                      label: 'Category',
+                      hintText: "dish's Category",
+                      icon: Icon(Icons.edit),
+                      controller: TextEditingController(),
+                      isNum: false,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
                     child: InputBox(
-                        label: 'Price',
-                        hintText: "dish's price per unit",
-                        icon: Icon(Icons.edit),
-                        controller: TextEditingController()),
+                      label: 'Price',
+                      hintText: "dish's price per unit",
+                      icon: Icon(Icons.edit),
+                      controller: TextEditingController(),
+                      isNum: false,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -108,8 +117,7 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
                                 builder: (context) => const RestaurantMenu()),
                           );
                         },
-                        child:
-                            widget.isEdit ? Text('Save') : Text('Confirm'),
+                        child: widget.isEdit ? Text('Save') : Text('Confirm'),
                         style: ElevatedButton.styleFrom(
                             primary: const Color(0xff5abfa3)),
                       ),

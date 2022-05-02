@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/OrderItem.dart';
 
 class Counter extends StatefulWidget {
   int min;
   int max;
   int value;
   int increments;
+  OrderItem item;
 
   Counter(
       {Key? key,
+      required this.item,
       required this.min,
       required this.max,
       required this.value,
@@ -86,12 +89,14 @@ class _CounterState extends State<Counter> {
   void add() {
     if (widget.value + widget.increments <= widget.max) {
       widget.value = widget.value + widget.increments;
+      widget.item.quantity = widget.value;
     }
   }
 
   void sub() {
     if (widget.value - widget.increments >= widget.min) {
       widget.value = widget.value - widget.increments;
+      widget.item.quantity = widget.value;
     }
   }
 }

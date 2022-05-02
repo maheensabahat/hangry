@@ -86,7 +86,7 @@ class _SummaryState extends State<Summary> {
                 Padding(
                   padding: const EdgeInsets.only(left: 40),
                   child: Text(
-                    '\$ ' + (total * 1.13).toString(),
+                    '\$ ' + (total * 1.13).toStringAsFixed(2),
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w900,

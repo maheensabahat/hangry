@@ -124,16 +124,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => const RestaurantHome()),
                           );
                         } else {
-                           var user = context.read<GoogleSignInProvider>().user;
-                           context.read<UserProvider>().createUser(
-                               name: user
-                                   ?.displayName,
-                               profilePicture: user
-                                   ?.photoUrl,
-                               email: user
-                                   ?.email);
+                          var googleuser = context.read<GoogleSignInProvider>().user;
 
-                          if (user != null) {
+                          context.read<UserProvider>().createUser(
+                              name: googleuser?.displayName,
+                              profilePicture: googleuser?.photoUrl,
+                              email: googleuser?.email);
+
+                          if (googleuser != null) {
                             bool userExists = await context
                                 .read<UserProvider>()
                                 .checkUser(context
@@ -145,8 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 MaterialPageRoute(
                                     builder: (context) => const User_Signup()),
                               );
-                            }
-                            else{
+                            } else {
+                              context.read<UserProvider>().getUserFromDB(googleuser.email);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => MainPage()),
