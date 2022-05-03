@@ -13,7 +13,7 @@ import '../../Entities/My_Order.dart';
 class ScanQR extends StatefulWidget {
   Restaurant restaurant = Restaurant(
       "Xander's",
-      "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+      "Xander's is a modern gourmet café - the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
       'Cafe',
       true,
       'assets/restaurant.jpg');
@@ -104,6 +104,7 @@ class _ScanQRState extends State<ScanQR> {
                               user: widget.user,
                               scanned: true,
                               restaurant: widget.restaurant,
+                              data: result!.code as String,
                             )));
                   }
                 },

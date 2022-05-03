@@ -1,7 +1,6 @@
 import 'User.dart';
 
 class ShoppingCart {
-
   late List<User> friends = [];
   bool confirmOrder = false;
 
@@ -14,14 +13,13 @@ class ShoppingCart {
   }
 
   //to check if all friends have placed order
-  void checkAlldone(){
+  void checkAlldone() {
     friends.forEach((element) {
-      if(!element.currentOrder.isPlaced){
+      if (!element.currentOrder.isPlaced) {
         confirmOrder = false;
         return;
       }
     });
     confirmOrder = true;
   }
-
 }

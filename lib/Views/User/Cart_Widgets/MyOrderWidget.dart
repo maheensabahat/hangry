@@ -46,7 +46,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                   padding: const EdgeInsets.only(left: 100, top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         'You',
                         style: TextStyle(

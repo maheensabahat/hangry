@@ -14,12 +14,14 @@ class UserMenu extends StatefulWidget {
   bool scanned;
   Restaurant restaurant;
   User user;
+  late String data;
 
   UserMenu(
       {Key? key,
       required this.user,
       required this.scanned,
-      required this.restaurant})
+      required this.restaurant,
+      data = ""})
       : super(key: key);
 
   @override
