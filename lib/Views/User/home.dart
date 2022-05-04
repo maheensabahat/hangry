@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/Providers/GoogleSignInProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+import 'package:project/main.dart';
 import 'package:provider/provider.dart';
 
 import '../../Entities/Category.dart';
@@ -137,20 +139,35 @@ class HomeHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Padding(
-        //   padding: EdgeInsets.only(
-        //       top: 35, left: MediaQuery.of(context).size.width * 0.8),
-        //   child: Icon(Icons.logout),
-        // ),
-
         //Hi Jimmy
-        Padding(
-          padding: const EdgeInsets.only(top: 70, left: 24),
-          child: Text('Hi, $userName!',
-              style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF5ABFA3))),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 70, left: 24),
+              child: Text('Hi, $userName!',
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF5ABFA3))),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: 30, left: MediaQuery.of(context).size.width * 0.55),
+              child: InkWell(
+                child: Icon(
+                  Icons.logout,
+                  color: Color(0xFF5ABFA3),
+                ),
+                onTap: () {
+                  context.read<GoogleSignInProvider>().signOut();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage(title: '')),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
 
         //Profile pic and Bold Text

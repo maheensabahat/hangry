@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
@@ -72,115 +73,134 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            //Logo
-            Image.asset(
-              'assets/Hangry.png',
-              width: 280,
-              height: 280,
-            ),
-            //Heading
-            const Padding(
-              padding: EdgeInsets.only(top: 80),
-              child: Text(
-                'Welcome to Hangry!',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            //Sub heading
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 24),
-              child: Text(
-                'Food you love with amazing discounts \n all in one place.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              //Logo
+              FadeInUp(
+                delay: Duration(milliseconds: 800),
+                child: Image.asset(
+                  'assets/Hangry.png',
+                  width: 280,
+                  height: 280,
                 ),
               ),
-            ),
 
-            //Button
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 90),
-              child: SizedBox(
-                width: 220,
-                height: 40,
-                child: ElevatedButton(
-                  style: buttonStyle,
-                  onPressed: () {
-                    context
-                        .read<GoogleSignInProvider>()
-                        .googleLogin()
-                        .whenComplete(
-                      () async {
-                        if (context
-                            .read<GoogleSignInProvider>()
-                            .checkRestaurant()) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const RestaurantHome()),
-                          );
-                        } else {
-                          var googleuser =
-                              context.read<GoogleSignInProvider>().user;
-
-                          context.read<UserProvider>().createUser(
-                              name: googleuser?.displayName,
-                              profilePicture: googleuser?.photoUrl,
-                              email: googleuser?.email);
-
-                          if (googleuser != null) {
-                            bool userExists = await context
-                                .read<UserProvider>()
-                                .checkUser(context
-                                    .read<GoogleSignInProvider>()
-                                    .user
-                                    ?.email);
-                            if (!userExists) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => const User_Signup()),
-                              );
-                            } else {
-                              context
-                                  .read<UserProvider>()
-                                  .getUserFromDB(googleuser.email);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => MainPage()),
-                              );
-                            }
-                          }
-                        }
-                      },
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/googlelogo.png',
-                          width: 22, height: 22),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8),
-                        child: Text('Continue with Google'),
-                      ),
-                    ],
+              //Heading
+              FadeInUp(
+                delay: Duration(milliseconds: 1000),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: Text(
+                    'Welcome to Hangry!',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              child: const Text('Sign out (for testing)'),
-              onPressed: () {
-                context.read<GoogleSignInProvider>().signOut();
-              },
-            ),
-          ],
+
+              //Sub heading
+              FadeInUp(
+                delay: Duration(milliseconds: 1200),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 8, bottom: 24),
+                  child: Text(
+                    'Food you love with amazing discounts \n all in one place.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ),
+
+              //Button
+              FadeInUp(
+                delay: Duration(milliseconds: 1500),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 90),
+                  child: Consumer<GoogleSignInProvider>(
+                      builder: (context, signIn, child) {
+                        if (signIn.isLoggedIn) {
+                          return SizedBox(
+                    width: 220,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: buttonStyle,
+                      onPressed: () {
+                        context
+                            .read<GoogleSignInProvider>()
+                            .googleLogin()
+                            .whenComplete(
+                          () async {
+                            if (context
+                                .read<GoogleSignInProvider>()
+                                .checkRestaurant()) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RestaurantHome()),
+                              );
+                            } else {
+                              var googleuser =
+                                  context.read<GoogleSignInProvider>().user;
+
+                              context.read<UserProvider>().createUser(
+                                  name: googleuser?.displayName,
+                                  profilePicture: googleuser?.photoUrl,
+                                  email: googleuser?.email);
+
+                              if (googleuser != null) {
+                                bool userExists = await context
+                                    .read<UserProvider>()
+                                    .checkUser(context
+                                        .read<GoogleSignInProvider>()
+                                        .user
+                                        ?.email);
+                                if (!userExists) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const User_Signup()),
+                                  );
+                                } else {
+                                  context
+                                      .read<UserProvider>()
+                                      .getUserFromDB(googleuser.email);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => MainPage()),
+                                  );
+                                }
+                              }
+                            }
+                          },
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/googlelogo.png',
+                              width: 22, height: 22),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Text('Continue with Google'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );} else{
+                          return CircularProgressIndicator(
+                            color: Color(0xFF5ABFA3),
+                          );
+                        }})
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

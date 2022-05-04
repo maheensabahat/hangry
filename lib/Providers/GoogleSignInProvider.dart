@@ -9,7 +9,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount? get user => _user;
-  bool isLoggedIn = false;
+  bool isLoggedIn = true;
   bool isLoaded = false;
   bool _isRestaurant = false;
   List<String> restaurantEmails = [];
@@ -17,6 +17,8 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   Future googleLogin() async {
     isLoggedIn = false;
+    notifyListeners();
+
     final googleUser = await googleSignIn.signIn().catchError((onError) {
       print("Error $onError");
     });
@@ -33,7 +35,6 @@ class GoogleSignInProvider extends ChangeNotifier {
         .catchError((onError) {
       print("Error $onError");
     });
-    isLoggedIn = true;
 
     if (_user != null) {
       await FirebaseFirestore.instance
@@ -59,6 +60,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     await googleSignIn.disconnect().catchError((onError) {
       print("Error $onError");
     });
+    isLoggedIn = true;
     notifyListeners();
   }
 
