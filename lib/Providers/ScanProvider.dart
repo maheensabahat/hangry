@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/OrderItem.dart';
 
-import '../Views/User/Cart_Widgets/Order.dart';
-
 class Scanned {
   final String qr_id;
   final String user_id;
@@ -36,20 +34,8 @@ class ScanProvider extends ChangeNotifier {
 
   void addToOrder(OrderItem dish) {
     scanned.orders.add(dish);
+    notifyListeners();
   }
-
-// games
-//   .doc(invCode)
-//   .collection('usersInGame')
-//   .where('answer', isEqualTo: 'value')
-//   .get() // <-- You missed this
-//   .then((value) => value.docs.map((e) {
-//         games
-//           .doc(invCode)
-//           .collection('questions')
-//           .doc(e.id)
-//           .update({'answer': ''});
-//       }));
 
   Future addToOrderFirebase(OrderItem dish, String email) async {
     FirebaseFirestore.instance
@@ -67,7 +53,7 @@ class ScanProvider extends ChangeNotifier {
       "qr_id": scanned.qr_id,
       "user_email": scanned.user_id,
       "status": scanned.order_status,
-      "selected_dishes": scanned.orders
+      "selected_dishes": scanned.orders,
     });
   }
 }
