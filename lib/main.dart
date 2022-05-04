@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
 import 'Views/User/home.dart';
 
@@ -28,6 +29,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MyOrder()),
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
       ],
       child: const MyApp(),
     ),
@@ -122,83 +124,81 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(top: 8, bottom: 90),
                   child: Consumer<GoogleSignInProvider>(
                       builder: (context, signIn, child) {
-                    if (signIn.isLoggedIn) {
-                      return SizedBox(
-                        width: 220,
-                        height: 40,
-                        child: ElevatedButton(
-                          style: buttonStyle,
-                          onPressed: () {
-                            context
+                        if (signIn.isLoggedIn) {
+                          return SizedBox(
+                    width: 220,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: buttonStyle,
+                      onPressed: () {
+                        context
+                            .read<GoogleSignInProvider>()
+                            .googleLogin()
+                            .whenComplete(
+                          () async {
+                            if (context
                                 .read<GoogleSignInProvider>()
-                                .googleLogin()
-                                .whenComplete(
-                              () async {
-                                if (context
-                                    .read<GoogleSignInProvider>()
-                                    .checkRestaurant()) {
+                                .checkRestaurant()) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RestaurantHome()),
+                              );
+                            } else {
+                              var googleuser =
+                                  context.read<GoogleSignInProvider>().user;
+
+                              context.read<UserProvider>().createUser(
+                                  name: googleuser?.displayName,
+                                  profilePicture: googleuser?.photoUrl,
+                                  email: googleuser?.email);
+
+                              if (googleuser != null) {
+                                bool userExists = await context
+                                    .read<UserProvider>()
+                                    .checkUser(context
+                                        .read<GoogleSignInProvider>()
+                                        .user
+                                        ?.email);
+                                if (!userExists) {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RestaurantHome()),
+                                            const User_Signup()),
                                   );
                                 } else {
-                                  var googleuser =
-                                      context.read<GoogleSignInProvider>().user;
-
-                                  context.read<UserProvider>().createUser(
-                                      name: googleuser?.displayName,
-                                      profilePicture: googleuser?.photoUrl,
-                                      email: googleuser?.email);
-
-                                  if (googleuser != null) {
-                                    bool userExists = await context
-                                        .read<UserProvider>()
-                                        .checkUser(context
-                                            .read<GoogleSignInProvider>()
-                                            .user
-                                            ?.email);
-                                    if (!userExists) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const User_Signup()),
-                                      );
-                                    } else {
-                                      context
-                                          .read<UserProvider>()
-                                          .getUserFromDB(googleuser.email);
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => MainPage()),
-                                      );
-                                    }
-                                  }
+                                  context
+                                      .read<UserProvider>()
+                                      .getUserFromDB(googleuser.email);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => MainPage()),
+                                  );
                                 }
-                              },
-                            );
+                              }
+                            }
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('assets/googlelogo.png',
-                                  width: 22, height: 22),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Text('Continue with Google'),
-                              ),
-                            ],
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/googlelogo.png',
+                              width: 22, height: 22),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Text('Continue with Google'),
                           ),
-                        ),
-                      );
-                    } else {
-                      return CircularProgressIndicator(
-                        color: Color(0xFF5ABFA3),
-                      );
-                    }
-                  }),
+                        ],
+                      ),
+                    ),
+                  );} else{
+                          return CircularProgressIndicator(
+                            color: Color(0xFF5ABFA3),
+                          );
+                        }})
                 ),
-              ),
+              )
             ],
           ),
         ),

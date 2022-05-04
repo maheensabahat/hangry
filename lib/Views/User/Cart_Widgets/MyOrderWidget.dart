@@ -46,7 +46,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                   padding: const EdgeInsets.only(left: 100, top: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         'You',
                         style: TextStyle(
@@ -67,7 +67,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Container(
+                    child: SizedBox(
                       width: 300,
                       height: 150,
                       child: ListView.builder(
@@ -101,7 +101,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                                     width: 60,
                                     height: 60,
                                     decoration: BoxDecoration(
-                                        image: DecorationImage(
+                                        image: const DecorationImage(
                                           image: AssetImage(
                                             'assets/pasta.jpg',
                                           ),
@@ -120,7 +120,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                                       children: [
                                         Text(
                                           widget.myOrder.list[index].name,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Color(0xFF154038),
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold),
@@ -129,7 +129,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                                           "\$" +
                                               widget.myOrder.list[index].price
                                                   .toString(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               color: Color(0xFF154038),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400),
@@ -137,7 +137,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                                       ],
                                     ),
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Counter(
                                       item: widget.myOrder.list[index],
                                       min: 0,

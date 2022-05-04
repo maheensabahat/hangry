@@ -4,6 +4,7 @@ import 'package:project/Entities/ShoppingCart.dart';
 import 'package:project/Views/User/Widgets/Header.dart';
 
 import '../../Entities/User.dart';
+import 'Cart_Widgets/FriendsOrders.dart';
 import 'Cart_Widgets/MyOrderWidget.dart';
 import 'Cart_Widgets/Order.dart';
 import 'Cart_Widgets/TotalSummary.dart';
@@ -48,6 +49,7 @@ class _CartState extends State<Cart> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
             ),
+            const FriendsOrders(),
             Padding(
               padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
               child: Container(

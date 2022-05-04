@@ -39,6 +39,10 @@ class UserProvider extends ChangeNotifier {
     return user.name!;
   }
 
+  String getEmail() {
+    return user.email!;
+  }
+
   String getFirstName() {
     return user.first;
   }

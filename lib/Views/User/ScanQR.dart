@@ -4,16 +4,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/UserMenu.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../Entities/User.dart';
 import '../../Entities/My_Order.dart';
+import '../../Providers/ScanProvider.dart';
 
 class ScanQR extends StatefulWidget {
   Restaurant restaurant = Restaurant(
       "Xander's",
-      "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+      "Xander's is a modern gourmet café - the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
       'Cafe',
       true,
       'assets/restaurant.jpg');
@@ -43,6 +46,7 @@ class _ScanQRState extends State<ScanQR> {
 
   @override
   Widget build(BuildContext context) {
+    String qr_id = "";
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -53,7 +57,9 @@ class _ScanQRState extends State<ScanQR> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              setState(() {
+                Navigator.of(context).pop();
+              });
             },
           ),
         ),
@@ -99,11 +105,22 @@ class _ScanQRState extends State<ScanQR> {
                   if (!widget.user.qr && result != null) {
                     widget.user.qr = true;
                     widget.user.CreateCart(widget.restaurant);
+                    Scanned scanInstance = context
+                        .read<ScanProvider>()
+                        .createScannedInstance(
+                            qr_id: result!.code.toString(),
+                            user_id: context.read<UserProvider>().getEmail(),
+                            order_status: true);
+
+                    context
+                        .read<ScanProvider>()
+                        .addInstanceToFirebase(scanInstance);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => UserMenu(
                               user: widget.user,
                               scanned: true,
                               restaurant: widget.restaurant,
+                              data: result!.code as String,
                             )));
                   }
                 },
