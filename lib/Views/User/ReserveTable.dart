@@ -1,9 +1,13 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:project/Views/User/Widgets/InputBox.dart';
 import 'package:project/Views/User/Widgets/RestaurantBanner.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../Providers/UserProvider.dart';
 
 class ReserveTable extends StatefulWidget {
   const ReserveTable({Key? key}) : super(key: key);
@@ -17,6 +21,14 @@ class _ReserveTableState extends State<ReserveTable> {
 
   TextEditingController name = TextEditingController();
   TextEditingController contact = TextEditingController();
+  String area = 'none';
+
+  @override
+  void initState() {
+    super.initState();
+    name.text = context.read<UserProvider>().getName();
+    contact.text = context.read<UserProvider>().user.phone.toString();
+  }
 
   Color c = Color(0xFF154038);
 
@@ -48,130 +60,164 @@ class _ReserveTableState extends State<ReserveTable> {
                         ),
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Where do you want to eat?',
-                          style: h2,
+                      FadeInDown(
+                        delay: Duration(milliseconds: 500),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Where do you want to eat?',
+                            style: h2,
+                          ),
                         ),
                       ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ButtonOption(
-                              title: 'Indoor', image: 'assets/indoor.png'),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: ButtonOption(
-                                title: 'Outdoor', image: 'assets/outdoor.png'),
-                          ),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24),
-                        child: Column(
+                      FadeInDown(
+                        delay: Duration(milliseconds: 500),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            ButtonOption(
+                              isSelected: (area == 'Indoor'),
+                              title: 'Indoor',
+                              image: 'assets/indoor.png',
+                              onSelectParam: (String) {
+                                area = String;
+                                setState(() {});
+                              },
+                            ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('How many seats?', style: h2),
+                              padding: const EdgeInsets.only(left: 16),
+                              child: ButtonOption(
+                                isSelected: (area == 'Outdoor'),
+                                title: 'Outdoor',
+                                image: 'assets/outdoor.png',
+                                onSelectParam: (String) {
+                                  area = String;
+                                  setState(() {});
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ),
 
-                      SelectionButton(
-                        isSeats: true,
-                        isDate: false,
-                        isTime: false,
+                      FadeInDown(
+                        delay: Duration(milliseconds: 600),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('How many seats?', style: h2),
+                              ),
+                              SelectionButton(
+                                isSeats: true,
+                                isDate: false,
+                                isTime: false,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24, bottom: 36),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Time',
-                                      style: h2,
-                                    ),
-                                  ),
-                                  SelectionButton(
-                                      isSeats: false,
-                                      isDate: false,
-                                      isTime: true)
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 36),
-                                child: Column(
+                      FadeInDown(
+                        delay: Duration(milliseconds: 700),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 36),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text('Date', style: h2),
+                                      child: Text(
+                                        'Time',
+                                        style: h2,
+                                      ),
                                     ),
                                     SelectionButton(
                                         isSeats: false,
-                                        isDate: true,
-                                        isTime: false)
+                                        isDate: false,
+                                        isTime: true)
                                   ],
                                 ),
-                              )
-                            ]),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: InputBox(
-                          label: 'Book by name:',
-                          hintText: '',
-                          icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                          controller: name,
-                          isNum: false,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 36),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Date', style: h2),
+                                      ),
+                                      SelectionButton(
+                                          isSeats: false,
+                                          isDate: true,
+                                          isTime: false)
+                                    ],
+                                  ),
+                                )
+                              ]),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: InputBox(
-                          label: 'Contact Number:',
-                          hintText: '',
-                          icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
-                          controller: contact,
-                          isNum: false,
+
+                      FadeInDown(
+                        delay: Duration(milliseconds: 800),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: InputBox(
+                            label: 'Book by name:',
+                            hintText: '',
+                            icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                            controller: name,
+                            isNum: false,
+                          ),
+                        ),
+                      ),
+                      FadeInDown(
+                        delay: Duration(milliseconds: 800),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: InputBox(
+                            label: 'Contact Number:',
+                            hintText: '',
+                            icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
+                            controller: contact,
+                            isNum: true,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 80, right: 80, bottom: 50),
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF5ABFA3),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                            ),
-                            textStyle: TextStyle(fontWeight: FontWeight.bold)),
-                        onPressed: () {
-                          // Navigator.of(context).push(widget.next_page);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: const Text('Confirm Reservation'),
-                            ),
-                          ],
+                  FadeInDown(
+                    delay: Duration(milliseconds: 900),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, left: 80, right: 80, bottom: 50),
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xFF5ABFA3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                              ),
+                              textStyle: TextStyle(fontWeight: FontWeight.bold)),
+                          onPressed: () {
+                            // Navigator.of(context).push(widget.next_page);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: const Text('Confirm Reservation'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -189,9 +235,16 @@ class _ReserveTableState extends State<ReserveTable> {
 class ButtonOption extends StatefulWidget {
   String title;
   String image;
-  bool isSelected = false;
+  bool isSelected;
 
-  ButtonOption({Key? key, required this.title, required this.image})
+  Function(String) onSelectParam;
+
+  ButtonOption(
+      {Key? key,
+      required this.isSelected,
+      required this.onSelectParam,
+      required this.title,
+      required this.image})
       : super(key: key);
 
   @override
@@ -229,7 +282,12 @@ class _ButtonOptionState extends State<ButtonOption> {
       ),
       onTap: () {
         widget.isSelected = !widget.isSelected;
-        setState(() {});
+        if (widget.isSelected) {
+          widget.onSelectParam(widget.title);
+        } else {
+          widget.onSelectParam('none');
+        }
+        // setState(() {});
       },
     );
   }
