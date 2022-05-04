@@ -74,6 +74,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   Future getUserFromDB(String email) async {
     var response = await networkCall.getUser(email);
     Map<String, dynamic> userMap = jsonDecode(response);
