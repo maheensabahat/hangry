@@ -38,7 +38,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
     if (_user != null) {
       await FirebaseFirestore.instance
-          .collection('Restaurants')
+          .collection('RestaurantEmails')
           .get()
           .then((QuerySnapshot querySnapshot) {
         restaurantEmails.clear();

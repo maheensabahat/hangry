@@ -128,8 +128,16 @@ class _UserMenuState extends State<UserMenu> {
                                                         .getQRID(),
                                                     email: context
                                                         .read<UserProvider>()
-                                                        .getEmail());
-                                            print(widget.user.currentOrder);
+                                                        .getEmail(),
+                                                    orders: context
+                                                        .read<ScanProvider>()
+                                                        .getOrderList());
+                                            print(context
+                                                .read<ScanProvider>()
+                                                .getOrderList());
+                                            // context
+                                            //     .read<ScanProvider>()
+                                            //     .printID();
                                           },
                                         ),
                                       ),
@@ -226,8 +234,13 @@ class _UserMenuState extends State<UserMenu> {
                                                           .getQRID(),
                                                       email: context
                                                           .read<UserProvider>()
-                                                          .getEmail());
-                                              print(widget.user.currentOrder);
+                                                          .getEmail(),
+                                                      orders: context
+                                                          .read<ScanProvider>()
+                                                          .getOrderList());
+                                              print(context
+                                                  .read<ScanProvider>()
+                                                  .getOrderList());
                                             },
                                           ),
                                         ),
