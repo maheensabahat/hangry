@@ -22,7 +22,7 @@ class _MyOrderState extends State<MyOrderWidget> {
   @override
   Widget build(BuildContext context) {
     List orders = context.read<ScanProvider>().getOrderList();
-    return !context.read<ScanProvider>().getOrderStatus()
+    return !widget.myOrder.isPlaced
         ? Container(
             height: 330,
             child: Stack(
