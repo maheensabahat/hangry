@@ -74,7 +74,7 @@ class _CartState extends State<Cart> {
               child: Summary(cart: widget.CurrentCart),
             ),
           ] else ...[
-            Center(
+            const Center(
                 child: Text(
               'Empty Cart',
             ))

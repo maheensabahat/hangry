@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ class MyOrderWidget extends StatefulWidget {
 class _MyOrderState extends State<MyOrderWidget> {
   @override
   Widget build(BuildContext context) {
+    List orders = context.read<ScanProvider>().getOrderList();
     return !widget.myOrder.isPlaced
         ? Container(
             height: 330,
@@ -72,7 +74,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                       height: 150,
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: widget.myOrder.list.length,
+                        itemCount: orders.length,
                         itemBuilder: (context, index) => Container(
                           height: 70,
                           margin: const EdgeInsets.only(bottom: 4),
@@ -119,16 +121,14 @@ class _MyOrderState extends State<MyOrderWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          widget.myOrder.list[index].name,
+                                          orders[index].name,
                                           style: const TextStyle(
                                               color: Color(0xFF154038),
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "\$" +
-                                              widget.myOrder.list[index].price
-                                                  .toString(),
+                                          "\$" + orders[index].price.toString(),
                                           style: const TextStyle(
                                               color: Color(0xFF154038),
                                               fontSize: 14,
@@ -139,11 +139,10 @@ class _MyOrderState extends State<MyOrderWidget> {
                                   ),
                                   const Spacer(),
                                   Counter(
-                                      item: widget.myOrder.list[index],
+                                      item: orders[index],
                                       min: 0,
                                       max: 5,
-                                      value:
-                                          widget.myOrder.list[index].quantity,
+                                      value: orders[index].quantity,
                                       increments: 1)
                                 ],
                               ),

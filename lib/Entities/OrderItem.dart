@@ -3,6 +3,7 @@ import 'package:project/Views/User/Cart.dart';
 class OrderItem {
   String user_id;
   late String restaurant_id;
+  late String dish_id;
   String name;
   String desc;
   double price;
