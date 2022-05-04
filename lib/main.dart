@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
 import 'Views/User/home.dart';
 
@@ -27,6 +28,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MyOrder()),
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
       ],
       child: const MyApp(),
     ),
@@ -124,7 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) => const RestaurantHome()),
                           );
                         } else {
-                          var googleuser = context.read<GoogleSignInProvider>().user;
+                          var googleuser =
+                              context.read<GoogleSignInProvider>().user;
 
                           context.read<UserProvider>().createUser(
                               name: googleuser?.displayName,
@@ -144,7 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     builder: (context) => const User_Signup()),
                               );
                             } else {
-                              context.read<UserProvider>().getUserFromDB(googleuser.email);
+                              context
+                                  .read<UserProvider>()
+                                  .getUserFromDB(googleuser.email);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => MainPage()),

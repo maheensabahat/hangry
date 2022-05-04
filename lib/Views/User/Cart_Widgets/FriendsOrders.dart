@@ -16,10 +16,29 @@ class _FriendsOrdersState extends State<FriendsOrders> {
           .collection("Scanned")
           .snapshots(includeMetadataChanges: true),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        var noteInfo = snapshot.data!.docs[1].data()! as Map;
+        List temp = [];
         if (snapshot.hasData) {
+          //var noteInfo = snapshot.data!.docs[1].data()! as Map;
+          for (var doc in snapshot.data!.docs) {
+            if ((doc.data() as Map)["qr_id"] == "56789" &&
+                (doc.data() as Map)["status"]) {
+              var email = (doc.data() as Map)["user_email"];
+              temp.add(email);
+            }
+          }
           return Center(
-            child: Text(noteInfo.toString()),
+            child: Container(
+              height: 200,
+              child: ListView.builder(
+                  itemCount: temp.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return temp[index] == null
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListTile(
+                            title: Text(temp[index]),
+                          );
+                  }),
+            ),
           );
         } else {
           return const CircularProgressIndicator();
