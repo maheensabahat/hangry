@@ -57,7 +57,9 @@ class _ScanQRState extends State<ScanQR> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              setState(() {
+                Navigator.of(context).pop();
+              });
             },
           ),
         ),

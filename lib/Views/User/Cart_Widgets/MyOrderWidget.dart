@@ -67,7 +67,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Container(
+                    child: SizedBox(
                       width: 300,
                       height: 150,
                       child: ListView.builder(

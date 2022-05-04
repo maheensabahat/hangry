@@ -3,7 +3,10 @@ import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
 import 'package:project/Entities/My_Order.dart';
+import 'package:project/Providers/GoogleSignInProvider.dart';
+import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/ReserveTable.dart';
+import 'package:provider/provider.dart';
 
 import '../../Entities/My_Order.dart';
 import '../../Entities/My_Order.dart';
@@ -106,8 +109,14 @@ class _UserMenuState extends State<UserMenu> {
                                           child: Icon(Icons.shopping_cart),
                                           onTap: () {
                                             widget.user.currentOrder.addItem(
-                                                OrderItem('Pizza',
-                                                    'Chicken Fajita', 20, 1));
+                                                OrderItem(
+                                                    user_id: context
+                                                        .read<UserProvider>()
+                                                        .getEmail(),
+                                                    name: 'Pizza',
+                                                    desc: 'Chicken Fajita',
+                                                    price: 20,
+                                                    quantity: 1));
                                             print(widget.user.currentOrder);
                                           },
                                         ),
@@ -187,8 +196,14 @@ class _UserMenuState extends State<UserMenu> {
                                             child: Icon(Icons.shopping_cart),
                                             onTap: () {
                                               widget.user.currentOrder.addItem(
-                                                  OrderItem('Pizza',
-                                                      'Chicken Fajita', 20, 1));
+                                                  OrderItem(
+                                                      user_id: context
+                                                          .read<UserProvider>()
+                                                          .getEmail(),
+                                                      name: 'Pizza',
+                                                      desc: 'Chicken Fajita',
+                                                      price: 20,
+                                                      quantity: 1));
                                               print(widget.user.currentOrder);
                                             },
                                           ),

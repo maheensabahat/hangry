@@ -1,14 +1,21 @@
 import 'package:project/Views/User/Cart.dart';
 
-class OrderItem{
+class OrderItem {
+  String user_id;
+  late String restaurant_id;
   String name;
   String desc;
   double price;
   int quantity;
 
-  OrderItem(this.name, this.desc, this.price, this.quantity);
+  OrderItem(
+      {required this.user_id,
+      required this.name,
+      required this.desc,
+      required this.price,
+      required this.quantity});
 
-  double calculatePrice(){
+  double calculatePrice() {
     return this.price * this.quantity;
   }
 
