@@ -132,15 +132,6 @@ class _UserMenuState extends State<UserMenu> {
                                                     orders: context
                                                         .read<ScanProvider>()
                                                         .getOrderList());
-                                            print(context
-                                                .read<ScanProvider>()
-                                                .getOrderList());
-                                            // context
-                                            //     .read<ScanProvider>()
-                                            //     .printID();
-                                            // context
-                                            //     .read<ScanProvider>()
-                                            //     .printID();
                                           },
                                         ),
                                       ),
@@ -241,12 +232,6 @@ class _UserMenuState extends State<UserMenu> {
                                                       orders: context
                                                           .read<ScanProvider>()
                                                           .getOrderList());
-                                              print(context
-                                                  .read<ScanProvider>()
-                                                  .getOrderList());
-                                              // context
-                                              //     .read<ScanProvider>()
-                                              //     .printID();
                                             },
                                           ),
                                         ),

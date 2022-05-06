@@ -18,7 +18,7 @@ class Scanned {
 class ScanProvider extends ChangeNotifier {
   late Scanned scanned;
   List jsonOrders = [];
-  List id = [];
+  //List id = [];
 
   Scanned createScannedInstance(
       {required String qr_id,
@@ -63,41 +63,10 @@ class ScanProvider extends ChangeNotifier {
     return jsonOrders;
   }
 
-  // printJson() {
-  //   debugPrint(jsonOrders.toString());
-  // }
-
-  printID() {
-    debugPrint(id[0] + " " + id.length);
-  }
-
-  //   Future addToOrderFirebase(
-  //     {required String email,
-  //     required String qr_id,
-  //     required List<OrderItem> orders}) async {
-  //   debugPrint(OrderItemstoJson(orders).toString());
-
-  //   await FirebaseFirestore.instance
-  //       .collection('Scanned')
-  //       .where("email", isEqualTo: email)
-  //       .where("qr_id", isEqualTo: qr_id)
-  //       .where("status", isEqualTo: true)
-  //       .get()
-  //       .then((value) => value.docs.map((e) async => {
-  //             id = e.id,
-  //             await FirebaseFirestore.instance
-  //                 .collection("Scanned")
-  //                 .doc(e.id)
-  //                 .set({"selected_dishes": OrderItemstoJson(orders)})
-  //           }));
-  // }
-
   Future addToOrderFirebase(
       {required String email,
       required String qr_id,
       required List<OrderItem> orders}) async {
-    debugPrint(OrderItemstoJson(orders).toString());
-
     await FirebaseFirestore.instance
         .collection('Scanned')
         .where("user_email", isEqualTo: email)
@@ -106,7 +75,6 @@ class ScanProvider extends ChangeNotifier {
         .get()
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {
-        id.add(doc.id);
         await FirebaseFirestore.instance
             .collection("Scanned")
             .doc(doc.id)
