@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
@@ -111,7 +110,6 @@ class _ScanQRState extends State<ScanQR> {
                             qr_id: result!.code.toString(),
                             user_id: context.read<UserProvider>().getEmail(),
                             order_status: true);
-
                     context
                         .read<ScanProvider>()
                         .addInstanceToFirebase(scanInstance);

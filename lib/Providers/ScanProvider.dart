@@ -100,7 +100,7 @@ class ScanProvider extends ChangeNotifier {
 
     await FirebaseFirestore.instance
         .collection('Scanned')
-        .where("email", isEqualTo: email)
+        .where("user_email", isEqualTo: email)
         .where("qr_id", isEqualTo: qr_id)
         .where("status", isEqualTo: true)
         .get()
@@ -110,37 +110,10 @@ class ScanProvider extends ChangeNotifier {
         await FirebaseFirestore.instance
             .collection("Scanned")
             .doc(doc.id)
-            .set({"selected_dishes": OrderItemstoJson(orders)});
+            .update({"selected_dishes": OrderItemstoJson(orders)});
       }
     });
   }
-
-//   Future<void> _getTasksFromFirebase() async {
-  //   await FirebaseFirestore.instance
-  //       .collection('Tasks')
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     _tasks.clear();
-  //     for (var doc in querySnapshot.docs) {
-  //       _tasks.add(
-  //         Task(
-  //           title: doc["title"],
-  //           text: doc["text"],
-  //           description: doc["description"],
-  //           dueDate: (doc["dueDate"] as Timestamp).toDate(),
-  //         ),
-  //       );
-  //       if (doc.get("status")) {
-  //         _tasks[_tasks.length - 1].status = true;
-  //         _tasks[_tasks.length - 1].completedOn =
-  //             (doc["completedOn"] as Timestamp).toDate();
-  //       }
-  //       _tasks[_tasks.length - 1].id = doc.reference.id;
-  //     }
-  //   });
-  //   sortList();
-  //   sortListByStatus();
-  // }
 
   List<OrderItem> getOrderList() {
     return scanned.orders;
