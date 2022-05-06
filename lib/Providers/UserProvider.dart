@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:project/Entities/User.dart';
+import '../Entities/ReservationRequest.dart';
 import '../Models/UserModel.dart';
 import '../NetworkLayer/NetworkCall.dart';
 
 class UserProvider extends ChangeNotifier {
   late User user;
+  bool reqsLoaded = false;
 
   NetworkCall networkCall = FirebaseNetworkCall();
 
@@ -76,12 +78,11 @@ class UserProvider extends ChangeNotifier {
     // Firebase API call
     await networkCall.addUser(user);
     notifyListeners();
+    getUserFromDB(user.email);
   }
 
-
-
-  Future getUserFromDB(String email) async {
-    var response = await networkCall.getUser(email);
+  Future getUserFromDB(String? email) async {
+    var response = await networkCall.getUser(email!);
     Map<String, dynamic> userMap = jsonDecode(response);
 
     UserModel userModel = UserModel.fromJson(userMap);
@@ -92,7 +93,49 @@ class UserProvider extends ChangeNotifier {
           email: userModel.email);
       setLocation(userModel.location);
       setPhone(userModel.phone);
+      user.docID = networkCall.ID;
+      print(user.docID);
     }
+    notifyListeners();
+  }
+
+  Future<void> reserveTable(ReservationRequest request) async {
+    await networkCall.generateRequest(user, request);
+    notifyListeners();
+  }
+
+  Future<void> getRequests(String status) async {
+    user.Pending_Reservations.clear();
+    changeLoadingVar(false);
+
+    List<ReservationRequest> r = await getReqFromDB(status);
+    if (status == 'pending') {
+      user.Pending_Reservations = r;
+      notifyListeners();
+    } else {
+      user.Approved_Reservations = r;
+    }
+
+    changeLoadingVar(true);
+  }
+
+  Future<List<ReservationRequest>> getReqFromDB(String status) async {
+    List<ReservationRequest> r = [
+      ReservationRequest(
+          name: 'K', phone: 12, time: 'Lunch', seats: 2, date: DateTime.now())
+    ];
+
+    r = await networkCall.getRequests(this.user, status);
+    print("UP"+ r.toString());
+
+    return r;
+  }
+
+  Future<void> changeLoadingVar(bool bvar) async {
+    reqsLoaded = bvar;
+    await Future.delayed(
+      Duration(milliseconds: 1),
+    );
     notifyListeners();
   }
 }

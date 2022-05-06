@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Models/UserModel.dart';
 
 import '../Entities/User.dart';
@@ -14,6 +15,12 @@ abstract class NetworkCall {
   Future addUser(User user);
 
   Future<String> getUser(String email);
+
+  Future<void> generateRequest(User user, ReservationRequest request);
+
+  Future<List<ReservationRequest>> getRequests(User user, String status);
+
+  var ID;
 }
 
 class FirebaseNetworkCall implements NetworkCall {
@@ -68,10 +75,82 @@ class FirebaseNetworkCall implements NetworkCall {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
+        ID = doc.id;
         userQuery = jsonEncode(doc.data());
       });
       return userQuery;
     });
     return userQuery;
+  }
+
+  @override
+  var ID;
+
+  @override
+  Future<void> generateRequest(User user, ReservationRequest request) async {
+    CollectionReference reqs =
+        FirebaseFirestore.instance.collection('Reservations');
+
+    await reqs.add(request.toJson()).then((value) async {
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.docID)
+          .collection('Reservations')
+          .add(request.ID(value.id));
+      print("Request Added, ${value.id}");
+    }).catchError((error) => print("Failed to add request: $error"));
+  }
+
+  Future<List<ReservationRequest>> getRequests(User user, String status) async {
+    List<ReservationRequest> reqs = [];
+
+    List ids = await getReqID(user);
+
+    int i = 0;
+    while(i < ids.length){
+      ReservationRequest r = await getRequestusingID(ids[i], status) as ReservationRequest;
+      if(r != null){
+        reqs.add(r);
+      }
+      i++;
+    }
+
+    print("y" + reqs.toString());
+    return reqs;
+  }
+
+  Future<ReservationRequest?> getRequestusingID(var id, String status) async {
+    var x = await FirebaseFirestore.instance
+        .collection('Reservations')
+        .doc(id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      ReservationRequest req = ReservationRequest.fromJson(
+          documentSnapshot.data() as Map<String, dynamic>);
+      print(req);
+      if (req.status == status) {
+        return req;
+      } else {
+        return null;
+      }
+    });
+
+    return x;
+  }
+
+  getReqID(User user) async {
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.docID)
+        .collection('Reservations')
+        .get();
+
+    final thedetails = query.docs
+        .map((DocumentSnapshot e) => UserModel.reservationReqs_fromJson(
+        e.data() as Map<String, dynamic>))
+        .toList();
+
+    print(thedetails);
+    return thedetails;
   }
 }

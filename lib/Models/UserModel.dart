@@ -28,4 +28,9 @@ class UserModel {
         'phone': phone,
         'image': image
       };
+
+  static reservationReqs_fromJson(Map<String, dynamic> json) {
+    return json['Request-ID'];
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class User {
   late int? phone;
   late String? location;
   String? email;
+  var docID;
 
   //Profile picture
   String? profilePicture;
@@ -22,6 +24,8 @@ class User {
   bool qr = false;
 
   //Previous Orders
+  List<ReservationRequest> Approved_Reservations = [];
+  List<ReservationRequest> Pending_Reservations = [];
 
   //Favs rests
 

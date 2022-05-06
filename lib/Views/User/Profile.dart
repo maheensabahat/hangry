@@ -152,6 +152,7 @@ class buttons extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               if (istable) {
+                context.read<UserProvider>().getRequests('pending');
                 return UserTableReservations();
               }
               return MyOrders();

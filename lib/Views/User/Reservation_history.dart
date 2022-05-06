@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/ReservationRequest.dart';
+import 'package:project/Providers/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class Reservation_history extends StatefulWidget {
   const Reservation_history({Key? key}) : super(key: key);
@@ -9,30 +12,20 @@ class Reservation_history extends StatefulWidget {
 
 class _Reservation_historyState extends State<Reservation_history> {
   @override
-  List<Reservations> Approved_reservations = [
-    Reservations(name: "Restaurant name 4", time: "18:00", status: "Today"),
-    Reservations(name: "Restaurant name 2", time: "17:00", status: "Today"),
-    Reservations(name: "Restaurant name 6", time: "19:00", status: "Today"),
-    Reservations(name: "Restaurant name 1", time: "11:00", status: "Today"),
-    Reservations(name: "Restaurant name 8", time: "1:00", status: "Upcoming"),
-    Reservations(name: "Restaurant name 17", time: "12:00", status: "Upcoming"),
-    Reservations(name: "Restaurant name 23", time: "19:00", status: "Upcoming"),
-    Reservations(name: "Restaurant name 29", time: "18:00", status: "Upcoming"),
-  ];
+  // List<Reservations> Approved_reservations = [
+  //   Reservations(name: "Restaurant name 4", time: "18:00", status: "Today"),
+  //   Reservations(name: "Restaurant name 2", time: "17:00", status: "Today"),
+  //   Reservations(name: "Restaurant name 6", time: "19:00", status: "Today"),
+  //   Reservations(name: "Restaurant name 1", time: "11:00", status: "Today"),
+  //   Reservations(name: "Restaurant name 8", time: "1:00", status: "Upcoming"),
+  //   Reservations(name: "Restaurant name 17", time: "12:00", status: "Upcoming"),
+  //   Reservations(name: "Restaurant name 23", time: "19:00", status: "Upcoming"),
+  //   Reservations(name: "Restaurant name 29", time: "18:00", status: "Upcoming"),
+  // ];
+  //
+  // List<Reservations> Unapproved_reservations = [];
 
-  List<Reservations> Unapproved_reservations = [
-    Reservations(name: "Restaurant name 3", time: "02:00", status: "Pending"),
-    Reservations(name: "Restaurant name 7", time: "12:30", status: "Pending"),
-    Reservations(name: "Restaurant name 9", time: "01:30", status: "Pending"),
-    Reservations(name: "Restaurant name 11", time: "01:45", status: "Pending"),
-    Reservations(name: "Restaurant name 15", time: "16:45", status: "Pending"),
-    Reservations(
-        name: "Restaurant name 20", time: "16:00", status: "Cancelled"),
-    Reservations(
-        name: "Restaurant name 25", time: "17:30", status: "Cancelled"),
-    Reservations(name: "Restaurant name 19", time: "17:30", status: "Cancelled")
-  ];
-
+  @override
   Widget build(BuildContext context) => Scaffold(
         body: DefaultTabController(
           length: 2,
@@ -84,16 +77,18 @@ class _Reservation_historyState extends State<Reservation_history> {
             },
             body: TabBarView(
               children: [
-                MaterialApp(
-                  home: Center(
-                    child: list(Approved_reservations),
-                  ),
-                ),
-                MaterialApp(
-                  home: Center(
-                    child: list(Unapproved_reservations),
-                  ),
-                ),
+                list('approved'),
+                list('pending'),
+                // MaterialApp(
+                //   home: Center(
+                //     child: list(Approved_reservations),
+                //   ),
+                // ),
+                // MaterialApp(
+                //   home: Center(
+                //     child: list(Unapproved_reservations),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -109,44 +104,52 @@ class Reservations {
   Reservations({required this.name, required this.time, required this.status});
 }
 
-ListView list(List x) {
-  return ListView.builder(
-    itemExtent: 100,
-    itemCount: x.length,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-        child: Container(
-          decoration: const BoxDecoration(color: Color(0xffadd9c9)),
-          height: 100,
-          child: Align(
-            alignment: const Alignment(0, 0),
-            child: InkWell(
-              child: ListTile(
-                title: Text(x[index].name),
-                // leading: Icon(Icons.restaurant),
-                subtitle: Text(x[index].time + "   " + x[index].status),
-                trailing: IconButton(
-                  icon: const Icon(
-                    Icons.chevron_right,
-                    color: Colors.black,
+Widget list(String status) {
+  return Consumer<UserProvider>(builder: (context, userProvider, child) {
+    List<ReservationRequest> reqs;
+    if (status == 'pending') {
+      reqs = userProvider.user.Pending_Reservations;
+    } else {
+      reqs = userProvider.user.Pending_Reservations;
+    }
+    return ListView.builder(
+      itemExtent: 100,
+      itemCount: reqs.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+          child: Container(
+            decoration: const BoxDecoration(color: Color(0xffadd9c9)),
+            height: 100,
+            child: Align(
+              alignment: const Alignment(0, 0),
+              child: InkWell(
+                child: ListTile(
+                  title: Text(reqs[index].name),
+                  // leading: Icon(Icons.restaurant),
+                  subtitle: Text(reqs[index].time),
+                  trailing: IconButton(
+                    icon: const Icon(
+                      Icons.chevron_right,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
-                ),
-                leading: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Container(
-                    height: 100,
-                    width: 70,
-                    color: const Color(0xff5abfa3),
+                  leading: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Container(
+                      height: 100,
+                      width: 70,
+                      color: const Color(0xff5abfa3),
+                    ),
                   ),
+                  tileColor: const Color(0xffadd9c9),
                 ),
-                tileColor: const Color(0xffadd9c9),
               ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  });
 }

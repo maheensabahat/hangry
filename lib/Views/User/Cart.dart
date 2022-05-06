@@ -49,11 +49,11 @@ class _CartState extends State<Cart> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
             ),
-            const FriendsOrders(),
+            FriendsOrders(),
             Padding(
               padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
               child: Container(
-                height: 350,
+                height: 100,
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   itemCount: widget.CurrentCart.friends.length - 1,

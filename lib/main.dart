@@ -9,7 +9,6 @@ import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
-import 'Views/User/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +61,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       onPrimary: const Color(0xFF154038),
       primary: const Color(0xFF5ABFA3),
@@ -70,6 +69,45 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       textStyle: const TextStyle(fontWeight: FontWeight.bold));
+
+  late final AnimationController controller;
+  late final Animation<double> animation;
+
+  void initState() {
+    // TODO: implement initState
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 4000),
+      vsync: this,
+    );
+
+    initAnimation();
+  }
+
+
+  void initAnimation() async {
+    Animation<double> curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    animation = Tween<double>(begin: 0.1, end: 1).animate(curve);
+
+    animation.addListener(() {
+      setState(() {});
+    });
+
+    //tell status on every change
+    animation.addStatusListener((status) {
+
+      if (controller.isDismissed) {
+        controller.forward();
+      }
+    });
+
+    controller.forward();
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               //Logo
-              FadeInUp(
-                delay: Duration(milliseconds: 800),
+              FadeTransition(
+                opacity: animation,
                 child: Image.asset(
                   'assets/Hangry.png',
                   width: 280,
@@ -123,80 +161,84 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 90),
                   child: Consumer<GoogleSignInProvider>(
-                      builder: (context, signIn, child) {
-                        if (signIn.isLoggedIn) {
-                          return SizedBox(
-                    width: 220,
-                    height: 40,
-                    child: ElevatedButton(
-                      style: buttonStyle,
-                      onPressed: () {
-                        context
-                            .read<GoogleSignInProvider>()
-                            .googleLogin()
-                            .whenComplete(
-                          () async {
-                            if (context
-                                .read<GoogleSignInProvider>()
-                                .checkRestaurant()) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RestaurantHome()),
-                              );
-                            } else {
-                              var googleuser =
-                                  context.read<GoogleSignInProvider>().user;
-
-                              context.read<UserProvider>().createUser(
-                                  name: googleuser?.displayName,
-                                  profilePicture: googleuser?.photoUrl,
-                                  email: googleuser?.email);
-
-                              if (googleuser != null) {
-                                bool userExists = await context
-                                    .read<UserProvider>()
-                                    .checkUser(context
+                    builder: (context, signIn, child) {
+                      if (signIn.isLoggedIn) {
+                        return SizedBox(
+                          width: 220,
+                          height: 40,
+                          child: ElevatedButton(
+                            style: buttonStyle,
+                            onPressed: () {
+                              context
+                                  .read<GoogleSignInProvider>()
+                                  .googleLogin()
+                                  .whenComplete(
+                                () async {
+                                  if (context
+                                      .read<GoogleSignInProvider>()
+                                      .checkRestaurant()) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RestaurantHome()),
+                                    );
+                                  } else {
+                                    var googleuser = context
                                         .read<GoogleSignInProvider>()
-                                        .user
-                                        ?.email);
-                                if (!userExists) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const User_Signup()),
-                                  );
-                                } else {
-                                  context
-                                      .read<UserProvider>()
-                                      .getUserFromDB(googleuser.email);
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => MainPage()),
-                                  );
-                                }
-                              }
-                            }
-                          },
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/googlelogo.png',
-                              width: 22, height: 22),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text('Continue with Google'),
+                                        .user;
+
+                                    context.read<UserProvider>().createUser(
+                                        name: googleuser?.displayName,
+                                        profilePicture: googleuser?.photoUrl,
+                                        email: googleuser?.email);
+
+                                    if (googleuser != null) {
+                                      bool userExists = await context
+                                          .read<UserProvider>()
+                                          .checkUser(context
+                                              .read<GoogleSignInProvider>()
+                                              .user
+                                              ?.email);
+                                      if (!userExists) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const User_Signup()),
+                                        );
+                                      } else {
+                                        context
+                                            .read<UserProvider>()
+                                            .getUserFromDB(googleuser.email);
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => MainPage()),
+                                        );
+                                      }
+                                    }
+                                  }
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/googlelogo.png',
+                                    width: 22, height: 22),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Text('Continue with Google'),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  );} else{
-                          return CircularProgressIndicator(
-                            color: Color(0xFF5ABFA3),
-                          );
-                        }})
+                        );
+                      } else {
+                        return CircularProgressIndicator(
+                          color: Color(0xFF5ABFA3),
+                        );
+                      }
+                    },
+                  ),
                 ),
               )
             ],
