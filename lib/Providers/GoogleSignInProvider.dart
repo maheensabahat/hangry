@@ -20,7 +20,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     notifyListeners();
 
     final googleUser = await googleSignIn.signIn().catchError((onError) {
-      print("Error $onError");
+      debugPrint("Error $onError");
     });
 
     if (googleUser == null) return;
@@ -33,12 +33,12 @@ class GoogleSignInProvider extends ChangeNotifier {
     await FirebaseAuth.instance
         .signInWithCredential(credential)
         .catchError((onError) {
-      print("Error $onError");
+      debugPrint("Error $onError");
     });
 
     if (_user != null) {
       await FirebaseFirestore.instance
-          .collection('Restaurants')
+          .collection('RestaurantEmails')
           .get()
           .then((QuerySnapshot querySnapshot) {
         restaurantEmails.clear();
@@ -58,7 +58,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   Future signOut() async {
     await googleSignIn.disconnect().catchError((onError) {
-      print("Error $onError");
+      debugPrint("Error $onError");
     });
     isLoggedIn = true;
     notifyListeners();

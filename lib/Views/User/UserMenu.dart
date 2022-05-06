@@ -4,6 +4,7 @@ import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
 import 'package:project/Entities/My_Order.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
+import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/ReserveTable.dart';
 import 'package:provider/provider.dart';
@@ -108,16 +109,29 @@ class _UserMenuState extends State<UserMenu> {
                                         child: InkWell(
                                           child: Icon(Icons.shopping_cart),
                                           onTap: () {
-                                            widget.user.currentOrder.addItem(
-                                                OrderItem(
-                                                    user_id: context
+                                            var order = OrderItem(
+                                                user_id: context
+                                                    .read<UserProvider>()
+                                                    .getEmail(),
+                                                name: 'Pizza',
+                                                desc: 'Chicken Fajita',
+                                                price: 20,
+                                                quantity: 1);
+                                            context
+                                                .read<ScanProvider>()
+                                                .addToOrder(order: order);
+                                            context
+                                                .read<ScanProvider>()
+                                                .addToOrderFirebase(
+                                                    qr_id: context
+                                                        .read<ScanProvider>()
+                                                        .getQRID(),
+                                                    email: context
                                                         .read<UserProvider>()
                                                         .getEmail(),
-                                                    name: 'Pizza',
-                                                    desc: 'Chicken Fajita',
-                                                    price: 20,
-                                                    quantity: 1));
-                                            print(widget.user.currentOrder);
+                                                    orders: context
+                                                        .read<ScanProvider>()
+                                                        .getOrderList());
                                           },
                                         ),
                                       ),
@@ -195,16 +209,29 @@ class _UserMenuState extends State<UserMenu> {
                                           child: InkWell(
                                             child: Icon(Icons.shopping_cart),
                                             onTap: () {
-                                              widget.user.currentOrder.addItem(
-                                                  OrderItem(
-                                                      user_id: context
+                                              var order = OrderItem(
+                                                  user_id: context
+                                                      .read<UserProvider>()
+                                                      .getEmail(),
+                                                  name: 'Pizza',
+                                                  desc: 'Chicken Fajita',
+                                                  price: 20,
+                                                  quantity: 1);
+                                              context
+                                                  .read<ScanProvider>()
+                                                  .addToOrder(order: order);
+                                              context
+                                                  .read<ScanProvider>()
+                                                  .addToOrderFirebase(
+                                                      qr_id: context
+                                                          .read<ScanProvider>()
+                                                          .getQRID(),
+                                                      email: context
                                                           .read<UserProvider>()
                                                           .getEmail(),
-                                                      name: 'Pizza',
-                                                      desc: 'Chicken Fajita',
-                                                      price: 20,
-                                                      quantity: 1));
-                                              print(widget.user.currentOrder);
+                                                      orders: context
+                                                          .read<ScanProvider>()
+                                                          .getOrderList());
                                             },
                                           ),
                                         ),

@@ -1,22 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/OrderItem.dart';
+import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 class Scanned {
   final String qr_id;
   final String user_id;
-  final bool order_status;
-  List orders = [];
+  bool order_status;
+  late List<OrderItem> orders;
 
   Scanned(
       {required this.qr_id, required this.user_id, required this.order_status});
 }
 
 class ScanProvider extends ChangeNotifier {
-  List selectedItems = [];
-
   late Scanned scanned;
+  List jsonOrders = [];
+  //List id = [];
 
   Scanned createScannedInstance(
       {required String qr_id,
@@ -32,20 +34,57 @@ class ScanProvider extends ChangeNotifier {
     return scanned.qr_id;
   }
 
-  void addToOrder(OrderItem dish) {
-    scanned.orders.add(dish);
+  void addToOrder({required OrderItem order}) {
+    scanned.orders.add(order);
     notifyListeners();
   }
 
-  Future addToOrderFirebase(OrderItem dish, String email) async {
-    FirebaseFirestore.instance
+  bool getOrderStatus() {
+    return scanned.order_status;
+  }
+
+  void setOrderStatusToFalse() {
+    scanned.order_status = false;
+    notifyListeners();
+  }
+
+  List OrderItemstoJson(List<OrderItem> orders) {
+    jsonOrders.clear();
+    for (var order in orders) {
+      jsonOrders.add({
+        //"user_id": order.user_id,
+        "name": order.name,
+        "desc": order.desc,
+        "price": order.price,
+        "quantity": order.quantity,
+      });
+    }
+
+    return jsonOrders;
+  }
+
+  Future addToOrderFirebase(
+      {required String email,
+      required String qr_id,
+      required List<OrderItem> orders}) async {
+    await FirebaseFirestore.instance
         .collection('Scanned')
-        .where("email", isEqualTo: email)
+        .where("user_email", isEqualTo: email)
+        .where("qr_id", isEqualTo: qr_id)
+        .where("status", isEqualTo: true)
         .get()
-        .then((value) => value.docs.map((e) => FirebaseFirestore.instance
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
             .collection("Scanned")
-            .doc(e.id)
-            .update({"selected_dishes": scanned.orders})));
+            .doc(doc.id)
+            .update({"selected_dishes": OrderItemstoJson(orders)});
+      }
+    });
+  }
+
+  List<OrderItem> getOrderList() {
+    return scanned.orders;
   }
 
   Future addInstanceToFirebase(Scanned scanned) async {
