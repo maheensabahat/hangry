@@ -25,17 +25,17 @@ class _FriendsOrdersState extends State<FriendsOrders> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         List<String> friendEmails = [];
         List<OrderItem> friendDishes = [];
-        String image = "";
-        String name = "";
+        List<String> image = [];
+        List<String> name = [];
         if (snapshot.hasData) {
           for (var doc in snapshot.data!.docs) {
-            if (doc["qr_id"] == "iii9" &&
+            if (doc["qr_id"] == context.read<ScanProvider>().getQRID() &&
                 doc["status"] == true &&
                 doc["user_email"] != context.read<UserProvider>().getEmail()) {
               List dishes = doc.get("selected_dishes");
               String email = doc.get("user_email");
-              image = doc.get("user_picture");
-              name = doc.get("user_name");
+              image.add(doc.get("user_picture"));
+              name.add(doc.get("user_name"));
               friendEmails.add(email);
               for (var data in dishes) {
                 OrderItem order = OrderItem(
