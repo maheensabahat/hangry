@@ -13,8 +13,13 @@ class Scanned {
   bool order_status;
   late List<OrderItem> orders;
 
+  final bool qr_status;
+
   Scanned(
-      {required this.qr_id, required this.user_id, required this.order_status});
+      {required this.qr_id,
+      required this.user_id,
+      required this.order_status,
+      required this.qr_status});
 }
 
 class ScanProvider extends ChangeNotifier {
@@ -22,12 +27,17 @@ class ScanProvider extends ChangeNotifier {
   List jsonOrders = [];
   //List id = [];
 
-  Scanned createScannedInstance(
-      {required String qr_id,
-      required String user_id,
-      required bool order_status}) {
-    scanned =
-        Scanned(qr_id: qr_id, user_id: user_id, order_status: order_status);
+  Scanned createScannedInstance({
+    required String qr_id,
+    required String user_id,
+    required bool order_status,
+    required bool qr_status,
+  }) {
+    scanned = Scanned(
+        qr_id: qr_id,
+        user_id: user_id,
+        order_status: order_status,
+        qr_status: qr_status);
     scanned.orders = [];
     return scanned;
   }
@@ -72,7 +82,7 @@ class ScanProvider extends ChangeNotifier {
         .collection('Scanned')
         .where("user_email", isEqualTo: email)
         .where("qr_id", isEqualTo: qr_id)
-        .where("status", isEqualTo: true)
+        .where("qr_status", isEqualTo: true)
         .get()
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {
@@ -88,14 +98,42 @@ class ScanProvider extends ChangeNotifier {
     return scanned.orders;
   }
 
-  Future addInstanceToFirebase(Scanned scanned, User user) async {
+  double Total(List orders) {
+    double total = 0;
+    orders.forEach((element) {
+      total += element.calculatePrice();
+    });
+    return total;
+  }
+
+  Future addInstanceToFirebase(
+      {required Scanned scanned, required User user}) async {
     await FirebaseFirestore.instance.collection("Scanned").add({
       "qr_id": scanned.qr_id,
       "user_email": scanned.user_id,
       "user_name": user.name,
       "user_picture": user.profilePicture,
-      "status": scanned.order_status,
+      "order_status": scanned.order_status,
+      "qr_status": scanned.qr_status,
       "selected_dishes": scanned.orders,
+    });
+  }
+
+  Future updateOrderStatusInFirebase(
+      {required String email, required String qr_id}) async {
+    await FirebaseFirestore.instance
+        .collection('Scanned')
+        .where("user_email", isEqualTo: email)
+        .where("qr_id", isEqualTo: qr_id)
+        .where("qr_status", isEqualTo: true)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection("Scanned")
+            .doc(doc.id)
+            .update({"order_status": true});
+      }
     });
   }
 }
