@@ -1,5 +1,9 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Views/Restaurant/RestaurantAddDish.dart';
+import 'package:project/Views/Restaurant/RestaurantHome.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantMenu extends StatefulWidget {
   const RestaurantMenu({Key? key}) : super(key: key);
@@ -9,19 +13,6 @@ class RestaurantMenu extends StatefulWidget {
 }
 
 class _RestaurantMenuState extends State<RestaurantMenu> {
-  List items = [
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish',
-    'Dish'
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +26,8 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RestaurantHome()));
             },
           ),
         ),
@@ -65,58 +57,82 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(4, 8, 4, 20),
+        padding: const EdgeInsets.fromLTRB(4, 30, 4, 30),
         child: Center(
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemExtent: 100,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: const Color(0x505ABFA3),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  height: 100,
-                  child: Align(
-                    alignment: const Alignment(0, 0),
-                    child: ListTile(
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.chevron_right,
-                          color: Colors.black,
+          child:
+              Consumer<RestaurantProvider>(builder: (context, provider, child) {
+            return (provider.isLoaded)
+                ? ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemExtent: 100,
+                    itemCount: provider.productsList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                        child: FadeInDown(
+                          delay: Duration(milliseconds: 800 * (index + 1)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(0x405ABFA3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            height: 100,
+                            child: Align(
+                              alignment: const Alignment(0, 0),
+                              child: ListTile(
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RestaurantAddDish(
+                                                isEdit: true,
+                                                product: provider
+                                                    .productsList[index],
+                                              )),
+                                    );
+                                  },
+                                ),
+                                // leading: Padding(
+                                //   padding: const EdgeInsets.all(5),
+                                //   child: Container(
+                                //     height: 100,
+                                //     width: 70,
+                                //     color: const Color(0xff5abfa3),
+                                //   ),
+                                // ),
+                                title: Text(
+                                  provider.productsList[index].name,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                subtitle: Text(
+                                    "\$ " +
+                                        provider.productsList[index].price
+                                            .toString(),
+                                    style: TextStyle(fontSize: 13)),
+                              ),
+                            ),
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RestaurantAddDish(
-                                      isEdit: true,
-                                    )),
-                          );
-                        },
-                      ),
-                      leading: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Container(
-                          height: 100,
-                          width: 70,
-                          color: const Color(0xff5abfa3),
-                        ),
-                      ),
-                      title: Text(
-                        items[index],
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                      subtitle: const Text('This is a dish',
-                          style: TextStyle(color: Colors.black)),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Container(
+                    child: CircularProgressIndicator(
+                      color: Color(0xffadd9c9),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
+                    height: 50,
+                    width: 50,
+                  ));
+          }),
         ),
       ),
     );

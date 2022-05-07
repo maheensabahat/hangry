@@ -15,11 +15,13 @@ import 'UserMenu.dart';
 
 class Home extends StatefulWidget {
   Restaurant restaurant = Restaurant(
-      "Xander's",
-      "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-      'Cafe',
-      true,
-      'assets/restaurant.jpg');
+    name: "Xander's",
+    desc:
+        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+    category: 'Cafe',
+    isFav: true,
+    image: 'assets/restaurant.jpg',
+  );
   User user;
 
   Home({Key? key, required this.user}) : super(key: key);
@@ -39,20 +41,24 @@ class _HomeState extends State<Home> {
   List<RestaurantWidget> restaurants = [
     RestaurantWidget(
       restaurant: Restaurant(
-          "Xander's",
-          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-          'Cafe',
-          true,
-          'assets/restaurant.jpg'),
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg',
+      ),
     ),
     RestaurantWidget(
       restaurant: Restaurant(
-          "Xander's",
-          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-          'Cafe',
-          true,
-          'assets/restaurant.jpg'),
-    ),
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg',
+      ),
+    )
   ];
 
   @override

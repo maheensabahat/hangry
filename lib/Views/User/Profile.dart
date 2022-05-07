@@ -24,19 +24,23 @@ class _ProfileState extends State<Profile> {
   List<RestaurantWidget> fav = [
     RestaurantWidget(
       restaurant: Restaurant(
-          "Xander's",
-          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-          'Cafe',
-          true,
-          'assets/restaurant.jpg'),
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg',
+      ),
     ),
     RestaurantWidget(
       restaurant: Restaurant(
-          "Xander's",
-          "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-          'Cafe',
-          true,
-          'assets/restaurant.jpg'),
+        name: "Xander's",
+        desc:
+            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+        category: 'Cafe',
+        isFav: true,
+        image: 'assets/restaurant.jpg',
+      ),
     ),
   ];
 

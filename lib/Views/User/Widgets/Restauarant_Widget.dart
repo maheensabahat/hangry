@@ -8,6 +8,7 @@ import '../UserMenu.dart';
 
 class RestaurantWidget extends StatefulWidget {
   Restaurant restaurant;
+
   RestaurantWidget({Key? key, required this.restaurant}) : super(key: key);
 
   @override
@@ -17,6 +18,8 @@ class RestaurantWidget extends StatefulWidget {
 class _RestaurantState extends State<RestaurantWidget> {
   @override
   Widget build(BuildContext context) {
+    bool? isfav = widget.restaurant.isFav;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16, right: 16),
       width: MediaQuery.of(context).size.width * 0.85,
@@ -89,19 +92,18 @@ class _RestaurantState extends State<RestaurantWidget> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700)),
                 ),
-                if (widget.restaurant.isFav) ...[
+                if (isfav != null) ...[
                   Icon(
-                    Icons.favorite,
+                    isfav ? Icons.favorite : Icons.favorite_border,
                     size: 40,
                     color: Color(0xFF5ABFA3),
-                  )
-                ] else ...[
-                  Icon(
-                    Icons.favorite_border,
-                    size: 40,
-                    color: Color(0xFF5ABFA3),
-                  )
-                ],
+                  ),
+                  // Icon(
+                  //   Icons.favorite_border,
+                  //   size: 40,
+                  //   color: Color(0xFF5ABFA3),
+                  // )
+                ]
               ],
             ),
           ),

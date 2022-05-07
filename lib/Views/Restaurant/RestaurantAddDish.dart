@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:project/Views/User/Widgets/InputBox.dart';
+import 'package:project/Entities/Products.dart';
+import 'package:project/Providers/ProductProvider.dart';
+import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
+import 'package:provider/provider.dart';
 
+import '../User/Widgets/InputBox.dart';
 import 'RestaurantMenu.dart';
 
 class RestaurantAddDish extends StatefulWidget {
   bool isEdit;
+  Products? product;
 
-  RestaurantAddDish({Key? key, required this.isEdit}) : super(key: key);
+  RestaurantAddDish({Key? key, required this.isEdit, this.product})
+      : super(key: key);
 
   @override
   State<RestaurantAddDish> createState() => _RestaurantAddDishState();
 }
 
 class _RestaurantAddDishState extends State<RestaurantAddDish> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String title = 'Add Dish';
 
   @override
@@ -24,8 +31,17 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
     }
   }
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    if (widget.product != null) {
+      nameController.text = widget.product!.name;
+      descController.text = widget.product!.desc;
+      priceController.text = widget.product!.price.toString();
+    }
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -53,80 +69,87 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
         backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: ProfilePicture(),
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                    child: InputBox(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 16),
+              //   child: ProfilePicture(),
+              // ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InputBox(
                       label: 'Name',
-                      hintText: "dish's name",
-                      icon: Icon(Icons.edit),
-                      controller: TextEditingController(),
+                      hintText: 'Dish\'s name',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: nameController,
                       isNum: false,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                    child: InputBox(
+                    InputBox(
                       label: 'Description',
-                      hintText: "dish's description",
-                      icon: Icon(Icons.edit),
-                      controller: TextEditingController(),
+                      hintText: 'Dish\'s description',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: descController,
                       isNum: false,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                    child: InputBox(
-                      label: 'Category',
-                      hintText: "dish's Category",
-                      icon: Icon(Icons.edit),
-                      controller: TextEditingController(),
-                      isNum: false,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                    child: InputBox(
+                    InputBox(
                       label: 'Price',
-                      hintText: "dish's price per unit",
-                      icon: Icon(Icons.edit),
-                      controller: TextEditingController(),
-                      isNum: false,
+                      hintText: 'Dish\'s price per unit',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: priceController,
+                      isNum: true,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                    child: SizedBox(
-                      height: 40,
-                      width: 110,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RestaurantMenu()),
-                          );
-                        },
-                        child: widget.isEdit ? Text('Save') : Text('Confirm'),
-                        style: ElevatedButton.styleFrom(
-                            primary: const Color(0xff5abfa3)),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: SizedBox(
+                        height: 40,
+                        width: 110,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (!widget.isEdit) {
+                                var item = Products(
+                                  name: nameController.text,
+                                  price: int.parse(priceController.text),
+                                  desc: descController.text,
+                                );
+
+                                context
+                                    .read<RestaurantProvider>()
+                                    .addProduct(item);
+                              } else {
+                                widget.product!.name = nameController.text;
+                                widget.product!.desc = descController.text;
+                                widget.product!.price =
+                                    int.parse(priceController.text);
+
+                                context
+                                    .read<RestaurantProvider>()
+                                    .updateProduct(widget.product!);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RestaurantMenu()),
+                              );
+                            }
+                          },
+                          child: widget.isEdit ? Text('Save') : Text('Confirm'),
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0xff5abfa3)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,9 +1,24 @@
+import 'package:project/Entities/Products.dart';
+
 class Restaurant {
   String name;
   String desc;
   String category;
-  bool isFav;
+  bool? isFav = false;
   String image;
+  late List<Products> items;
+  var id;
 
-  Restaurant(this.name, this.desc, this.category, this.isFav, this.image);
+  Restaurant(
+      {required this.name,
+      required this.desc,
+      required this.category,
+      required this.image,
+      this.isFav,
+      this.id});
+
+  @override
+  String toString() {
+    return 'Restaurant{name: $name, desc: $desc, category: $category, image: $image}';
+  }
 }

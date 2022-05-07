@@ -46,8 +46,9 @@ class _Order_historyState extends State<Order_history>
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           toolbarHeight: 150,
+          elevation: 0,
           foregroundColor: Colors.black,
-          backgroundColor: Color(0xA05ABFA3),
+          backgroundColor: Colors.white,
           title: Column(
             children: [
               Text(
@@ -66,7 +67,19 @@ class _Order_historyState extends State<Order_history>
           ),
           centerTitle: true,
           bottom: TabBar(
+            padding: EdgeInsets.symmetric(horizontal: 24),
             controller: _tabController,
+            unselectedLabelColor: Colors.black,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xF05ABFA3),
+                Color(0xA05ABFA3),
+                Color(0xA05ABFA3),
+                Color(0xF05ABFA3),
+              ]),
+              borderRadius: BorderRadius.circular(10),
+            ),
             tabs: [
               Tab(
                 text: 'Pending',
@@ -112,6 +125,7 @@ class Orders {
 
   Orders({required this.name, required this.time});
 }
+
 
 ListView list(List x) {
   return ListView.builder(

@@ -1,23 +1,25 @@
 class ProductModel {
-  final String? productName;
-  final String? productImage;
-  final int? price;
+  final String name;
+  final String? image;
+  String desc;
+  var ID;
+  final int price;
 
   ProductModel(
-      {required this.productName,
-        required this.productImage,
-        required this.price});
+      {required this.name,
+      required this.desc,
+      this.ID,
+      required this.image,
+      required this.price});
 
   static fromJson(Map<String, dynamic> json) {
     return ProductModel(
-        productName: json['productName'],
+        name: json['name'],
         price: json['price'],
-        productImage: json['productImage']);
+        desc: json['desc'],
+        image: json['image']);
   }
 
-  Map<String, dynamic> toJson() => {
-    'productName': productName,
-    'price': price,
-    'productImage': productImage
-  };
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'price': price, 'image': image, 'desc': desc};
 }

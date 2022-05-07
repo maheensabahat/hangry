@@ -1,0 +1,95 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import '../Entities/Products.dart';
+import '../Entities/ReservationRequest.dart';
+import '../Entities/Restaurant.dart';
+import '../Models/ProductModel.dart';
+import '../Models/RestaurantModel.dart';
+import '../NetworkLayer/RestaurantNetworkCall.dart';
+
+class RestaurantProvider extends ChangeNotifier {
+  late Restaurant restaurant;
+  late String email;
+  bool isLoaded = true;
+
+  List<Products> productsList = [];
+
+  RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
+
+  Future getRestaurant(String? email) async {
+    var rModel = await networkCall.getRestaurant(email!);
+
+    if (rModel != null) {
+      this.restaurant = Restaurant(
+          id: rModel.id,
+          name: rModel.name,
+          category: rModel.category,
+          desc: rModel.desc,
+          image: rModel.image);
+      this.email = email;
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateDetails(Restaurant r) async {
+    isLoaded = false;
+    notifyListeners();
+
+    await networkCall.updateDetails(r);
+    getRestaurant(email);
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  Future addProduct(Products product) async {
+    isLoaded = false;
+    notifyListeners();
+
+    var p = ProductModel(
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        desc: product.desc);
+
+    await networkCall.addProduct(p, restaurant.id);
+    getProducts();
+  }
+
+  Future updateProduct(Products product) async {
+    isLoaded = false;
+    notifyListeners();
+
+    var p = ProductModel(
+        ID: product.ID,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        desc: product.desc);
+
+    await networkCall.updateProduct(p, restaurant.id);
+    getProducts();
+  }
+
+  Future<void> getProducts() async {
+    isLoaded = false;
+    notifyListeners();
+
+    var response = await networkCall.getProducts(restaurant.id);
+
+    List<Products> products = response
+        .map((e) => Products(
+            name: e.name,
+            price: e.price,
+            image: e.image,
+            desc: e.desc,
+            ID: e.ID))
+        .toList();
+
+    productsList = products;
+
+    isLoaded = true;
+    notifyListeners();
+  }
+}

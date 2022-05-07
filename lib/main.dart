@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Providers/RestaurantProvider.dart';
 import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
 
@@ -29,6 +30,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => RestaurantProvider())
       ],
       child: const MyApp(),
     ),
@@ -83,9 +85,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     initAnimation();
   }
 
-
   void initAnimation() async {
-    Animation<double> curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    Animation<double> curve =
+        CurvedAnimation(parent: controller, curve: Curves.easeIn);
     animation = Tween<double>(begin: 0.1, end: 1).animate(curve);
 
     animation.addListener(() {
@@ -94,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     //tell status on every change
     animation.addStatusListener((status) {
-
       if (controller.isDismissed) {
         controller.forward();
       }
@@ -174,19 +175,22 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   .googleLogin()
                                   .whenComplete(
                                 () async {
+                                  var googleuser =
+                                      context.read<GoogleSignInProvider>().user;
+
                                   if (context
                                       .read<GoogleSignInProvider>()
                                       .checkRestaurant()) {
+                                    context
+                                        .read<RestaurantProvider>()
+                                        .getRestaurant(googleuser?.email);
+
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               const RestaurantHome()),
                                     );
                                   } else {
-                                    var googleuser = context
-                                        .read<GoogleSignInProvider>()
-                                        .user;
-
                                     context.read<UserProvider>().createUser(
                                         name: googleuser?.displayName,
                                         profilePicture: googleuser?.photoUrl,
@@ -214,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                               builder: (context) => MainPage()),
                                         );
                                       }
-                                    } else{
+                                    } else {
                                       print('No user');
                                     }
                                   }
