@@ -107,9 +107,10 @@ class FirebaseNetworkCall implements NetworkCall {
     List ids = await getReqID(user);
 
     int i = 0;
-    while(i < ids.length){
-      ReservationRequest r = await getRequestusingID(ids[i], status) as ReservationRequest;
-      if(r != null){
+    while (i < ids.length) {
+      ReservationRequest r =
+          await getRequestusingID(ids[i], status) as ReservationRequest;
+      if (r != null) {
         reqs.add(r);
       }
       i++;
@@ -147,7 +148,7 @@ class FirebaseNetworkCall implements NetworkCall {
 
     final thedetails = query.docs
         .map((DocumentSnapshot e) => UserModel.reservationReqs_fromJson(
-        e.data() as Map<String, dynamic>))
+            e.data() as Map<String, dynamic>))
         .toList();
 
     print(thedetails);

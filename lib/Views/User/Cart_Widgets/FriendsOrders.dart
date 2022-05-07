@@ -6,6 +6,8 @@ import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Entities/OrderItem.dart';
+
 class FriendsOrders extends StatefulWidget {
   const FriendsOrders({Key? key}) : super(key: key);
 
@@ -21,50 +23,50 @@ class _FriendsOrdersState extends State<FriendsOrders> {
           .collection("Scanned")
           .snapshots(includeMetadataChanges: true),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        List friend_emails = [];
-        List friend_dishes = [];
+        List<String> friendEmails = [];
+        List<OrderItem> friendDishes = [];
+        String image = "";
+        String name = "";
         if (snapshot.hasData) {
-          //var noteInfo = snapshot.data!.docs[1].data()! as Map;
           for (var doc in snapshot.data!.docs) {
-            if ((doc.data() as Map)["qr_id"] ==
-                    context.read<ScanProvider>().getQRID() &&
-                (doc.data() as Map)["status"] &&
-                (doc.data() as Map)["user_email"] !=
-                    context.read<UserProvider>().getEmail()) {
-              var email = (doc.data() as Map)["user_email"];
-              var dishes = (doc.data() as Map)["selected_dishes"];
-              friend_emails.add(email);
+            if (doc["qr_id"] == "iii9" &&
+                doc["status"] == true &&
+                doc["user_email"] != context.read<UserProvider>().getEmail()) {
+              List dishes = doc.get("selected_dishes");
+              String email = doc.get("user_email");
+              image = doc.get("user_picture");
+              name = doc.get("user_name");
+              friendEmails.add(email);
+              for (var data in dishes) {
+                OrderItem order = OrderItem(
+                    user_id: email,
+                    name: data["name"],
+                    desc: data["desc"],
+                    price: data["price"],
+                    quantity: data["quantity"]);
+                friendDishes.add(order);
+              }
+              print(name);
+              print(image);
+              print(friendDishes);
+              print(friendDishes.length);
             }
           }
           return Center(
-            child: SizedBox(
-              height: 55,
-              child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: friend_emails.length,
-                itemBuilder: (BuildContext context, int indexEmails) {
-                  return friend_emails[indexEmails] == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : Column(children: [
-                          Text(friend_emails[indexEmails]),
-                          // SizedBox(
-                          //   height: 600,
-                          //   child: ListView.builder(
-                          //       physics: NeverScrollableScrollPhysics(),
-                          //       itemCount: friend_dishes.length,
-                          //       itemBuilder:
-                          //           (BuildContext context, int indexDishes) {
-                          //         return friend_dishes[indexDishes] == null
-                          //             ? const Center(
-                          //                 child: CircularProgressIndicator())
-                          //             : ListTile(
-                          //                 title: Text(friend_dishes[indexDishes]
-                          //                     ["name"]));
-                          //       }),
-                          // )
-                        ]);
-                },
-              ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                      itemCount: friendEmails.length,
+                      itemBuilder: ((context, index) {
+                        return ListTile(
+                          title: Text(friendEmails[0]),
+                          subtitle: Text(friendDishes[index].name),
+                        );
+                      })),
+                )
+              ],
             ),
           );
         } else {

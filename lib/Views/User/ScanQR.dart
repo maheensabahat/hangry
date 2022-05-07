@@ -110,9 +110,8 @@ class _ScanQRState extends State<ScanQR> {
                             qr_id: result!.code.toString(),
                             user_id: context.read<UserProvider>().getEmail(),
                             order_status: true);
-                    context
-                        .read<ScanProvider>()
-                        .addInstanceToFirebase(scanInstance);
+                    context.read<ScanProvider>().addInstanceToFirebase(
+                        scanInstance, context.read<UserProvider>().getUser());
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => UserMenu(
                               user: widget.user,

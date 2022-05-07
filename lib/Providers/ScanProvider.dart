@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
+import '../Entities/User.dart';
+
 class Scanned {
   final String qr_id;
   final String user_id;
@@ -52,7 +54,6 @@ class ScanProvider extends ChangeNotifier {
     jsonOrders.clear();
     for (var order in orders) {
       jsonOrders.add({
-        //"user_id": order.user_id,
         "name": order.name,
         "desc": order.desc,
         "price": order.price,
@@ -87,10 +88,12 @@ class ScanProvider extends ChangeNotifier {
     return scanned.orders;
   }
 
-  Future addInstanceToFirebase(Scanned scanned) async {
+  Future addInstanceToFirebase(Scanned scanned, User user) async {
     await FirebaseFirestore.instance.collection("Scanned").add({
       "qr_id": scanned.qr_id,
       "user_email": scanned.user_id,
+      "user_name": user.name,
+      "user_picture": user.profilePicture,
       "status": scanned.order_status,
       "selected_dishes": scanned.orders,
     });

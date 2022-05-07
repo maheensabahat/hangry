@@ -49,7 +49,7 @@ class _CartState extends State<Cart> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
             ),
-            FriendsOrders(),
+            const FriendsOrders(),
             Padding(
               padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
               child: Container(
