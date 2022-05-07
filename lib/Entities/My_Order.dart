@@ -7,7 +7,6 @@ class MyOrder extends ChangeNotifier {
   bool isPlaced = false;
   late Restaurant restaurant;
 
-
   double Total() {
     double total = 0;
     list.forEach((element) {

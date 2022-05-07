@@ -162,7 +162,11 @@ class _MyOrderState extends State<MyOrderWidget> {
                         'Total: ' +
                             '  ' +
                             '\$' +
-                            widget.myOrder.Total().toString(),
+                            context
+                                .watch<ScanProvider>()
+                                .Total(
+                                    context.read<ScanProvider>().getOrderList())
+                                .toString(),
                         style: TextStyle(
                           color: Color(0xFF154038),
                           fontSize: 15,

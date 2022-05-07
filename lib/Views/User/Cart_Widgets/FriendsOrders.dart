@@ -27,6 +27,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
         List<List<OrderItem>> allFriendsDishes = [];
         List<String> image = [];
         List<String> name = [];
+        List<bool> order_status = [];
         if (snapshot.hasData) {
           for (var doc in snapshot.data!.docs) {
             if (doc["qr_id"] == context.read<ScanProvider>().getQRID() &&
@@ -36,6 +37,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
               String email = doc.get("user_email");
               image.add(doc.get("user_picture"));
               name.add(doc.get("user_name"));
+              order_status.add(doc.get("order_status"));
               friendEmails.add(email);
               List<OrderItem> singleFriendDishes = [];
               for (var data in dishes) {
@@ -105,13 +107,20 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        const Text(
-                                          'is deciding..',
-                                          style: TextStyle(
-                                              color: Color(0xFF154038),
-                                              fontSize: 14,
-                                              fontStyle: FontStyle.italic),
-                                        ),
+                                        order_status[emailIndex]
+                                            ? const Text(
+                                                "have finalized their order",
+                                                style: TextStyle(
+                                                    color: Color(0xFF154038),
+                                                    fontSize: 14,
+                                                    fontStyle:
+                                                        FontStyle.italic))
+                                            : const Text('is deciding..',
+                                                style: TextStyle(
+                                                    color: Color(0xFF154038),
+                                                    fontSize: 14,
+                                                    fontStyle:
+                                                        FontStyle.italic))
                                       ],
                                     ),
                                   ),
@@ -233,15 +242,21 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                       ),
                                     ),
                                   ),
-                                  const Positioned.fill(
+                                  Positioned.fill(
                                     child: Align(
                                       alignment: Alignment.bottomRight,
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             right: 24, bottom: 45),
                                         child: Text(
-                                          'Total: ' + '  ' + '\$',
-                                          //widget.myOrder.Total().toString(),
+                                          'Total: ' +
+                                              '  ' +
+                                              '\$' +
+                                              context
+                                                  .watch<ScanProvider>()
+                                                  .Total(allFriendsDishes[
+                                                      emailIndex])
+                                                  .toString(),
                                           style: TextStyle(
                                             color: Color(0xFF154038),
                                             fontSize: 15,
@@ -257,15 +272,25 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                       child: SizedBox(
                                         height: 42,
                                         child: FittedBox(
-                                          child: FloatingActionButton.extended(
-                                              onPressed: () {
-                                                //widget.myOrder.MarkPlaced();
-                                                setState(() {});
-                                              },
-                                              backgroundColor:
-                                                  Color(0xFF5ABFA3),
-                                              label: Text('Place Order')),
-                                        ),
+                                            child: order_status[emailIndex]
+                                                ? null
+                                                : FloatingActionButton.extended(
+                                                    onPressed: () {
+                                                      context
+                                                          .read<ScanProvider>()
+                                                          .updateOrderStatusInFirebase(
+                                                              email: friendEmails[
+                                                                  emailIndex],
+                                                              qr_id: context
+                                                                  .read<
+                                                                      ScanProvider>()
+                                                                  .getQRID());
+                                                      setState(() {});
+                                                    },
+                                                    backgroundColor:
+                                                        Color(0xFF5ABFA3),
+                                                    label:
+                                                        Text('Place Order'))),
                                       ),
                                     ),
                                   )

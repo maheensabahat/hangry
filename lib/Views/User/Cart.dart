@@ -42,11 +42,11 @@ class _CartState extends State<Cart> {
                 myOrder: widget.user.currentOrder,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 24, left: 36, bottom: 12),
+            const Padding(
+              padding: EdgeInsets.only(top: 24, left: 36, bottom: 12),
               child: Text(
                 'Friends',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
             ),
             const FriendsOrders(),
