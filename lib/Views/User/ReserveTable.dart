@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../Providers/UserProvider.dart';
 import 'Reservation_Widgets/ButtonOption.dart';
+import 'Reservation_Widgets/ReservationDisplay.dart';
 import 'Reservation_Widgets/SelectionButton.dart';
 
 class ReserveTable extends StatefulWidget {
@@ -222,10 +223,12 @@ class _ReserveTableState extends State<ReserveTable> {
                                 seats: persons,
                                 time: time,
                                 date: date,
+                                status: 'pending'
                               );
 
-                              context.read<UserProvider>().reserveTable(req);
-                              Navigator.of(context).pop();
+                              // context.read<UserProvider>().reserveTable(req);
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => ReservationDisplay()));
                             }
                             // Navigator.of(context).push(widget.next_page);
                           },
@@ -251,6 +254,7 @@ class _ReserveTableState extends State<ReserveTable> {
         floatingActionButton: BackButton());
   }
 }
+
 
 class SeatingAreaButtons extends StatefulWidget {
   Function(String)? getArea;

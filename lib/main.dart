@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     controller = AnimationController(
-      duration: const Duration(milliseconds: 4000),
+      duration: const Duration(seconds: 3),
       vsync: this,
     );
 
@@ -123,8 +123,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 opacity: animation,
                 child: Image.asset(
                   'assets/Hangry.png',
-                  width: 280,
-                  height: 280,
+                  width: 180 * animation.value + 100,
+                  height: 180 * animation.value + 100,
                 ),
               ),
 
@@ -214,6 +214,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                               builder: (context) => MainPage()),
                                         );
                                       }
+                                    } else{
+                                      print('No user');
                                     }
                                   }
                                 },
