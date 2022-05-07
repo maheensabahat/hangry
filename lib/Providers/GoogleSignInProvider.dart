@@ -23,6 +23,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       debugPrint("Error $onError");
     });
 
+
     if (googleUser == null) return;
     _user = googleUser;
     final googleAuth = await googleUser.authentication;
@@ -64,15 +65,6 @@ class GoogleSignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // if (_user != null) {
-  //     QuerySnapshot querySnapshot =
-  //         await FirebaseFirestore.instance.collection('Tasks').get();
-  //     final allemails = querySnapshot.docs.map((doc) => doc.data()).toList();
-  //     isRestaurant = true;
-  //     if (allemails.contains(_user!.email)) {
-  //       isRestaurant = true;
-  //     }
-  //   }
 
   bool checkRestaurant() {
     return _isRestaurant;
