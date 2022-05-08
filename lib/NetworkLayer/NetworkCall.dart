@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Models/RestaurantModel.dart';
 import 'package:project/Models/UserModel.dart';
-
 import '../Entities/User.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +21,12 @@ abstract class NetworkCall {
   Future<List<ReservationRequest>> getRequests(User user, String status);
 
   Future<List<RestaurantModel>> getRestaurants();
+
+  Future<List> getFavs(User user);
+
+  Future<void> addFav(User user, var restaurant_id);
+
+  Future<void> removeFav();
 
   var ID;
 }
@@ -162,16 +167,81 @@ class FirebaseNetworkCall implements NetworkCall {
   Future<List<RestaurantModel>> getRestaurants() async {
     List<RestaurantModel> restaurants = [];
 
-      await FirebaseFirestore.instance
-          .collection('Restaurants')
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          var restModel = RestaurantModel.fromJson(doc.data() as Map<String, dynamic>);
-          restModel.id = doc.id;
-          restaurants.add(restModel);
-        });
+    await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        var restModel =
+            RestaurantModel.fromJson(doc.data() as Map<String, dynamic>);
+        restModel.id = doc.id;
+        restaurants.add(restModel);
       });
-      return restaurants;
+    });
+    return restaurants;
+  }
+
+  @override
+  Future<void> addFav(User user, var restaurant_id) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    await users
+        .doc(user.docID)
+        .collection('Favourites')
+        .add(UserModel.ID_toJson(restaurant_id));
+    print("Favourite Added}");
+  }
+
+  @override
+  Future<List> getFavs(User user) async {
+    List Fav = [];
+
+    List ids = await getIDs(user);
+
+    int i = 0;
+    while (i < ids.length) {
+      RestaurantModel? r = await getFavUsingID(ids[i]);
+      if (r != null) {
+        Fav.add(r);
+      }
+      i++;
+    }
+    return Fav;
+  }
+
+  Future<RestaurantModel?> getFavUsingID(var id) async {
+    var r;
+
+    await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .doc(id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      r = RestaurantModel.fromJson(
+          documentSnapshot.data() as Map<String, dynamic>);
+    });
+
+    return r;
+  }
+
+  Future<List> getIDs(User user) async {
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.docID)
+        .collection('Favourites')
+        .get();
+
+    final thedetails = query.docs
+        .map((DocumentSnapshot e) =>
+            UserModel.ID_fromJson(e.data() as Map<String, dynamic>))
+        .toList();
+
+    return thedetails;
+  }
+
+  @override
+  Future<void> removeFav() {
+    // TODO: implement removeFav
+    throw UnimplementedError();
   }
 }

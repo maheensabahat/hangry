@@ -33,4 +33,10 @@ class UserModel {
     return json['Request-ID'];
   }
 
+  static Map<String, dynamic> ID_toJson(var id) => {'ID': id};
+
+  static ID_fromJson(Map<String, dynamic> json) {
+    return json['ID'];
+  }
+
 }

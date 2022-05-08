@@ -53,6 +53,7 @@ class RestaurantBanner extends StatelessWidget {
           ),
         ),
 
+
         //Bottom Highlight
         Padding(
           padding: const EdgeInsets.only(top: 240),

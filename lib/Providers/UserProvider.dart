@@ -10,7 +10,7 @@ import '../NetworkLayer/NetworkCall.dart';
 class UserProvider extends ChangeNotifier {
   late User user;
   bool reqsLoaded = false;
-  late List<Restaurant> restaurants;
+  List<Restaurant> restaurants = [];
 
   NetworkCall networkCall = FirebaseNetworkCall();
 
@@ -150,9 +150,30 @@ class UserProvider extends ChangeNotifier {
             desc: e.desc,
             id: e.id,
             category: e.category,
-            image: e.image))
+            image: e.image,
+            isFav: false))
         .toList();
 
-    print(restaurants);
+  }
+
+  Future<void> MarkFav(Restaurant r) async {
+    await networkCall.addFav(user, r.id);
+  }
+
+  Future<void> getFav() async {
+    var restList = await networkCall.getFavs(user);
+
+    user.favs = restList
+        .map((e) => Restaurant(
+        name: e.name,
+        desc: e.desc,
+        id: e.id,
+        category: e.category,
+        image: e.image,
+        isFav: true))
+        .toList();
+
+    print(user.favs);
+
   }
 }

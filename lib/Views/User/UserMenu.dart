@@ -58,7 +58,7 @@ class _UserMenuState extends State<UserMenu> {
                     Cuisine: widget.restaurant.category,
                     image: widget.restaurant.image),
 
-                //Categories
+                //Heading
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 20),
                   child: Text(

@@ -6,7 +6,7 @@ class Restaurant {
   String category;
   bool? isFav = false;
   String image;
-  late List<Products> items;
+  List<Products> items = [];
   var id;
 
   Restaurant(

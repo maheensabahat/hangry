@@ -28,6 +28,7 @@ class User {
   List<ReservationRequest> Pending_Reservations = [];
 
   //Favs rests
+  List<Restaurant> favs = [];
 
   User({this.name, this.profilePicture, this.email}) {
     _first = name!.substring(0, name!.split(" ")[0].length);

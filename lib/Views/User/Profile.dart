@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/User/MyOrders.dart';
@@ -21,45 +22,28 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  List<RestaurantWidget> fav = [
-    RestaurantWidget(
-      restaurant: Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: true,
-        image: 'assets/restaurant.jpg',
-      ),
-    ),
-    RestaurantWidget(
-      restaurant: Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: true,
-        image: 'assets/restaurant.jpg',
-      ),
-    ),
-  ];
+  List<Restaurant> fav = [];
 
   Widget build(BuildContext context) {
+    context.read<UserProvider>().getFav();
+    fav = context.read<UserProvider>().user.favs;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Column(
-                children: [
-                  Header(
-                    title: 'Profile',
-                    bottom: 25,
-                  ),
-                  ProfilePicture(),
-                  ProfileDetails()
-                ],
+              child: Header(
+                title: 'Profile',
+                bottom: 25,
+              ),
+            ),
+            Center(
+              child: FadeInDown(
+                delay: Duration(milliseconds: 900),
+                child: Column(
+                  children: [ProfilePicture(), ProfileDetails()],
+                ),
               ),
             ),
             ButtonMenu(),
@@ -101,21 +85,27 @@ class ButtonMenu extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buttons(
-            name: 'My orders',
-            icon: 'assets/Order.png',
-            width: 100,
-            height: 65,
-            istable: false,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
+          FadeInLeft(
+            delay: Duration(milliseconds: 700),
             child: buttons(
-              name: 'Reservations',
-              icon: 'assets/Table.png',
+              name: 'My orders',
+              icon: 'assets/Order.png',
               width: 100,
-              height: 60,
-              istable: true,
+              height: 65,
+              istable: false,
+            ),
+          ),
+          FadeInRight(
+            delay: Duration(milliseconds: 700),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: buttons(
+                name: 'Reservations',
+                icon: 'assets/Table.png',
+                width: 100,
+                height: 60,
+                istable: true,
+              ),
             ),
           )
         ],
@@ -186,7 +176,7 @@ class buttons extends StatelessWidget {
 }
 
 class FavListView extends StatelessWidget {
-  List<RestaurantWidget> favourites;
+  List<Restaurant> favourites;
 
   FavListView({Key? key, required this.favourites}) : super(key: key);
 
@@ -202,38 +192,47 @@ class FavListView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Your Favourites',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    // color: Color(0xFF5ABFA3),
+                FadeInLeft(
+                  delay: Duration(milliseconds: 900),
+                  child: Text(
+                    'Your Favourites',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      // color: Color(0xFF5ABFA3),
+                    ),
                   ),
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Favorites(
-                                favorites: favourites,
-                              )));
-                    },
-                    child: Text(
-                      'view all',
-                      style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
-                    ))
+                FadeInUp(
+                  delay: Duration(milliseconds: 800),
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Favorites(
+                                  favorites: favourites,
+                                )));
+                      },
+                      child: Text(
+                        'view all',
+                        style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
+                      )),
+                )
               ],
             ),
           ),
-          Container(
-          width: MediaQuery.of(context).size.width * 0.85,
-            height: MediaQuery.of(context).size.height * 0.25,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: favourites.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return favourites[index];
-                }),
+          FadeInUp(
+            delay: Duration(milliseconds: 900),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              height: MediaQuery.of(context).size.height * 0.25,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: favourites.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RestaurantWidget(restaurant: favourites[index]);
+                  }),
+            ),
           ),
         ],
       ),

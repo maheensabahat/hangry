@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
@@ -48,7 +50,6 @@ class _HomeState extends State<Home> {
     restaurants = Provider.of<UserProvider>(context, listen: false).restaurants;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,22 +58,28 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Header
-            HomeHeader(
-              userName: context.read<UserProvider>().getFirstName(),
+            FadeInDown(
+              delay: Duration(milliseconds: 800),
+              child: HomeHeader(
+                userName: context.read<UserProvider>().getFirstName(),
+              ),
             ),
 
             //Search Bar
-            SearchBar(),
+            FadeInLeft(delay: Duration(milliseconds: 800), child: SearchBar()),
 
             //Categories - heading
-            const Padding(
-              padding: EdgeInsets.only(top: 8, left: 24),
-              child: Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  // color: Color(0xFF5ABFA3),
+            FadeInRight(
+              delay: Duration(milliseconds: 800),
+              child: const Padding(
+                padding: EdgeInsets.only(top: 5, left: 24),
+                child: Text(
+                  'Categories',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    // color: Color(0xFF5ABFA3),
+                  ),
                 ),
               ),
             ),
@@ -80,27 +87,34 @@ class _HomeState extends State<Home> {
             //Categories ListView
             CategoriesList(list: Categories),
 
+            //ScanQR_ViewMenu(),
+
             //Restaurants
-            RestaurantDisplay(restaurants: restaurants)
+            FadeInLeft(
+                delay: Duration(milliseconds: 800),
+                child: RestaurantDisplay(restaurants: restaurants))
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: !widget.user.qr
-          ? FloatingActionButton.extended(
-              heroTag: null,
-              label: Text('Scan QR', style: TextStyle(color: Colors.black)),
-              icon: Icon(
-                Icons.qr_code,
-                color: Colors.black,
+          ? FadeInUp(
+              delay: Duration(milliseconds: 800),
+              child: FloatingActionButton.extended(
+                heroTag: null,
+                label: Text('Scan QR', style: TextStyle(color: Colors.black)),
+                icon: Icon(
+                  Icons.qr_code,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScanQR(
+                            user: widget.user,
+                          )));
+                },
+                backgroundColor: Color(0xff51bfa3),
               ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ScanQR(
-                          user: widget.user,
-                        )));
-              },
-              backgroundColor: Color(0xff51bfa3),
             )
           : FloatingActionButton.extended(
               heroTag: null,
@@ -245,34 +259,38 @@ class _CategoriesListState extends State<CategoriesList> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 36),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 20),
       child: Container(
         height: 60,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: widget.list.length,
-          itemBuilder: (context, index) => Container(
-            width: 80,
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              color: widget.list[index].isSelected
-                  ? Color(0x90F29191)
-                  : Color(0x905ABFA3),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: InkWell(
-              onTap: () {
-                widget.list[index].isSelected = !widget.list[index].isSelected;
-                setState(() {});
-              },
-              child: ListTile(
-                title: widget.list[index].icon,
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(left: 0),
-                  child: Text(
-                    widget.list[index].label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10),
+          itemBuilder: (context, index) => FadeInRight(
+            delay: Duration(milliseconds: 500 * (index + 1)),
+            child: Container(
+              width: 80,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                color: widget.list[index].isSelected
+                    ? Color(0x90F29191)
+                    : Color(0x905ABFA3),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: InkWell(
+                onTap: () {
+                  widget.list[index].isSelected =
+                      !widget.list[index].isSelected;
+                  setState(() {});
+                },
+                child: ListTile(
+                  title: widget.list[index].icon,
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Text(
+                      widget.list[index].label,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 10),
+                    ),
                   ),
                 ),
               ),
@@ -335,6 +353,48 @@ class RestaurantList extends StatelessWidget {
               // restaurants[index].user = context.read<UserProvider>().getUser();
               return RestaurantWidget(restaurant: restaurants[index]);
             }),
+      ),
+    );
+  }
+}
+
+class ScanQR_ViewMenu extends StatefulWidget {
+  const ScanQR_ViewMenu({Key? key}) : super(key: key);
+
+  @override
+  _ScanQR_ViewMenuState createState() => _ScanQR_ViewMenuState();
+}
+
+class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
+      child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Color(0xff5ABFA3),
+              Color(0x405ABFA3),
+              Color(0x205ABFA3),
+              Color(0x405ABFA3),
+              Color(0xff5ABFA3),
+            ]),
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10))),
+        height: 80,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('At a restaurant?'),
+            Text(
+              'Scan QR',
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic),
+            )
+          ],
+        ),
       ),
     );
   }

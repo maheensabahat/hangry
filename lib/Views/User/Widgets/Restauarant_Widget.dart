@@ -109,10 +109,15 @@ class _RestaurantState extends State<RestaurantWidget> {
             Positioned(
               top: 10,
               left: 255,
-              child: Icon(
-                isfav ? Icons.favorite : Icons.favorite_border,
-                size: 35,
-                color: Color(0xFF5ABFA3),
+              child: InkWell(
+                onTap: (){
+                  context.read<UserProvider>().MarkFav(widget.restaurant);
+                },
+                child: Icon(
+                  isfav ? Icons.favorite : Icons.favorite_border,
+                  size: 35,
+                  color: Color(0xFF5ABFA3),
+                ),
               ),
             ),
           ],
