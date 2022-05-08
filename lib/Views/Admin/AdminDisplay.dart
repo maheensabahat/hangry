@@ -2,7 +2,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/Admin/AdAdmins.dart';
 import 'package:project/Views/Admin/AdMainPage.dart';
+import 'package:project/Views/Restaurant/RestaurantAddDish.dart';
+import 'package:project/Views/Restaurant/RestaurantHome.dart';
 import 'package:provider/provider.dart';
+
 import '../../Providers/AdminProvider.dart';
 
 class AdminDisplay extends StatefulWidget {
