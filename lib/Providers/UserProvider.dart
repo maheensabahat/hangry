@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
 import '../Entities/ReservationRequest.dart';
 import '../Models/UserModel.dart';
@@ -9,6 +10,7 @@ import '../NetworkLayer/NetworkCall.dart';
 class UserProvider extends ChangeNotifier {
   late User user;
   bool reqsLoaded = false;
+  late List<Restaurant> restaurants;
 
   NetworkCall networkCall = FirebaseNetworkCall();
 
@@ -137,5 +139,20 @@ class UserProvider extends ChangeNotifier {
       Duration(milliseconds: 1),
     );
     notifyListeners();
+  }
+
+  Future<void> getRestaurants() async {
+    var restList = await networkCall.getRestaurants();
+
+    restaurants = restList
+        .map((e) => Restaurant(
+            name: e.name,
+            desc: e.desc,
+            id: e.id,
+            category: e.category,
+            image: e.image))
+        .toList();
+
+    print(restaurants);
   }
 }

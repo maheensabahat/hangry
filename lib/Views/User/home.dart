@@ -14,14 +14,14 @@ import 'ScanQR.dart';
 import 'UserMenu.dart';
 
 class Home extends StatefulWidget {
-  Restaurant restaurant = Restaurant(
-    name: "Xander's",
-    desc:
-        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-    category: 'Cafe',
-    isFav: true,
-    image: 'assets/restaurant.jpg',
-  );
+  // Restaurant restaurant = Restaurant(
+  //   name: "Xander's",
+  //   desc:
+  //       "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
+  //   category: 'Cafe',
+  //   isFav: true,
+  //   image: 'assets/restaurant.jpg',
+  // );
   User user;
 
   Home({Key? key, required this.user}) : super(key: key);
@@ -38,28 +38,16 @@ class _HomeState extends State<Home> {
     Category(Icon(Icons.dinner_dining), 'Italian'),
   ];
 
-  List<RestaurantWidget> restaurants = [
-    RestaurantWidget(
-      restaurant: Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: true,
-        image: 'assets/restaurant.jpg',
-      ),
-    ),
-    RestaurantWidget(
-      restaurant: Restaurant(
-        name: "Xander's",
-        desc:
-            "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-        category: 'Cafe',
-        isFav: true,
-        image: 'assets/restaurant.jpg',
-      ),
-    )
-  ];
+  List<Restaurant> restaurants = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false).getRestaurants();
+    restaurants = Provider.of<UserProvider>(context, listen: false).restaurants;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +110,12 @@ class _HomeState extends State<Home> {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserMenu(
-                          user: context.read<UserProvider>().getUser(),
-                          scanned: context.read<UserProvider>().getQR(),
-                          restaurant: widget.restaurant,
-                        )));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (context) => UserMenu(
+                //           user: context.read<UserProvider>().getUser(),
+                //           scanned: context.read<UserProvider>().getQR(),
+                //           restaurant: widget.restaurant,
+                //         )));
               },
               backgroundColor: Color(0xff51bfa3),
             ),
@@ -297,7 +285,7 @@ class _CategoriesListState extends State<CategoriesList> {
 }
 
 class RestaurantDisplay extends StatelessWidget {
-  List<RestaurantWidget> restaurants;
+  List<Restaurant> restaurants;
 
   RestaurantDisplay({Key? key, required this.restaurants}) : super(key: key);
 
@@ -329,7 +317,7 @@ class RestaurantDisplay extends StatelessWidget {
 }
 
 class RestaurantList extends StatelessWidget {
-  List<RestaurantWidget> restaurants;
+  List<Restaurant> restaurants;
 
   RestaurantList({Key? key, required this.restaurants}) : super(key: key);
 
@@ -345,7 +333,7 @@ class RestaurantList extends StatelessWidget {
             itemCount: restaurants.length,
             itemBuilder: (BuildContext context, int index) {
               // restaurants[index].user = context.read<UserProvider>().getUser();
-              return restaurants[index];
+              return RestaurantWidget(restaurant: restaurants[index]);
             }),
       ),
     );

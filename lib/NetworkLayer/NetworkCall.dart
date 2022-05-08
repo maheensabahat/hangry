@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/ReservationRequest.dart';
+import 'package:project/Models/RestaurantModel.dart';
 import 'package:project/Models/UserModel.dart';
 
 import '../Entities/User.dart';
@@ -19,6 +20,8 @@ abstract class NetworkCall {
   Future<void> generateRequest(User user, ReservationRequest request);
 
   Future<List<ReservationRequest>> getRequests(User user, String status);
+
+  Future<List<RestaurantModel>> getRestaurants();
 
   var ID;
 }
@@ -153,5 +156,22 @@ class FirebaseNetworkCall implements NetworkCall {
 
     print(thedetails);
     return thedetails;
+  }
+
+  @override
+  Future<List<RestaurantModel>> getRestaurants() async {
+    List<RestaurantModel> restaurants = [];
+
+      await FirebaseFirestore.instance
+          .collection('Restaurants')
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          var restModel = RestaurantModel.fromJson(doc.data() as Map<String, dynamic>);
+          restModel.id = doc.id;
+          restaurants.add(restModel);
+        });
+      });
+      return restaurants;
   }
 }

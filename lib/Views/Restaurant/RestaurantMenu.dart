@@ -61,11 +61,12 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
         child: Center(
           child:
               Consumer<RestaurantProvider>(builder: (context, provider, child) {
+            var items = provider.restaurant.items;
             return (provider.isLoaded)
                 ? ListView.builder(
                     padding: EdgeInsets.zero,
                     itemExtent: 100,
-                    itemCount: provider.productsList.length,
+                    itemCount: items.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
@@ -92,8 +93,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                                           builder: (context) =>
                                               RestaurantAddDish(
                                                 isEdit: true,
-                                                product: provider
-                                                    .productsList[index],
+                                                product: items[index],
                                               )),
                                     );
                                   },
@@ -107,15 +107,13 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                                 //   ),
                                 // ),
                                 title: Text(
-                                  provider.productsList[index].name,
+                                  items[index].name,
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 subtitle: Text(
-                                    "\$ " +
-                                        provider.productsList[index].price
-                                            .toString(),
+                                    "\$ " + items[index].price.toString(),
                                     style: TextStyle(fontSize: 13)),
                               ),
                             ),

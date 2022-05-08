@@ -18,12 +18,19 @@ class RestaurantBanner extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         //Image
-        Image.asset(image,
-            width: MediaQuery.of(context).size.width,
-            height: 258,
-            color: const Color.fromRGBO(255, 255, 255, 0.6),
-            fit: BoxFit.fill,
-            colorBlendMode: BlendMode.modulate),
+        (image != null)
+            ? Image.network(image,
+                width: MediaQuery.of(context).size.width,
+                height: 258,
+                color: const Color.fromRGBO(255, 255, 255, 0.6),
+                fit: BoxFit.fill,
+                colorBlendMode: BlendMode.modulate)
+            : Image.asset(image,
+                width: MediaQuery.of(context).size.width,
+                height: 258,
+                color: const Color.fromRGBO(255, 255, 255, 0.6),
+                fit: BoxFit.fill,
+                colorBlendMode: BlendMode.modulate),
 
         //Rest. Name
         Text(
@@ -41,7 +48,7 @@ class RestaurantBanner extends StatelessWidget {
             Cuisine,
             style: TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

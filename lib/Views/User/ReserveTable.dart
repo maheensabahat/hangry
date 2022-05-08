@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/ReservationRequest.dart';
+import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Views/User/Widgets/InputBox.dart';
 import 'package:project/Views/User/Widgets/RestaurantBanner.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,9 @@ import 'Reservation_Widgets/ReservationDisplay.dart';
 import 'Reservation_Widgets/SelectionButton.dart';
 
 class ReserveTable extends StatefulWidget {
-  const ReserveTable({Key? key}) : super(key: key);
+  Restaurant restaurant;
+
+  ReserveTable({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   _ReserveTableState createState() => _ReserveTableState();
@@ -45,9 +48,9 @@ class _ReserveTableState extends State<ReserveTable> {
           children: [
             //Image Banner
             RestaurantBanner(
-                Name: "Restaurant's Name",
-                Cuisine: 'Cuisine',
-                image: 'assets/restaurant.jpg'),
+                Name: widget.restaurant.name,
+                Cuisine: widget.restaurant.category,
+                image: widget.restaurant.image),
 
             Expanded(
               child: ListView(
@@ -218,17 +221,16 @@ class _ReserveTableState extends State<ReserveTable> {
                                 name.text.isNotEmpty &&
                                 contact.text.isNotEmpty) {
                               ReservationRequest req = ReservationRequest(
-                                name: name.text,
-                                phone: int.parse(contact.text),
-                                seats: persons,
-                                time: time,
-                                date: date,
-                                status: 'pending'
-                              );
+                                  name: name.text,
+                                  phone: int.parse(contact.text),
+                                  seats: persons,
+                                  time: time,
+                                  date: date,
+                                  status: 'pending');
 
                               // context.read<UserProvider>().reserveTable(req);
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => ReservationDisplay()));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ReservationDisplay()));
                             }
                             // Navigator.of(context).push(widget.next_page);
                           },
@@ -254,7 +256,6 @@ class _ReserveTableState extends State<ReserveTable> {
         floatingActionButton: BackButton());
   }
 }
-
 
 class SeatingAreaButtons extends StatefulWidget {
   Function(String)? getArea;

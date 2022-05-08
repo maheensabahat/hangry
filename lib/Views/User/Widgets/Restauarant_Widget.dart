@@ -16,8 +16,10 @@ class RestaurantWidget extends StatefulWidget {
 }
 
 class _RestaurantState extends State<RestaurantWidget> {
+
   @override
   Widget build(BuildContext context) {
+    print(widget.restaurant.image);
     bool? isfav = widget.restaurant.isFav;
 
     return Container(
@@ -40,13 +42,19 @@ class _RestaurantState extends State<RestaurantWidget> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            child: Image.asset(
-              widget.restaurant.image,
-              width: MediaQuery.of(context).size.width * 0.85,
-              color: const Color.fromRGBO(255, 255, 255, 0.7),
-              colorBlendMode: BlendMode.modulate,
-              fit: BoxFit.fill,
-            ),
+            child: widget.restaurant.image == null
+                ? Image.asset(
+                    widget.restaurant.image,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    color: const Color.fromRGBO(255, 255, 255, 0.7),
+                    colorBlendMode: BlendMode.modulate,
+                    fit: BoxFit.fill,
+                  )
+                : Image.network(widget.restaurant.image,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    color: const Color.fromRGBO(255, 255, 255, 0.7),
+                    colorBlendMode: BlendMode.modulate,
+                    fit: BoxFit.fill),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,
@@ -60,15 +68,17 @@ class _RestaurantState extends State<RestaurantWidget> {
                     end: FractionalOffset.topCenter,
                     colors: [
                       Colors.grey.withOpacity(0.0),
+                      Colors.black54,
                       Colors.black87,
                     ],
                     stops: [
                       0.0,
+                      0.5,
                       1.0
                     ])),
           ),
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.fromLTRB(15, 18, 20, 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -77,7 +87,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                   style: TextStyle(
                       color: Color(0xFFADD9C9),
                       fontSize: 18,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w800),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -90,23 +100,22 @@ class _RestaurantState extends State<RestaurantWidget> {
                       style: TextStyle(
                           color: Color(0xFFADD9C9),
                           fontSize: 14,
-                          fontWeight: FontWeight.w700)),
+                          fontWeight: FontWeight.w900)),
                 ),
-                if (isfav != null) ...[
-                  Icon(
-                    isfav ? Icons.favorite : Icons.favorite_border,
-                    size: 40,
-                    color: Color(0xFF5ABFA3),
-                  ),
-                  // Icon(
-                  //   Icons.favorite_border,
-                  //   size: 40,
-                  //   color: Color(0xFF5ABFA3),
-                  // )
-                ]
               ],
             ),
           ),
+          if (isfav != null) ...[
+            Positioned(
+              top: 10,
+              left: 255,
+              child: Icon(
+                isfav ? Icons.favorite : Icons.favorite_border,
+                size: 35,
+                color: Color(0xFF5ABFA3),
+              ),
+            ),
+          ],
           Positioned(
             left: 250,
             bottom: 15,
