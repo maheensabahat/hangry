@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: AdMainPage(),
     );
   }
@@ -194,13 +194,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           builder: (context) =>
                                               const RestaurantHome()),
                                     );
-                                  } else if (context
-                                      .read<GoogleSignInProvider>()
-                                      .checkAdmin()) {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AdMainPage()));
                                   } else {
                                     context.read<UserProvider>().createUser(
                                         name: googleuser?.displayName,
