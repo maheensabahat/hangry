@@ -11,7 +11,9 @@ class GoogleSignInProvider extends ChangeNotifier {
   bool isLoggedIn = true;
   bool isLoaded = false;
   bool _isRestaurant = false;
-  List<String> restaurantEmails = [];
+  bool _isAdmin = false;
+  String restaurantEmail = "";
+  String adminEmail = "";
   late User appUser;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -47,19 +49,36 @@ class GoogleSignInProvider extends ChangeNotifier {
     if (_user != null) {
       await FirebaseFirestore.instance
           .collection('RestaurantEmails')
+          .where("email", isEqualTo: user!.email)
           .get()
           .then((QuerySnapshot querySnapshot) {
-        restaurantEmails.clear();
         for (var doc in querySnapshot.docs) {
-          restaurantEmails.add(doc["email"]);
+          restaurantEmail = doc["email"];
         }
       });
-      if (restaurantEmails.contains(_user!.email)) {
+      if (restaurantEmail == _user!.email) {
         _isRestaurant = true;
       } else {
         _isRestaurant = false;
       }
     }
+    if (_user != null) {
+      await FirebaseFirestore.instance
+          .collection('AdminEmails')
+          .where("email", isEqualTo: user!.email)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          adminEmail = doc["email"];
+        }
+      });
+      if (adminEmail == _user!.email) {
+        _isAdmin = true;
+      } else {
+        _isAdmin = false;
+      }
+    }
+
     isLoggedIn = true;
     notifyListeners();
   }
@@ -74,5 +93,9 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   bool checkRestaurant() {
     return _isRestaurant;
+  }
+
+  bool checkAdmin() {
+    return _isAdmin;
   }
 }

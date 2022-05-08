@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: AdMainPage(),
     );
   }
@@ -108,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -134,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
               //Heading
               FadeInUp(
-                delay: Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 1000),
                 child: const Padding(
                   padding: EdgeInsets.only(top: 80),
                   child: Text(
@@ -146,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
               //Sub heading
               FadeInUp(
-                delay: Duration(milliseconds: 1200),
+                delay: const Duration(milliseconds: 1200),
                 child: const Padding(
                   padding: EdgeInsets.only(top: 8, bottom: 24),
                   child: Text(
