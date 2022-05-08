@@ -53,7 +53,6 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
   Future<void> addProduct(ProductModel item, restaurant_id) async {
     CollectionReference rest =
         FirebaseFirestore.instance.collection('Restaurants');
-
     rest
         .doc(restaurant_id)
         .collection('Products')

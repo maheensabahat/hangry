@@ -1,0 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:project/Entities/OrdersRest.dart';
+
+class OrdersProvider extends ChangeNotifier {
+  Orders createOrder(
+      {required restaurant_id,
+      required user_id,
+      required qr_id,
+      required order_status}) {
+    return Orders(
+        restaurant_id: restaurant_id,
+        user_id: user_id,
+        qr_id: qr_id,
+        order_status: order_status);
+  }
+
+  static fromJson(Map<String, dynamic> json) {
+    return Orders(
+      restaurant_id: json['restaurant_id'],
+      user_id: json['user_id'],
+      qr_id: json['qr_id'],
+      product_ids: json['product_ids'],
+      order_status: json['order_status'],
+    );
+  }
+
+  Map<String, dynamic> toJson(Orders order) => {
+        'restaurant_id': order.restaurant_id,
+        'user_id': order.user_id,
+        'qr_id': order.qr_id,
+        'product_ids': order.product_ids,
+        "order_status": order.order_status,
+      };
+
+  Future<void> addOrderInFirebase(Orders order) async {
+    await FirebaseFirestore.instance
+        .collection("Orders")
+        .add(toJson(order))
+        .then((documentSnapshot) => order.id = documentSnapshot.id);
+  }
+
+  Future<void> updateOrderStatus(String order_status, String id) async {
+    await FirebaseFirestore.instance
+        .collection("Orders")
+        .doc(id)
+        .update({"order_status": order_status});
+  }
+
+  getOrders(String restaurant_id, String order_status) async {
+    await FirebaseFirestore.instance
+        .collection("Orders")
+        .where("restaurant_id", isEqualTo: restaurant_id)
+        .where("order_status", isEqualTo: order_status);
+  }
+}

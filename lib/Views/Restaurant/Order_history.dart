@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/Views/Restaurant/RestaurantOrder.dart';
 
+import '../../Entities/Products.dart';
+
 class Order_history extends StatefulWidget {
   const Order_history({Key? key}) : super(key: key);
 
@@ -125,7 +127,6 @@ class Orders {
 
   Orders({required this.name, required this.time});
 }
-
 
 ListView list(List x) {
   return ListView.builder(

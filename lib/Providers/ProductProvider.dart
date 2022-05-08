@@ -40,8 +40,6 @@ class ProductProvider with ChangeNotifier {
   //   return product.productImage;
   // }
 
-
-
   Future getProductsFromDB(String price) async {
     // var response = await networkCall.getUser(price);
     // Map<String, dynamic> userMap = jsonDecode(response);
