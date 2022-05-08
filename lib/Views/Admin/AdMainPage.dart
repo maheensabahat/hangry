@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project/Providers/AdminProvider.dart';
 import 'package:project/Views/Admin/AdAdmins.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
+import 'package:project/Views/Admin/AdminDisplay.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/GoogleSignInProvider.dart';
 import '../../main.dart';
@@ -32,37 +34,19 @@ class _AdMainPageState extends State<AdMainPage> {
               );
             },
           ),
-          Container(
-            child: Image.asset(
-              'assets/chef.png',
-              width: 500,
-              fit: BoxFit.cover,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: Container(
+              child: Image.asset(
+                'assets/Admin.png',
+                width: 300,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: SizedBox(
-              //     height: 50,
-              //     width: 80,
-              //     child: ElevatedButton(
-              //       onPressed: () {
-              //         // context.read<RestaurantProvider>().getProducts();
-              //         // Navigator.push(
-              //         //   context,
-              //         //   MaterialPageRoute(
-              //         //       builder: (context) => const RestaurantMenu()),
-              //         // );
-              //       },
-              //       child: const Text('Users'),
-              //       style: ElevatedButton.styleFrom(
-              //           onPrimary: Color(0xFF154038),
-              //           primary: const Color(0xff5abfa3)),
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
@@ -87,13 +71,13 @@ class _AdMainPageState extends State<AdMainPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
                   height: 50,
-                  width: 80,
+                  width: 120,
                   child: ElevatedButton(
                     onPressed: () {
+                      context.read<AdminProvider>().getAdmins();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const AdAdmins()),
+                        MaterialPageRoute(builder: (context) => AdminDisplay()),
                       );
                     },
                     child: const Text('Admins'),

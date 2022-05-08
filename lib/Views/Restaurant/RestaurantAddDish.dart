@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Products.dart';
-import 'package:project/Providers/ProductProvider.dart';
 import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:provider/provider.dart';

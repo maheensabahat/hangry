@@ -2,11 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/Admin/AdMainPage.dart';
 import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Providers/AdminProvider.dart';
 import 'Providers/RestaurantProvider.dart';
 import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
@@ -30,6 +32,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => RestaurantProvider())
       ],
       child: const MyApp(),
@@ -48,8 +51,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      //home: TempMain(),
+       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: AdMainPage(),
     );
   }
 }

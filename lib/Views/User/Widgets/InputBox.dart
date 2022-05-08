@@ -42,8 +42,14 @@ class InputBoxState extends State<InputBox> {
               if (value == null || value.isEmpty) {
                 return '*Required';
               }
-              if (widget.isNum && widget.label == 'Phone number'&& value.length != 11) {
+              if (widget.isNum &&
+                  widget.label == 'Phone number' &&
+                  value.length != 11) {
                 return 'Invalid phone number';
+              }
+              if (widget.label.toLowerCase().contains('email') &&
+                  !value.contains('@')) {
+                return 'Invalid email address';
               }
               return null;
             },
