@@ -105,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -131,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
               //Heading
               FadeInUp(
-                delay: Duration(milliseconds: 1000),
+                delay: const Duration(milliseconds: 1000),
                 child: const Padding(
                   padding: EdgeInsets.only(top: 80),
                   child: Text(
@@ -143,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
               //Sub heading
               FadeInUp(
-                delay: Duration(milliseconds: 1200),
+                delay: const Duration(milliseconds: 1200),
                 child: const Padding(
                   padding: EdgeInsets.only(top: 8, bottom: 24),
                   child: Text(
@@ -190,6 +191,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           builder: (context) =>
                                               const RestaurantHome()),
                                     );
+                                  } else if (context
+                                      .read<GoogleSignInProvider>()
+                                      .checkAdmin()) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AdMainPage()));
                                   } else {
                                     context.read<UserProvider>().createUser(
                                         name: googleuser?.displayName,

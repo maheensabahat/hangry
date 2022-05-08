@@ -12,7 +12,6 @@ class Scanned {
   final String user_id;
   bool order_status;
   late List<OrderItem> orders;
-
   final bool qr_status;
 
   Scanned(
