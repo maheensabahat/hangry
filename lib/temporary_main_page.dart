@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Views/Admin/AdMainPage.dart';
 import 'package:project/main.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
 import 'Views/Admin/AdminDisplay.dart';
@@ -83,7 +84,7 @@ class _TempMainState extends State<TempMain> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AdminDisplay()),
+                        builder: (context) => const AdMainPage()),
                   );
                 },
                 child: const Text('Admin'),

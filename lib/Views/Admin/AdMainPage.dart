@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Providers/AdminProvider.dart';
 import 'package:project/Views/Admin/AdAdmins.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
+import 'package:project/Views/Admin/AdRestaurantsDisplay.dart';
 import 'package:project/Views/Admin/AdminDisplay.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/GoogleSignInProvider.dart';
@@ -57,7 +58,7 @@ class _AdMainPageState extends State<AdMainPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AdRestaurants()),
+                            builder: (context) => const AdRestaurantsDisplay()),
                       );
                     },
                     child: const Text('Restaurants'),

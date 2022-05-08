@@ -12,6 +12,7 @@ class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
   late String email;
   bool isLoaded = true;
+  late List restaurants;
 
   List<Products> productsList = [];
 
@@ -88,6 +89,17 @@ class RestaurantProvider extends ChangeNotifier {
         .toList();
 
     productsList = products;
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  Future<void> getRest() async{
+    isLoaded = false;
+    notifyListeners();
+
+    restaurants = await networkCall.getRest();
+    print(restaurants);
 
     isLoaded = true;
     notifyListeners();
