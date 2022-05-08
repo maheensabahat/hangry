@@ -12,6 +12,7 @@ class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
   late String email;
   bool isLoaded = true;
+  late List restaurants;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -79,7 +80,6 @@ class RestaurantProvider extends ChangeNotifier {
     await Future.delayed(Duration(milliseconds: 1));
     notifyListeners();
 
-
     var response = await networkCall.getProducts(restaurant.id);
 
     List<Products> products = response
@@ -92,6 +92,17 @@ class RestaurantProvider extends ChangeNotifier {
         .toList();
 
     restaurant.items = products;
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  Future<void> getRest() async {
+    isLoaded = false;
+    notifyListeners();
+
+    restaurants = await networkCall.getRest();
+    print(restaurants);
 
     isLoaded = true;
     notifyListeners();
