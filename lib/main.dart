@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-       home: AdMainPage(),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: AdMainPage(),
     );
   }
 }
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
 
     controller.forward();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
   }
 
   @override
@@ -184,46 +184,57 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
                                   if (context
                                       .read<GoogleSignInProvider>()
-                                      .checkRestaurant()) {
-                                    context
-                                        .read<RestaurantProvider>()
-                                        .getRestaurant(googleuser?.email);
-
+                                      .checkAdmin()) {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const RestaurantHome()),
+                                              const AdMainPage()),
                                     );
                                   } else {
-                                    context.read<UserProvider>().createUser(
-                                        name: googleuser?.displayName,
-                                        profilePicture: googleuser?.photoUrl,
-                                        email: googleuser?.email);
+                                    if (context
+                                        .read<GoogleSignInProvider>()
+                                        .checkRestaurant()) {
+                                      context
+                                          .read<RestaurantProvider>()
+                                          .getRestaurant(googleuser?.email);
 
-                                    if (googleuser != null) {
-                                      bool userExists = await context
-                                          .read<UserProvider>()
-                                          .checkUser(context
-                                              .read<GoogleSignInProvider>()
-                                              .user
-                                              ?.email);
-                                      if (!userExists) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const User_Signup()),
-                                        );
-                                      } else {
-                                        context
-                                            .read<UserProvider>()
-                                            .getUserFromDB(googleuser.email);
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => MainPage()),
-                                        );
-                                      }
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RestaurantHome()),
+                                      );
                                     } else {
-                                      print('No user');
+                                      context.read<UserProvider>().createUser(
+                                          name: googleuser?.displayName,
+                                          profilePicture: googleuser?.photoUrl,
+                                          email: googleuser?.email);
+
+                                      if (googleuser != null) {
+                                        bool userExists = await context
+                                            .read<UserProvider>()
+                                            .checkUser(context
+                                                .read<GoogleSignInProvider>()
+                                                .user
+                                                ?.email);
+                                        if (!userExists) {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const User_Signup()),
+                                          );
+                                        } else {
+                                          context
+                                              .read<UserProvider>()
+                                              .getUserFromDB(googleuser.email);
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MainPage()),
+                                          );
+                                        }
+                                      } else {
+                                        print('No user');
+                                      }
                                     }
                                   }
                                 },

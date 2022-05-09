@@ -48,7 +48,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
     if (_user != null) {
       await FirebaseFirestore.instance
-          .collection('Restaurant')
+          .collection('Restaurants')
           .where("email", isEqualTo: user!.email)
           .get()
           .then((QuerySnapshot querySnapshot) {
@@ -72,7 +72,9 @@ class GoogleSignInProvider extends ChangeNotifier {
           adminEmail = doc["Email"];
         }
       });
+
       if (adminEmail == _user!.email) {
+        print(adminEmail);
         _isAdmin = true;
       } else {
         _isAdmin = false;
@@ -87,15 +89,23 @@ class GoogleSignInProvider extends ChangeNotifier {
     await googleSignIn.disconnect().catchError((onError) {
       debugPrint("Error $onError");
     });
+
+    _isRestaurant = false;
+    _isAdmin = false;
+    restaurantEmail = "";
+    adminEmail = "";
+
     isLoggedIn = true;
     notifyListeners();
   }
 
   bool checkRestaurant() {
+    print('x');
     return _isRestaurant;
   }
 
   bool checkAdmin() {
+    print('y');
     return _isAdmin;
   }
 }
