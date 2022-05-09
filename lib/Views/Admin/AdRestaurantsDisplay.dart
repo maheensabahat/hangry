@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Views/Admin/AdMainPage.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:provider/provider.dart';
-import '../../Providers/RestaurantProvider.dart';
+import '../../Providers/AdminProvider.dart';
 
 class AdRestaurantsDisplay extends StatefulWidget {
   const AdRestaurantsDisplay({Key? key}) : super(key: key);
@@ -56,8 +56,7 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(4, 30, 4, 30),
         child: Center(
-          child:
-              Consumer<RestaurantProvider>(builder: (context, provider, child) {
+          child: Consumer<AdminProvider>(builder: (context, provider, child) {
             return (provider.isLoaded)
                 ? ListView.builder(
                     padding: EdgeInsets.zero,

@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: AdMainPage(),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+       home: AdMainPage(),
     );
   }
 }

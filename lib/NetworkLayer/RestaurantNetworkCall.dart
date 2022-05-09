@@ -17,7 +17,6 @@ abstract class RestaurantNetworkCall {
 
   Future updateProduct(ProductModel product, var restaurant_id);
 
-  Future<List> getRest();
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -97,19 +96,4 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     return products;
   }
 
-  Future<List> getRest() async {
-    List restaurants = [];
-
-    await FirebaseFirestore.instance
-        .collection('Restaurants')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        var r = jsonDecode(jsonEncode(doc.data()));
-        var Rname = r['name'];
-        restaurants.add(Rname);
-      });
-    });
-    return restaurants;
-  }
 }

@@ -48,7 +48,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
     if (_user != null) {
       await FirebaseFirestore.instance
-          .collection('RestaurantEmails')
+          .collection('Restaurant')
           .where("email", isEqualTo: user!.email)
           .get()
           .then((QuerySnapshot querySnapshot) {
@@ -64,12 +64,12 @@ class GoogleSignInProvider extends ChangeNotifier {
     }
     if (_user != null) {
       await FirebaseFirestore.instance
-          .collection('AdminEmails')
-          .where("email", isEqualTo: user!.email)
+          .collection('Admin')
+          .where("Email", isEqualTo: user!.email)
           .get()
           .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
-          adminEmail = doc["email"];
+          adminEmail = doc["Email"];
         }
       });
       if (adminEmail == _user!.email) {

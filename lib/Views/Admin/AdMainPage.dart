@@ -55,10 +55,11 @@ class _AdMainPageState extends State<AdMainPage> {
                   width: 120,
                   child: ElevatedButton(
                     onPressed: () {
+                      context.read<AdminProvider>().getRestaurants();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AdRestaurants()),
+                            builder: (context) => const AdRestaurantsDisplay()),
                       );
                     },
                     child: const Text('Restaurants'),
@@ -79,7 +80,7 @@ class _AdMainPageState extends State<AdMainPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AdRestaurantsDisplay()),
+                            builder: (context) => const AdminDisplay()),
                       );
                     },
                     child: const Text('Admins'),
