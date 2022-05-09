@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/Admin/AdMainPage.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
@@ -90,6 +91,28 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: (){
+                                    final deleteR = FirebaseFirestore.instance.collection('Restaurants')
+                                                     .doc(provider.restaurants[index]);
+                                    deleteR.delete().then((value) =>
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text('Success'),
+                                        content: const Text(
+                                            'Restaurant has been deleted from the app succesfully'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text('Ok'))
+                                        ],
+                                      ),
+                                    ),
+                                    );
+                                },),
                                 // subtitle: Text(
                                 //     "\$ " +
                                 //         provider.productsList[index].price

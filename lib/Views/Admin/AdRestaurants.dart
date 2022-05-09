@@ -10,10 +10,14 @@ class AdRestaurants extends StatefulWidget {
 }
 
 CollectionReference restaurants =
-    FirebaseFirestore.instance.collection('RestaurantEmails');
+    FirebaseFirestore.instance.collection('Restaurants');
 
 class _AdRestaurantsState extends State<AdRestaurants> {
   TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController cuisine = TextEditingController();
+  TextEditingController desc = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -50,10 +54,34 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InputBox(
-                      label: 'Restauarant\'s Email',
+                      label: 'Restauarant\'s Details',
                       hintText: '',
                       icon: const Icon(Icons.mail, color: Color(0xFF5ABFA3)),
                       controller: email,
+                      isNum: false,
+                    ),
+                    InputBox(
+                      label: 'Restauarant\'s Name',
+                      hintText: '',
+                      icon:
+                      const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: name,
+                      isNum: false,
+                    ),
+                    InputBox(
+                      label: 'Cuisine',
+                      hintText: '',
+                      icon: const Icon(Icons.dinner_dining,
+                          color: Color(0xFF5ABFA3)),
+                      controller: cuisine,
+                      isNum: false,
+                    ),
+                    InputBox(
+                      label: 'Description about the Restaurant',
+                      hintText: '',
+                      icon: const Icon(Icons.description,
+                          color: Color(0xFF5ABFA3)),
+                      controller: desc,
                       isNum: false,
                     ),
                     Padding(
@@ -64,13 +92,14 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                await restaurants.add({'email': email}).then(
+                                await restaurants.add({'email': email.text, 'name': name.text,
+                                'cuisine':cuisine.text, 'desc': desc.text}).then(
                                   (value) => showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: Text('Success'),
-                                      content: Text(
-                                          'Restaurant has been added to the app succesfully, login through the email to complete the details'),
+                                      content: const Text(
+                                          'Restaurant has been added to the app succesfully'),
                                       actions: [
                                         TextButton(
                                             onPressed: () =>

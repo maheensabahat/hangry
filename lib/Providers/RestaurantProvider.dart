@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import '../Entities/Products.dart';
-import '../Entities/ReservationRequest.dart';
 import '../Entities/Restaurant.dart';
 import '../Models/ProductModel.dart';
-import '../Models/RestaurantModel.dart';
 import '../NetworkLayer/RestaurantNetworkCall.dart';
 
 class RestaurantProvider extends ChangeNotifier {
