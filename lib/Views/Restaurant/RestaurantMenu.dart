@@ -5,6 +5,9 @@ import 'package:project/Views/Restaurant/RestaurantAddDish.dart';
 import 'package:project/Views/Restaurant/RestaurantHome.dart';
 import 'package:provider/provider.dart';
 
+import 'Widgets/BackButton.dart';
+import 'Widgets/Loader.dart';
+
 class RestaurantMenu extends StatefulWidget {
   const RestaurantMenu({Key? key}) : super(key: key);
 
@@ -19,18 +22,10 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.chevron_left,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RestaurantHome()));
-            },
-          ),
-        ),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Back(
+                route:
+                    MaterialPageRoute(builder: (context) => RestaurantHome()))),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Padding(
@@ -71,7 +66,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                         child: FadeInDown(
-                          delay: Duration(milliseconds: 800 * (index + 1)),
+                          delay: Duration(milliseconds: 500 * (index + 1)),
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Color(0x405ABFA3),
@@ -122,14 +117,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       );
                     },
                   )
-                : Center(
-                    child: Container(
-                    child: CircularProgressIndicator(
-                      color: Color(0xffadd9c9),
-                    ),
-                    height: 50,
-                    width: 50,
-                  ));
+                : Loader();
           }),
         ),
       ),

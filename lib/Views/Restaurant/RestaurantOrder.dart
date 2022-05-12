@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Views/Restaurant/Widgets/BackButton.dart';
 
 import 'RestaurantHome.dart';
 
@@ -30,17 +31,10 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.chevron_left,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Back(
+              route: MaterialPageRoute(builder: (context) => RestaurantHome()),
+            )),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Padding(
@@ -103,7 +97,8 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [

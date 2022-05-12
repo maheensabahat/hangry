@@ -9,7 +9,8 @@ class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
   late String email;
   bool isLoaded = true;
-  late List<ReservationRequest> request;
+  late List<ReservationRequest> Approved_request;
+  late List<ReservationRequest> Pending_request;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -32,8 +33,25 @@ class RestaurantProvider extends ChangeNotifier {
     restaurant = r;
   }
 
-  getRequest() async {
-    request = await networkCall.getRequest(restaurant.id);
+  getRequests(String status) async {
+    isLoaded = false;
+    await Future.delayed(Duration(milliseconds: 1));
+    notifyListeners();
+
+    if (status == 'approved') {
+      Approved_request = await networkCall.getRequest(restaurant.id, status);
+    } else {
+      Pending_request = await networkCall.getRequest(restaurant.id, status);
+    }
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  approveRequest(var request_id) async {
+    await networkCall.ApproveRequest(request_id);
+    getRequests('approved');
+    getRequests('pending');
   }
 
   Future<void> updateDetails(Restaurant r) async {

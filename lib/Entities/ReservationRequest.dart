@@ -7,6 +7,7 @@ class ReservationRequest {
   String? name;
   String? restaurantName;
   var restaurant_id;
+  var id;
 
   //user
   //rest

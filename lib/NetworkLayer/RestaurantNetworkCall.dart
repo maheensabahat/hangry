@@ -18,7 +18,9 @@ abstract class RestaurantNetworkCall {
 
   Future updateProduct(ProductModel product, var restaurant_id);
 
-  Future<List<ReservationRequest>> getRequest(var id);
+  Future<List<ReservationRequest>> getRequest(var id, String status);
+
+  Future<void> ApproveRequest(var id);
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -51,19 +53,32 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).catchError((error) => print("Failed to updated detail: $error"));
   }
 
-  Future<List<ReservationRequest>> getRequest(var id) async {
+  Future<List<ReservationRequest>> getRequest(var id, String status) async {
     List<ReservationRequest> requests = [];
     await FirebaseFirestore.instance
         .collection('Reservations')
-        .where('restaurant', isEqualTo: id)
+        .where('rest_ID', isEqualTo: id)
+        .where('status', isEqualTo: status)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        requests.add(
-            ReservationRequest.fromJson(doc.data() as Map<String, dynamic>));
+        var r = ReservationRequest.fromJson(doc.data() as Map<String, dynamic>);
+        r.id = doc.id;
+        requests.add(r);
       });
     });
     return requests;
+  }
+
+  Future<void> ApproveRequest(var id) async {
+    CollectionReference rest =
+        FirebaseFirestore.instance.collection('Reservations');
+
+    rest.doc(id).update({
+      'status': 'approved',
+    }).then((value) {
+      print("Request approved.");
+    }).catchError((error) => print("Failed to approve request: $error"));
   }
 
   @override

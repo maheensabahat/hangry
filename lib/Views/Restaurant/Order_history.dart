@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/Views/Restaurant/RestaurantOrder.dart';
+import 'package:provider/provider.dart';
 
 import '../../Entities/Products.dart';
+import '../../Providers/RestaurantProvider.dart';
+import 'RestaurantHome.dart';
+import 'Widgets/BackButton.dart';
 
 class Order_history extends StatefulWidget {
   const Order_history({Key? key}) : super(key: key);
@@ -47,6 +51,9 @@ class _Order_historyState extends State<Order_history>
 
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          leading: Back(
+            route: MaterialPageRoute(builder: (context) => RestaurantHome()),
+          ),
           toolbarHeight: 150,
           elevation: 0,
           foregroundColor: Colors.black,
@@ -54,7 +61,7 @@ class _Order_historyState extends State<Order_history>
           title: Column(
             children: [
               Text(
-                "Restaurant's name",
+                context.read<RestaurantProvider>().restaurant.name,
                 textAlign: TextAlign.center,
               ),
               Padding(

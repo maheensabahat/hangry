@@ -6,9 +6,11 @@ class InputBox extends StatefulWidget {
   Icon icon;
   TextEditingController controller;
   bool isNum = false;
+  bool? canEdit;
 
   InputBox(
       {Key? key,
+      this.canEdit,
       required this.label,
       required this.hintText,
       required this.icon,
@@ -34,6 +36,7 @@ class InputBoxState extends State<InputBox> {
         Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 24),
           child: TextFormField(
+            enabled: widget.canEdit,
             controller: widget.controller,
             enableInteractiveSelection: false,
             keyboardType:
@@ -53,7 +56,7 @@ class InputBoxState extends State<InputBox> {
               }
               return null;
             },
-            style: const TextStyle(color: Color(0xFF5ABFA3)),
+            style: const TextStyle(color: Color(0xFF5ABFA3), fontSize: 15),
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 border: OutlineInputBorder(
@@ -68,6 +71,10 @@ class InputBoxState extends State<InputBox> {
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide:
                         const BorderSide(width: 2, color: Color(0xFF5ABFA3))),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide:
+                    const BorderSide(width: 0.75, color: Colors.black54)),
                 hintText: widget.hintText,
                 hintStyle: const TextStyle(
                   color: Color(0xFFADD9C9),
