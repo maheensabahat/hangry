@@ -76,7 +76,7 @@ class _AdAdminsState extends State<AdAdmins> {
                                   context: context,
                                   builder: (context) => AlertDialog(
                                     title: Text('Success'),
-                                    content: Text(
+                                    content: const Text(
                                         'Admin has been added to the app succesfully'),
                                     actions: [
                                       TextButton(

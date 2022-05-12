@@ -23,7 +23,6 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
   @override
   Future<RestaurantModel?> getRestaurant(String email) async {
     RestaurantModel? model;
-
     await FirebaseFirestore.instance
         .collection('Restaurants')
         .where('email', isEqualTo: email)
