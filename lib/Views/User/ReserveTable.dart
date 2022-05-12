@@ -222,13 +222,16 @@ class _ReserveTableState extends State<ReserveTable> {
                                 contact.text.isNotEmpty) {
                               ReservationRequest req = ReservationRequest(
                                   name: name.text,
+                                  restaurant: widget.restaurant.id,
                                   phone: int.parse(contact.text),
                                   seats: persons,
                                   time: time,
                                   date: date,
                                   status: 'pending');
 
-                              // context.read<UserProvider>().reserveTable(req);
+                              context
+                                  .read<UserProvider>()
+                                  .reserveTable(req, widget.restaurant);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => ReservationDisplay()));
                             }

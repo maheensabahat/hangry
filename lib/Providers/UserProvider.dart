@@ -101,8 +101,9 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> reserveTable(ReservationRequest request) async {
-    await networkCall.generateRequest(user, request);
+  Future<void> reserveTable(
+      ReservationRequest request, Restaurant restaurant) async {
+    await networkCall.generateRequest(user, restaurant, request);
     notifyListeners();
   }
 
@@ -124,7 +125,7 @@ class UserProvider extends ChangeNotifier {
   Future<List<ReservationRequest>> getReqFromDB(String status) async {
     List<ReservationRequest> r = [
       ReservationRequest(
-          name: 'K', phone: 12, time: 'Lunch', seats: 2, date: DateTime.now())
+          name: 'K', phone: 12, time: 'Lunch', seats: 2, date: DateTime.now(), restaurant: '')
     ];
 
     r = await networkCall.getRequests(this.user, status);
@@ -153,7 +154,6 @@ class UserProvider extends ChangeNotifier {
             image: e.image,
             isFav: false))
         .toList();
-
   }
 
   Future<void> MarkFav(Restaurant r) async {
@@ -165,15 +165,14 @@ class UserProvider extends ChangeNotifier {
 
     user.favs = restList
         .map((e) => Restaurant(
-        name: e.name,
-        desc: e.desc,
-        id: e.id,
-        category: e.category,
-        image: e.image,
-        isFav: true))
+            name: e.name,
+            desc: e.desc,
+            id: e.id,
+            category: e.category,
+            image: e.image,
+            isFav: true))
         .toList();
 
     print(user.favs);
-
   }
 }

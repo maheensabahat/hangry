@@ -4,13 +4,17 @@ class ReservationRequest {
   String time;
   int phone;
   DateTime date;
-  String name;
+  String? name;
+  String? restaurant;
+  var rID;
+  var uID;
 
   //user
   //rest
 
   ReservationRequest(
       {required this.name,
+      required this.restaurant,
       required this.phone,
       required this.time,
       required this.seats,
@@ -22,6 +26,8 @@ class ReservationRequest {
   }
 
   Map<String, dynamic> toJson() => {
+        'rID': rID,
+        'UID': uID,
         'name': name,
         'time': time,
         'date': date,
@@ -37,9 +43,9 @@ class ReservationRequest {
         date: json['date'].toDate(),
         phone: json['phone'],
         seats: json['seats'],
-        status: json['status']);
+        status: json['status'],
+        restaurant: json['restaurant']);
   }
-
 
   @override
   String toString() {

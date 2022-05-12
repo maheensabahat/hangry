@@ -125,7 +125,7 @@ Widget list(String status) {
               alignment: const Alignment(0, 0),
               child: InkWell(
                 child: ListTile(
-                  title: Text(reqs[index].name),
+                  title: Text(reqs[index].name!),
                   // leading: Icon(Icons.restaurant),
                   subtitle: Text(reqs[index].time),
                   trailing: IconButton(
