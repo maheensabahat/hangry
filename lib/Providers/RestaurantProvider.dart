@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/ReservationRequest.dart';
 import '../Entities/Products.dart';
 import '../Entities/Restaurant.dart';
 import '../Models/ProductModel.dart';
@@ -8,6 +9,7 @@ class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
   late String email;
   bool isLoaded = true;
+  late List<ReservationRequest> request;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -28,6 +30,10 @@ class RestaurantProvider extends ChangeNotifier {
 
   setRestaurant(Restaurant r) {
     restaurant = r;
+  }
+
+  getRequest() async {
+    request = await networkCall.getRequest(restaurant.id);
   }
 
   Future<void> updateDetails(Restaurant r) async {

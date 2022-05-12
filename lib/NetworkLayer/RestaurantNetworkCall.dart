@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/Products.dart';
+import '../Entities/ReservationRequest.dart';
 import '../Entities/Restaurant.dart';
 import '../Models/ProductModel.dart';
 import '../Models/RestaurantModel.dart';
@@ -17,6 +18,7 @@ abstract class RestaurantNetworkCall {
 
   Future updateProduct(ProductModel product, var restaurant_id);
 
+  Future<List<ReservationRequest>> getRequest(var id);
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -47,6 +49,21 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).then((value) {
       print("Details updated.");
     }).catchError((error) => print("Failed to updated detail: $error"));
+  }
+
+  Future<List<ReservationRequest>> getRequest(var id) async {
+    List<ReservationRequest> requests = [];
+    await FirebaseFirestore.instance
+        .collection('Reservations')
+        .where('restaurant', isEqualTo: id)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        requests.add(
+            ReservationRequest.fromJson(doc.data() as Map<String, dynamic>));
+      });
+    });
+    return requests;
   }
 
   @override
@@ -94,5 +111,4 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     });
     return products;
   }
-
 }

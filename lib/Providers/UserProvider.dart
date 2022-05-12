@@ -101,9 +101,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> reserveTable(
-      ReservationRequest request, Restaurant restaurant) async {
-    await networkCall.generateRequest(user, restaurant, request);
+  Future<void> reserveTable(ReservationRequest request) async {
+    await networkCall.generateRequest(user, request);
     notifyListeners();
   }
 
@@ -123,10 +122,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<List<ReservationRequest>> getReqFromDB(String status) async {
-    List<ReservationRequest> r = [
-      ReservationRequest(
-          name: 'K', phone: 12, time: 'Lunch', seats: 2, date: DateTime.now(), restaurant: '')
-    ];
+    List<ReservationRequest> r = [];
 
     r = await networkCall.getRequests(this.user, status);
     print("UP" + r.toString());

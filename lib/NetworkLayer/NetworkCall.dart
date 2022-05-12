@@ -17,8 +17,7 @@ abstract class NetworkCall {
 
   Future<String> getUser(String email);
 
-  Future<void> generateRequest(
-      User user, Restaurant rest, ReservationRequest request);
+  Future<void> generateRequest(User user, ReservationRequest request);
 
   Future<List<ReservationRequest>> getRequests(User user, String status);
 
@@ -97,8 +96,7 @@ class FirebaseNetworkCall implements NetworkCall {
   var ID;
 
   @override
-  Future<void> generateRequest(
-      User user, Restaurant rest, ReservationRequest request) async {
+  Future<void> generateRequest(User user, ReservationRequest request) async {
     CollectionReference reqs =
         FirebaseFirestore.instance.collection('Reservations');
 
@@ -108,14 +106,7 @@ class FirebaseNetworkCall implements NetworkCall {
           .doc(user.docID)
           .collection('Reservations')
           .add(request.ID(value.id));
-      print("Request Added to user collection, ${value.id}");
-
-      await FirebaseFirestore.instance
-          .collection('Restaurants')
-          .doc(rest.id)
-          .collection('Reservations')
-          .add(request.ID(value.id));
-      print("Request Added to restaurant collection, ${value.id}");
+      print("Request Added, ${value.id}");
     }).catchError((error) => print("Failed to add request: $error"));
   }
 

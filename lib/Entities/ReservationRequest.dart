@@ -5,16 +5,16 @@ class ReservationRequest {
   int phone;
   DateTime date;
   String? name;
-  String? restaurant;
-  var rID;
-  var uID;
+  String? restaurantName;
+  var restaurant_id;
 
   //user
   //rest
 
   ReservationRequest(
       {required this.name,
-      required this.restaurant,
+      required this.restaurant_id,
+      required this.restaurantName,
       required this.phone,
       required this.time,
       required this.seats,
@@ -26,25 +26,27 @@ class ReservationRequest {
   }
 
   Map<String, dynamic> toJson() => {
-        'rID': rID,
-        'UID': uID,
         'name': name,
         'time': time,
         'date': date,
         'phone': phone,
         'seats': seats,
-        'status': status
+        'status': status,
+        'restaurant': restaurantName,
+        'rest_ID': restaurant_id
       };
 
   static fromJson(Map<String, dynamic> json) {
     return ReservationRequest(
-        name: json['name'],
-        time: json['time'],
-        date: json['date'].toDate(),
-        phone: json['phone'],
-        seats: json['seats'],
-        status: json['status'],
-        restaurant: json['restaurant']);
+      name: json['name'],
+      time: json['time'],
+      date: json['date'].toDate(),
+      phone: json['phone'],
+      seats: json['seats'],
+      status: json['status'],
+      restaurantName: json['restaurant'],
+      restaurant_id: json['rest_ID'],
+    );
   }
 
   @override
