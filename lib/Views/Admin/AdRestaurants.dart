@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../User/Widgets/InputBox.dart';
@@ -97,8 +98,14 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                FirebaseStorage _storage = FirebaseStorage.instance;
+                                File file = File(_imageFile!.path);
+                                TaskSnapshot taskSnapshot =
+                                await _storage.ref(_imageFile!.path).putFile(file);
+                                final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
                                 await restaurants.add({'email': email.text, 'name': name.text,
-                                'cuisine':cuisine.text, 'desc': desc.text, 'image': _imageFile!.path}).then(
+                                'cuisine':cuisine.text, 'desc': desc.text, 'image': downloadUrl}).then(
                                   (value) => showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
@@ -181,7 +188,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                 radius: 80.0,
                 backgroundImage: FileImage(File(_imageFile!.path))
             )
-            : CircleAvatar(
+            : const CircleAvatar(
               radius: 80.0,
               backgroundImage: AssetImage("assets/profile.jpeg")
             ),
