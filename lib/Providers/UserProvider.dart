@@ -171,4 +171,16 @@ class UserProvider extends ChangeNotifier {
 
     print(user.favs);
   }
+
+  List<Restaurant> searchRestaurant(String s){
+    List<Restaurant> rest = [];
+
+    restaurants.forEach((element) {
+      if (element.name == s){
+        rest.add(element);
+      }
+    });
+
+    return rest;
+  }
 }

@@ -11,7 +11,6 @@ import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 import '../../Providers/UserProvider.dart';
-import 'Qr.dart';
 import 'ScanQR.dart';
 import 'UserMenu.dart';
 
@@ -66,7 +65,14 @@ class _HomeState extends State<Home> {
             ),
 
             //Search Bar
-            FadeInLeft(delay: Duration(milliseconds: 800), child: SearchBar()),
+            FadeInLeft(
+                delay: Duration(milliseconds: 800),
+                child: SearchBar(
+                  getRestaurants: (Restaurants) {
+                    restaurants = Restaurants as List<Restaurant>;
+                    setState(() {});
+                  },
+                )),
 
             //Categories - heading
             FadeInRight(
@@ -201,7 +207,9 @@ class HomeHeader extends StatelessWidget {
 }
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  Function(List) getRestaurants;
+
+  SearchBar({Key? key, required this.getRestaurants}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -238,6 +246,11 @@ class _SearchBarState extends State<SearchBar> {
               Icons.search,
               color: Color(0xFF5ABFA3),
             ),
+            onTap: () {
+              List rest =
+                  context.read<UserProvider>().searchRestaurant(search.text);
+              widget.getRestaurants(rest);
+            },
           ),
         ),
         cursorColor: Color(0xFF5ABFA3),

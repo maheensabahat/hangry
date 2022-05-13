@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../Entities/ReservationRequest.dart';
 import '../../Providers/UserProvider.dart';
+import 'Reservation_Widgets/ReservationDisplay.dart';
 
 class UserTableReservations extends StatefulWidget {
   const UserTableReservations({Key? key}) : super(key: key);
@@ -87,7 +88,21 @@ class _UserTableReservationsState extends State<UserTableReservations>
             Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 20),
               child: Container(
-                child: Text('Approved'),
+                child: Consumer<UserProvider>(
+                    builder: (context, userProvider, child) {
+                  List<ReservationRequest> reqs =
+                      userProvider.user.Approved_Reservations;
+                  return (userProvider.reqsLoaded)
+                      ? RequestList(reqs: reqs)
+                      : Center(
+                          child: Container(
+                          child: CircularProgressIndicator(
+                            color: Color(0xffadd9c9),
+                          ),
+                          height: 50,
+                          width: 50,
+                        ));
+                }),
                 // child: RequestList(status: 'approved'),
               ),
             ),
@@ -127,7 +142,7 @@ class _RequestListState extends State<RequestList> {
                   alignment: const Alignment(0, 0),
                   child: InkWell(
                     child: ListTile(
-                      title: Text("Restaurant's Name",
+                      title: Text(widget.reqs[index].restaurantName,
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500)),
                       // leading: Icon(Icons.restaurant),
@@ -145,7 +160,12 @@ class _RequestListState extends State<RequestList> {
                           Icons.chevron_right,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ReservationDisplay(
+                                    request: widget.reqs[index],
+                                  )));
+                        },
                       ),
                     ),
                   ),
