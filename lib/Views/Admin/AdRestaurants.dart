@@ -125,7 +125,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                             },
                             child: const Text('Submit'),
                             style: ElevatedButton.styleFrom(
-                                onPrimary: Color(0xFF154038),
+                                onPrimary: const Color(0xFF154038),
                                 primary: const Color(0xff5abfa3)),
                           )),
                     ),
@@ -190,7 +190,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
             )
             : const CircleAvatar(
               radius: 80.0,
-              backgroundImage: AssetImage("assets/profile.jpeg")
+              backgroundImage: AssetImage("assets/profile.png")
             ),
 
             Positioned(
