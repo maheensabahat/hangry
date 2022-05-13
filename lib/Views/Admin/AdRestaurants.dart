@@ -1,4 +1,4 @@
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../User/Widgets/InputBox.dart';
@@ -20,7 +20,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
   TextEditingController desc = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-   PickedFile? _imageFile;
+   XFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
 
@@ -176,12 +176,16 @@ class _AdRestaurantsState extends State<AdRestaurants> {
     return Center(
       child: Stack(
           children: <Widget> [
-            const CircleAvatar(
+            _imageFile != null
+      ? CircleAvatar(
+                radius: 80.0,
+                backgroundImage: FileImage(File(_imageFile!.path))
+            )
+            : CircleAvatar(
               radius: 80.0,
-              backgroundImage: AssetImage("assets/chef.png"),
-              // backgroundImage: AssetImage("assets/chef.png")
-              //     :FileImage(File(_imageFile.path)),
+              backgroundImage: AssetImage("assets/profile.jpeg")
             ),
+
             Positioned(
               bottom: 20.0,
               right: 20.0,
@@ -208,9 +212,10 @@ class _AdRestaurantsState extends State<AdRestaurants> {
       source: source,
     );
     setState(() {
-      _imageFile = pickedFile as PickedFile;
+      _imageFile = pickedFile;
     });
   }
+
 }
 
 
