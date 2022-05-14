@@ -22,6 +22,7 @@ class Scanned {
 }
 
 class ScanProvider extends ChangeNotifier {
+  late String ScannedEmail;
   late Scanned scanned;
   List jsonOrders = [];
   //List id = [];
@@ -39,6 +40,14 @@ class ScanProvider extends ChangeNotifier {
         qr_status: qr_status);
     scanned.orders = [];
     return scanned;
+  }
+
+  String getScannedEmail() {
+    return ScannedEmail;
+  }
+
+  void setScannedEmail({required String email}) {
+    ScannedEmail = email;
   }
 
   String getQRID() {

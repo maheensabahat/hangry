@@ -60,14 +60,14 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                   children: [
                     imageProfile(),
                     InputBox(
-                      label: 'Restauarant\'s Email',
+                      label: 'Restaurant\'s Email',
                       hintText: '',
                       icon: const Icon(Icons.mail, color: Color(0xFF5ABFA3)),
                       controller: email,
                       isNum: false,
                     ),
                     InputBox(
-                      label: 'Restauarant\'s Name',
+                      label: 'Restaurant\'s Name',
                       hintText: '',
                       icon:
                       const Icon(Icons.person, color: Color(0xFF5ABFA3)),
@@ -100,8 +100,10 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                               if (_formKey.currentState!.validate()) {
                                 FirebaseStorage _storage = FirebaseStorage.instance;
                                 File file = File(_imageFile!.path);
+                                //Putting the file in firebase storage
                                 TaskSnapshot taskSnapshot =
                                 await _storage.ref(_imageFile!.path).putFile(file);
+                                //downloading URL from firebase storage
                                 final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
                                 await restaurants.add({'email': email.text, 'name': name.text,
@@ -111,7 +113,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                                     builder: (context) => AlertDialog(
                                       title: const Text('Success'),
                                       content: const Text(
-                                          'Restaurant has been added to the app succesfully'),
+                                          'Restaurant has been added to the app successfully'),
                                       actions: [
                                         TextButton(
                                             onPressed: () =>

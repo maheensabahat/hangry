@@ -123,7 +123,7 @@ class _UserMenuState extends State<UserMenu> {
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              bottom: 8),
+                                                              bottom: 0),
                                                       child: InkWell(
                                                         child: Icon(Icons
                                                             .shopping_cart),
@@ -164,7 +164,9 @@ class _UserMenuState extends State<UserMenu> {
                                                     ),
                                                   ],
                                                   Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Text('\$ ' +
                                                         menu[index]
                                                             .price

@@ -14,8 +14,8 @@ class RestaurantProvider extends ChangeNotifier {
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
-  Future getRestaurant(String? email) async {
-    var rModel = await networkCall.getRestaurant(email!);
+  Future getRestaurantFromFirebase(String? email) async {
+    var rModel = await networkCall.getRestaurantFromFirebase(email!);
 
     if (rModel != null) {
       this.restaurant = Restaurant(
@@ -27,6 +27,10 @@ class RestaurantProvider extends ChangeNotifier {
       this.email = email;
     }
     notifyListeners();
+  }
+
+  Restaurant getRestaurant(String? email) {
+    return restaurant;
   }
 
   setRestaurant(Restaurant r) {
@@ -59,7 +63,7 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
 
     await networkCall.updateDetails(r);
-    getRestaurant(email);
+    getRestaurantFromFirebase(email);
 
     isLoaded = true;
     notifyListeners();
