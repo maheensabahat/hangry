@@ -11,7 +11,7 @@ class AdminProvider extends ChangeNotifier {
 
   ANetworkCall networkCall = AFirebaseNetworkCall();
 
-  Future<void> getAdmins() async{
+  Future<void> getAdmins() async {
     isLoaded = false;
     notifyListeners();
 
@@ -48,7 +48,11 @@ class AdminProvider extends ChangeNotifier {
   // }
 
   Future updateRest(
-      {required String email, required TextEditingController name, required TextEditingController cuisine, required TextEditingController imageUrl, required TextEditingController desc}) async {
+      {required String email,
+      required String name,
+      required String cuisine,
+      required String imageUrl,
+      required String desc}) async {
     await FirebaseFirestore.instance
         .collection('Restaurants')
         .where("email", isEqualTo: email)
@@ -56,12 +60,14 @@ class AdminProvider extends ChangeNotifier {
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {
         await FirebaseFirestore.instance
-            .collection("Scanned")
+            .collection("Restaurants")
             .doc(doc.id)
-            .update({"name": name,
+            .update({
+          "name": name,
           "cuisine": cuisine,
           "image": imageUrl,
-          "desc": desc,});
+          "desc": desc,
+        });
       }
     });
   }

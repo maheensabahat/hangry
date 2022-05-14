@@ -30,8 +30,8 @@ class AFirebaseNetworkCall implements ANetworkCall {
     return admins;
   }
 
-  Future<List> getRestaurants() async {
-    List restaurants = [];
+  Future<List<Restaurant>> getRestaurants() async {
+    List<Restaurant> restaurants = [];
 
     await FirebaseFirestore.instance
         .collection('Restaurants')
@@ -40,7 +40,13 @@ class AFirebaseNetworkCall implements ANetworkCall {
       querySnapshot.docs.forEach((doc) {
         var admin = jsonDecode(jsonEncode(doc.data()));
         var name = admin['name'];
-        restaurants.add(name);
+        Restaurant rest = Restaurant(
+            id: doc["email"],
+            name: admin["name"],
+            desc: admin["desc"],
+            category: admin["cuisine"],
+            image: admin["image"]);
+        restaurants.add(rest);
         //  var r = jsonEncode(doc.data());
         //  Map<String, dynamic> map = jsonDecode(r);
         //

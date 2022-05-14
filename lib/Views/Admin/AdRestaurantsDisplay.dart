@@ -15,7 +15,6 @@ class AdRestaurantsDisplay extends StatefulWidget {
 }
 
 class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
-
   _builTextField(TextEditingController controller, String labelText) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -32,7 +31,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
           labelStyle: const TextStyle(color: Colors.white),
           border: InputBorder.none,
         ),
-
       ),
     );
   }
@@ -56,7 +54,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
   // CollectionReference ref = FirebaseFirestore.instance.collection('Restaurants');
   // QuerySnapshot snapshot = await firestore.collection("users");
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +67,7 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.of(context)
-                  .push(
+              Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const AdMainPage()));
             },
           ),
@@ -104,179 +100,175 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
           child: Consumer<AdminProvider>(builder: (context, provider, child) {
             return (provider.isLoaded)
                 ? ListView.builder(
-              padding: EdgeInsets.zero,
-              itemExtent: 100,
-              itemCount: provider.restaurants.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-                  child: FadeInDown(
-                    delay: Duration(milliseconds: 800 * (index + 1)),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Color(0x405ABFA3),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(10))),
-                      height: 100,
-                      child: Align(
-                        alignment: const Alignment(0, 0),
-                        child: ListTile(
-                          title: Text(
-                            provider.restaurants[index],
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          leading: IconButton(
-                            icon: const Icon(Icons.edit),
-                            color: Colors.white,
-                            onPressed: () {
-                              nameController =
-                              provider.restaurants[index].doc['name'];
-                              descController =
-                              provider.restaurants[index].doc['phone'];
-                              cuisineController =
-                              provider.restaurants[index].doc['location'];
-                              imageController =
-                              provider.restaurants[index].doc['image'];
-
-                              showDialog(context: context, builder: (context) =>
-                                  Dialog(
-                                    child: Container(
-                                      color: const Color(0xff5abfa3),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ListView(
-                                          shrinkWrap: true,
-                                          children: <Widget>[
-                                            _builTextField(
-                                                nameController, 'Name'),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            _builTextField(
-                                                descController, 'Phone'),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            _builTextField(
-                                                cuisineController, 'Location'),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            _builTextField(
-                                                imageController, 'Image Url'),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            FlatButton(
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(16.0),
-                                                child: Text(
-                                                    'Update Restaurant Details'),
+                    padding: EdgeInsets.zero,
+                    itemExtent: 100,
+                    itemCount: provider.restaurants.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                        child: FadeInDown(
+                          delay: Duration(milliseconds: 800 * (index + 1)),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                                color: Color(0x405ABFA3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            height: 100,
+                            child: Align(
+                              alignment: const Alignment(0, 0),
+                              child: ListTile(
+                                title: Text(
+                                  provider.restaurants[index].name,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                leading: IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    nameController.text =
+                                        provider.restaurants[index].name;
+                                    descController.text =
+                                        provider.restaurants[index].desc;
+                                    cuisineController.text =
+                                        provider.restaurants[index].category;
+                                    imageController.text =
+                                        provider.restaurants[index].image;
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                              child: Container(
+                                                color: const Color(0xff5abfa3),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: ListView(
+                                                    shrinkWrap: true,
+                                                    children: <Widget>[
+                                                      _builTextField(
+                                                          nameController,
+                                                          'Name'),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      _builTextField(
+                                                          descController,
+                                                          'Phone'),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      _builTextField(
+                                                          cuisineController,
+                                                          'Location'),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      _builTextField(
+                                                          imageController,
+                                                          'Image Url'),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      ElevatedButton(
+                                                        child: const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: Text(
+                                                              'Update Restaurant Details'),
+                                                        ),
+                                                        style: ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(Colors
+                                                                        .green)),
+                                                        onPressed: () {
+                                                          context.read<AdminProvider>().updateRest(
+                                                              email: provider
+                                                                  .restaurants[
+                                                                      index]
+                                                                  .id,
+                                                              name:
+                                                                  nameController
+                                                                      .text,
+                                                              cuisine:
+                                                                  cuisineController
+                                                                      .text,
+                                                              imageUrl:
+                                                                  imageController
+                                                                      .text,
+                                                              desc:
+                                                                  descController
+                                                                      .text);
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      FlatButton(
+                                                        child: const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: Text(
+                                                              'Delete Restaurant'),
+                                                        ),
+                                                        color: Colors.red,
+                                                        onPressed: () {
+                                                          //delete function here
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                              color: Colors.green,
-                                              onPressed: () {
-                                                context.read<AdminProvider>()
-                                                    .updateRest(email: provider
-                                                    .restaurants[index]
-                                                    .doc['email'],
-                                                    name: nameController,
-                                                    cuisine: cuisineController,
-                                                    imageUrl: imageController,
-                                                    desc: descController);
+                                            ));
+                                  },
+                                ),
 
-                                                setState(() {});
-
-
-                                                //
-                                                // await provider.updateRestDetails({'email': emailController.text, 'name': nameController.text,
-                                                //   'cuisine':cuisineController.text, 'desc': descController.text, 'image': imageController})
-                                                //     .then(
-                                                //       (value) => showDialog(
-                                                //     context: context,
-                                                //     builder: (context) => AlertDialog(
-                                                //       title: const Text('Success'),
-                                                //       content: const Text(
-                                                //           'Restaurant has been updated successfully'),
-                                                //       actions: [
-                                                //         TextButton(
-                                                //             onPressed: () =>
-                                                //                 Navigator.pop(context),
-                                                //             child: const Text('Ok'))
-                                                //       ],
-                                                //     ),
-                                                //   ),
-                                                // );
-
-                                              },),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            FlatButton(
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(16.0),
-                                                child: Text(
-                                                    'Delete Restaurant'),
-                                              ),
-                                              color: Colors.red,
-                                              onPressed: () {
-                                                //delete function here
-
-
-                                              },),
-
-                                          ],
-
-                                        ),
-                                      ),
-                                    ),
-                                  ));
-                            },
+                                // trailing: IconButton(
+                                //   icon: const Icon(Icons.delete),
+                                //   onPressed: (){
+                                //     final deleteR = FirebaseFirestore.instance.collection('Restaurants')
+                                //                      .doc(provider.restaurants[index]);
+                                //     deleteR.delete().then((value) =>
+                                //     showDialog(
+                                //       context: context,
+                                //       builder: (context) => AlertDialog(
+                                //         title: const Text('Success'),
+                                //         content: const Text(
+                                //             'Restaurant has been deleted from the app successfully'),
+                                //         actions: [
+                                //           TextButton(
+                                //               onPressed: () =>
+                                //                   Navigator.pop(context),
+                                //               child: Text('Ok'))
+                                //         ],
+                                //       ),
+                                //     ),
+                                //     );
+                                // },),
+                                // subtitle: Text(
+                                //     "\$ " +
+                                //         provider.productsList[index].price
+                                //             .toString(),
+                                //     style: TextStyle(fontSize: 13)),
+                              ),
+                            ),
                           ),
-
-                          // trailing: IconButton(
-                          //   icon: const Icon(Icons.delete),
-                          //   onPressed: (){
-                          //     final deleteR = FirebaseFirestore.instance.collection('Restaurants')
-                          //                      .doc(provider.restaurants[index]);
-                          //     deleteR.delete().then((value) =>
-                          //     showDialog(
-                          //       context: context,
-                          //       builder: (context) => AlertDialog(
-                          //         title: const Text('Success'),
-                          //         content: const Text(
-                          //             'Restaurant has been deleted from the app successfully'),
-                          //         actions: [
-                          //           TextButton(
-                          //               onPressed: () =>
-                          //                   Navigator.pop(context),
-                          //               child: Text('Ok'))
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     );
-                          // },),
-                          // subtitle: Text(
-                          //     "\$ " +
-                          //         provider.productsList[index].price
-                          //             .toString(),
-                          //     style: TextStyle(fontSize: 13)),
                         ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            )
+                      );
+                    },
+                  )
                 : Center(
-                child: Container(
-                  child: const CircularProgressIndicator(
-                    color: Color(0xffadd9c9),
-                  ),
-                  height: 50,
-                  width: 50,
-                ));
+                    child: Container(
+                    child: const CircularProgressIndicator(
+                      color: Color(0xffadd9c9),
+                    ),
+                    height: 50,
+                    width: 50,
+                  ));
           }),
         ),
       ),
