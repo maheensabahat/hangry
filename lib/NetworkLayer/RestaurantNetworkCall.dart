@@ -8,7 +8,7 @@ import '../Models/ProductModel.dart';
 import '../Models/RestaurantModel.dart';
 
 abstract class RestaurantNetworkCall {
-  Future<RestaurantModel?> getRestaurant(String email);
+  Future<RestaurantModel?> getRestaurantFromFirebase(String email);
 
   Future updateDetails(Restaurant restaurant);
 
@@ -25,7 +25,7 @@ abstract class RestaurantNetworkCall {
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
   @override
-  Future<RestaurantModel?> getRestaurant(String email) async {
+  Future<RestaurantModel?> getRestaurantFromFirebase(String email) async {
     RestaurantModel? model;
     await FirebaseFirestore.instance
         .collection('Restaurants')

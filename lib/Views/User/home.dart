@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
+import 'package:project/Providers/RestaurantProvider.dart';
+import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:project/main.dart';
@@ -124,12 +126,16 @@ class _HomeState extends State<Home> {
                 color: Colors.black,
               ),
               onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => UserMenu(
-                //           user: context.read<UserProvider>().getUser(),
-                //           scanned: context.read<UserProvider>().getQR(),
-                //           restaurant: widget.restaurant,
-                //         )));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UserMenu(
+                          user: context.read<UserProvider>().getUser(),
+                          scanned: context.read<UserProvider>().getQR(),
+                          restaurant: context
+                              .read<RestaurantProvider>()
+                              .getRestaurant(
+                                context.read<ScanProvider>().getScannedEmail(),
+                              ),
+                        )));
               },
               backgroundColor: Color(0xff51bfa3),
             ),

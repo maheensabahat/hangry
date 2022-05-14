@@ -196,7 +196,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         .checkRestaurant()) {
                                       context
                                           .read<RestaurantProvider>()
-                                          .getRestaurant(googleuser?.email);
+                                          .getRestaurantFromFirebase(
+                                              googleuser?.email);
 
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

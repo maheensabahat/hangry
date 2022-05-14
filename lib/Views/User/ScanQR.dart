@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/UserMenu.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +14,6 @@ import '../../Entities/My_Order.dart';
 import '../../Providers/ScanProvider.dart';
 
 class ScanQR extends StatefulWidget {
-  Restaurant restaurant = Restaurant(
-    name: "Xander's",
-    desc:
-        "Xander’s is a modern gourmet café – the concept is all about simple, fresh ingredients & light meals in a vibrant and minimalistic ambience.",
-    category: 'Cafe',
-    isFav: true,
-    image: 'assets/restaurant.jpg',
-  );
   User user;
 
   ScanQR({Key? key, required this.user}) : super(key: key);
@@ -30,9 +23,12 @@ class ScanQR extends StatefulWidget {
 }
 
 class _ScanQRState extends State<ScanQR> {
+  late Restaurant restaurant;
+  String? email;
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool pressable = false;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -92,8 +88,8 @@ class _ScanQRState extends State<ScanQR> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                    Text("Successfully Scanned, Press Next\n"
+                        'Barcode Type: ${describeEnum(result!.format)}   \nData: ${result!.code}')
                   else
                     const Text('Scan a code'),
                 ],
@@ -102,29 +98,38 @@ class _ScanQRState extends State<ScanQR> {
             Padding(
               padding: const EdgeInsets.only(top: 36),
               child: FloatingActionButton.extended(
-                onPressed: () {
-                  if (!widget.user.qr && result != null) {
-                    widget.user.qr = true;
-                    widget.user.CreateCart(widget.restaurant);
-                    Scanned scanInstance = context
-                        .read<ScanProvider>()
-                        .createScannedInstance(
-                            qr_id: result!.code.toString(),
-                            user_id: context.read<UserProvider>().getEmail(),
-                            order_status: false,
-                            qr_status: true);
-                    context.read<ScanProvider>().addInstanceToFirebase(
-                        scanned: scanInstance,
-                        user: context.read<UserProvider>().getUser());
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UserMenu(
-                              user: widget.user,
-                              scanned: true,
-                              restaurant: widget.restaurant,
-                              data: result!.code as String,
-                            )));
-                  }
-                },
+                onPressed: pressable
+                    ? () async {
+                        await context
+                            .read<RestaurantProvider>()
+                            .getRestaurantFromFirebase(email);
+                        restaurant = context
+                            .read<RestaurantProvider>()
+                            .getRestaurant(email);
+                        if (!widget.user.qr && result != null) {
+                          widget.user.qr = true;
+                          widget.user.CreateCart(restaurant);
+                          Scanned scanInstance = context
+                              .read<ScanProvider>()
+                              .createScannedInstance(
+                                  qr_id: result!.code.toString(),
+                                  user_id:
+                                      context.read<UserProvider>().getEmail(),
+                                  order_status: false,
+                                  qr_status: true);
+                          context.read<ScanProvider>().addInstanceToFirebase(
+                              scanned: scanInstance,
+                              user: context.read<UserProvider>().getUser());
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UserMenu(
+                                    user: widget.user,
+                                    scanned: true,
+                                    restaurant: restaurant,
+                                    data: result!.code as String,
+                                  )));
+                        }
+                      }
+                    : null,
                 backgroundColor: Color(0xFF5ABFA3),
                 label: Text('Next'),
                 icon: Icon(Icons.arrow_forward),
@@ -162,9 +167,16 @@ class _ScanQRState extends State<ScanQR> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      if (scanData.code != null) {
+        if (scanData.code!.contains(" ") && scanData.code!.contains(":")) {
+          email = (scanData.code!.split(" ")[0]).split(":")[1];
+          setState(() {
+            result = scanData;
+            pressable = true;
+            context.read<ScanProvider>().setScannedEmail(email: email!);
+          });
+        }
+      }
     });
   }
 
