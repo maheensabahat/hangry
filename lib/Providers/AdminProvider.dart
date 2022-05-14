@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../Entities/Restaurant.dart';
 import '../NetworkLayer/AdminNetworkCall.dart';
 
 class AdminProvider extends ChangeNotifier {
@@ -30,4 +32,49 @@ class AdminProvider extends ChangeNotifier {
     isLoaded = true;
     notifyListeners();
   }
+
+  // Future<void> updateRestDetails(
+  //     {required String email, required String qr_id}) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('Restaurants')
+  //       .where("email", isEqualTo: Restemail)
+  //   isLoaded = false;
+  //   notifyListeners();
+  //
+  //   await networkCall.updateRestDetails(r);
+  //
+  //   isLoaded = true;
+  //   notifyListeners();
+  // }
+
+  Future updateRest(
+      {required String email, required TextEditingController name, required TextEditingController cuisine, required TextEditingController imageUrl, required TextEditingController desc}) async {
+    await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .where("email", isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection("Scanned")
+            .doc(doc.id)
+            .update({"name": name,
+          "cuisine": cuisine,
+          "image": imageUrl,
+          "desc": desc,});
+      }
+    });
+  }
+
+//   Future deleteRest({required String email}) async {
+//     await FirebaseFirestore.instance
+//         .collection('Restaurants')
+//         .get()
+//         .then((QuerySnapshot querySnapshot) {
+//           querySnapshot.data.documents[index]
+//               .delete();
+//     };
+//
+//
+// }
 }

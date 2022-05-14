@@ -71,7 +71,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
                         child: FadeInDown(
                           delay: Duration(milliseconds: 800 * (index + 1)),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Color(0x405ABFA3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
@@ -89,7 +89,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
                                 // ),
                                 title: Text(
                                   provider.admins[index],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
