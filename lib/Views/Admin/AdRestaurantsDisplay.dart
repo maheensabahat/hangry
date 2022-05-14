@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:project/Views/Admin/AdMainPage.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:provider/provider.dart';
-import '../../Entities/Restaurant.dart';
 import '../../Providers/AdminProvider.dart';
 
 class AdRestaurantsDisplay extends StatefulWidget {
@@ -84,8 +83,8 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff5abfa3),
-        foregroundColor: const Color(0xFF154038),
+        backgroundColor: const Color(0xFF154038),
+        foregroundColor: const Color(0xff5abfa3),
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
@@ -200,13 +199,32 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                                       .text,
                                                               desc:
                                                                   descController
-                                                                      .text);
+                                                                      .text).then((value) =>
+                                                              showDialog(
+                                                                context: context,
+                                                                builder: (context) => AlertDialog(
+                                                                  title: const Text('Success'),
+                                                                  content: const Text(
+                                                                      'Restaurant has been updated in the app successfully'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed: () =>
+                                                                            Navigator.pop(context),
+                                                                        child: const Text('Ok'))
+                                                                  ],
+                                                                ),
+                                                              ));
                                                         },
                                                       ),
                                                       const SizedBox(
                                                         height: 20,
                                                       ),
-                                                      FlatButton(
+                                                      ElevatedButton(
+                                                        style: ButtonStyle(
+                                                            backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(Colors
+                                                                .red)),
                                                         child: const Padding(
                                                           padding:
                                                               EdgeInsets.all(
@@ -214,9 +232,31 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                           child: Text(
                                                               'Delete Restaurant'),
                                                         ),
-                                                        color: Colors.red,
+
                                                         onPressed: () {
-                                                          //delete function here
+                                                         FirebaseFirestore.instance.collection('Restaurants')
+                                                              .where("email", isEqualTo: provider.restaurants[index].email).get()
+                                                              .then((QuerySnapshot querySnapshot) async {
+                                                            for (var doc in querySnapshot.docs) {
+                                                              await FirebaseFirestore.instance
+                                                                  .collection("Restaurants")
+                                                                  .doc(doc.id)
+                                                                  .delete().then((value) => showDialog(
+                                                                context: context,
+                                                                builder: (context) => AlertDialog(
+                                                                  title: const Text('Success'),
+                                                                  content: const Text(
+                                                                      'Restaurant has been deleted from the app successfully'),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed: () =>
+                                                                            Navigator.pop(context),
+                                                                        child: const Text('Ok'))
+                                                                  ],
+                                                                ),
+                                                              ));
+                                                            }
+                                                          });
                                                         },
                                                       ),
                                                     ],
@@ -226,34 +266,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                             ));
                                   },
                                 ),
-
-                                // trailing: IconButton(
-                                //   icon: const Icon(Icons.delete),
-                                //   onPressed: (){
-                                //     final deleteR = FirebaseFirestore.instance.collection('Restaurants')
-                                //                      .doc(provider.restaurants[index]);
-                                //     deleteR.delete().then((value) =>
-                                //     showDialog(
-                                //       context: context,
-                                //       builder: (context) => AlertDialog(
-                                //         title: const Text('Success'),
-                                //         content: const Text(
-                                //             'Restaurant has been deleted from the app successfully'),
-                                //         actions: [
-                                //           TextButton(
-                                //               onPressed: () =>
-                                //                   Navigator.pop(context),
-                                //               child: Text('Ok'))
-                                //         ],
-                                //       ),
-                                //     ),
-                                //     );
-                                // },),
-                                // subtitle: Text(
-                                //     "\$ " +
-                                //         provider.productsList[index].price
-                                //             .toString(),
-                                //     style: TextStyle(fontSize: 13)),
                               ),
                             ),
                           ),
@@ -276,13 +288,3 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
   }
 }
 
-
-//   Restaurant r(
-//       {required String email, required String name, required String cuisine, required String desc}) {
-//     this.email = email;
-//     this.name = name;
-//     this.cuisine = cuisine;
-//     this.desc = desc;
-//   }
-//
-//
