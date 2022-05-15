@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/OrdersRest.dart';
+import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 class OrdersProvider extends ChangeNotifier {
+  List<OrderItem> friendOrders = [];
+  int price = 0;
+
   Orders createOrder(
       {required restaurant_id,
       required user_id,
@@ -52,5 +57,30 @@ class OrdersProvider extends ChangeNotifier {
         .collection("Orders")
         .where("restaurant_id", isEqualTo: restaurant_id)
         .where("order_status", isEqualTo: order_status);
+  }
+
+  setFriendOrders(List<List<OrderItem>> friendOrders) {
+    this.friendOrders.clear();
+    for (var list in friendOrders) {
+      for (OrderItem orderItem in list) {
+        this.friendOrders.add(orderItem);
+        debugPrint(orderItem.price.toString());
+      }
+    }
+  }
+
+  void setTotalPrice({required List<OrderItem> myOrders}) {
+    price = 0;
+    for (OrderItem orderItem in friendOrders) {
+      price += orderItem.price * orderItem.quantity;
+    }
+    for (OrderItem orderItem in myOrders) {
+      price += orderItem.price * orderItem.quantity;
+    }
+    //notifyListeners();
+  }
+
+  int getTotalPrice({required List<OrderItem> myOrder}) {
+    return price;
   }
 }

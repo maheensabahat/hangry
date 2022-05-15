@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/Providers/OrdersProvider.dart';
+import 'package:project/Providers/ScanProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Entities/ShoppingCart.dart';
 
@@ -12,17 +15,9 @@ class Summary extends StatefulWidget {
 }
 
 class _SummaryState extends State<Summary> {
-  double total = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    total = widget.cart.orderTotal();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 70,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -30,7 +25,7 @@ class _SummaryState extends State<Summary> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              const Text(
                 'Grand Total:',
                 style: TextStyle(
                   fontSize: 15,
@@ -40,8 +35,14 @@ class _SummaryState extends State<Summary> {
               Padding(
                 padding: const EdgeInsets.only(left: 40),
                 child: Text(
-                  '\$ ' + total.toString(),
-                  style: TextStyle(
+                  '\$ ' +
+                      context
+                          .watch<OrdersProvider>()
+                          .getTotalPrice(
+                              myOrder:
+                                  context.read<ScanProvider>().getOrderList())
+                          .toString(),
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),
@@ -52,7 +53,7 @@ class _SummaryState extends State<Summary> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              const Text(
                 'Tax:',
                 style: TextStyle(
                   fontSize: 15,
@@ -62,8 +63,14 @@ class _SummaryState extends State<Summary> {
               Padding(
                 padding: const EdgeInsets.only(left: 40),
                 child: Text(
-                  '\$ ' + (total * 0.13).toStringAsFixed(2),
-                  style: TextStyle(
+                  '\$ ' +
+                      (context.watch<OrdersProvider>().getTotalPrice(
+                                  myOrder: context
+                                      .read<ScanProvider>()
+                                      .getOrderList()) *
+                              0.13)
+                          .toStringAsFixed(2),
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),
@@ -76,7 +83,7 @@ class _SummaryState extends State<Summary> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
+                const Text(
                   'Net Total:',
                   style: TextStyle(
                     fontSize: 17,
@@ -86,8 +93,14 @@ class _SummaryState extends State<Summary> {
                 Padding(
                   padding: const EdgeInsets.only(left: 40),
                   child: Text(
-                    '\$ ' + (total * 1.13).toStringAsFixed(2),
-                    style: TextStyle(
+                    '\$ ' +
+                        (context.watch<OrdersProvider>().getTotalPrice(
+                                    myOrder: context
+                                        .read<ScanProvider>()
+                                        .getOrderList()) *
+                                1.13)
+                            .toStringAsFixed(2),
+                    style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w900,
                     ),

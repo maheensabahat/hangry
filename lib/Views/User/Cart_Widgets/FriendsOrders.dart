@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
@@ -47,13 +48,12 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                     desc: data["desc"],
                     price: data["price"],
                     quantity: data["quantity"]);
+                order.image = data["image"];
+
                 singleFriendDishes.add(order);
               }
               allFriendsDishes.add(singleFriendDishes);
-              print(name);
-              print(image);
-              print(allFriendsDishes);
-              print(allFriendsDishes.length);
+              context.watch<OrdersProvider>().setFriendOrders(allFriendsDishes);
             }
           }
 
@@ -168,9 +168,12 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                       height: 60,
                                                       decoration: BoxDecoration(
                                                           image:
-                                                              const DecorationImage(
-                                                            image: AssetImage(
-                                                              'assets/pasta.jpg',
+                                                              DecorationImage(
+                                                            image: NetworkImage(
+                                                              allFriendsDishes[
+                                                                          emailIndex]
+                                                                      [index]
+                                                                  .image,
                                                             ),
                                                             fit: BoxFit.fill,
                                                           ),
@@ -266,34 +269,6 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                       ),
                                     ),
                                   ),
-                                  Positioned.fill(
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: SizedBox(
-                                        height: 42,
-                                        child: FittedBox(
-                                            child: order_status[emailIndex]
-                                                ? null
-                                                : FloatingActionButton.extended(
-                                                    onPressed: () {
-                                                      context
-                                                          .read<ScanProvider>()
-                                                          .updateOrderStatusInFirebase(
-                                                              email: friendEmails[
-                                                                  emailIndex],
-                                                              qr_id: context
-                                                                  .read<
-                                                                      ScanProvider>()
-                                                                  .getQRID());
-                                                      setState(() {});
-                                                    },
-                                                    backgroundColor:
-                                                        Color(0xFF5ABFA3),
-                                                    label:
-                                                        Text('Place Order'))),
-                                      ),
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
@@ -302,7 +277,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                   ),
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

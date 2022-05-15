@@ -40,7 +40,7 @@ class _MyOrdersState extends State<MyOrders> {
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        title: Padding(
+        title: const Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Text(
             'My Orders',
@@ -55,7 +55,7 @@ class _MyOrdersState extends State<MyOrders> {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
@@ -69,7 +69,8 @@ class _MyOrdersState extends State<MyOrders> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 25, left: 5, right: 5),
+                    padding:
+                        const EdgeInsets.only(bottom: 25, left: 5, right: 5),
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color(0x905ABFA3),

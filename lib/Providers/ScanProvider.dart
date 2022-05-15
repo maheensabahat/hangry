@@ -76,6 +76,7 @@ class ScanProvider extends ChangeNotifier {
         "desc": order.desc,
         "price": order.price,
         "quantity": order.quantity,
+        "image": order.image
       });
     }
 

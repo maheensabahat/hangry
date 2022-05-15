@@ -100,8 +100,9 @@ class _UserMenuState extends State<UserMenu> {
                                                 width: 70,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: AssetImage(
-                                                      'assets/pasta.jpg',
+                                                    image: NetworkImage(
+                                                      provider.restaurant
+                                                          .items[index].image!,
                                                     ),
                                                     fit: BoxFit.fill,
                                                   ),
@@ -133,11 +134,23 @@ class _UserMenuState extends State<UserMenu> {
                                                                   .read<
                                                                       UserProvider>()
                                                                   .getEmail(),
-                                                              name: 'Pizza',
-                                                              desc:
-                                                                  'Chicken Fajita',
-                                                              price: 20,
+                                                              name: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .name,
+                                                              desc: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .desc,
+                                                              price: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .price,
                                                               quantity: 1);
+                                                          order.image = provider
+                                                              .restaurant
+                                                              .items[index]
+                                                              .image!;
                                                           context
                                                               .read<
                                                                   ScanProvider>()

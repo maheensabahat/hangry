@@ -9,6 +9,7 @@ import 'Entities/My_Order.dart';
 import 'package:project/Views/User/user_signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'Providers/AdminProvider.dart';
+import 'Providers/OrdersProvider.dart';
 import 'Providers/RestaurantProvider.dart';
 import 'Providers/ScanProvider.dart';
 import 'Views/Restaurant/RestaurantHome.dart';
@@ -33,6 +34,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),
+        ChangeNotifierProvider(create: (_) => OrdersProvider()),
         ChangeNotifierProvider(create: (_) => RestaurantProvider())
       ],
       child: const MyApp(),
