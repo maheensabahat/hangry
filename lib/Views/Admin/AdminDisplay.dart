@@ -79,25 +79,12 @@ class _AdminDisplayState extends State<AdminDisplay> {
                             child: Align(
                               alignment: const Alignment(0, 0),
                               child: ListTile(
-                                // leading: Padding(
-                                //   padding: const EdgeInsets.all(5),
-                                //   child: Container(
-                                //     height: 100,
-                                //     width: 70,
-                                //     color: const Color(0xff5abfa3),
-                                //   ),
-                                // ),
                                 title: Text(
                                   provider.admins[index],
                                   style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                // subtitle: Text(
-                                //     "\$ " +
-                                //         provider.productsList[index].price
-                                //             .toString(),
-                                //     style: TextStyle(fontSize: 13)),
                               ),
                             ),
                           ),

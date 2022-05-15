@@ -48,7 +48,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
   TextEditingController emailController = TextEditingController();
   TextEditingController descController = TextEditingController();
   TextEditingController cuisineController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
 
   // CollectionReference ref = FirebaseFirestore.instance.collection('Restaurants');
   // QuerySnapshot snapshot = await firestore.collection("users");
@@ -132,8 +131,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                         provider.restaurants[index].desc;
                                     cuisineController.text =
                                         provider.restaurants[index].category;
-                                    imageController.text =
-                                        provider.restaurants[index].image;
                                     showDialog(
                                         context: context,
                                         builder: (context) => Dialog(
@@ -163,12 +160,6 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                       const SizedBox(
                                                         height: 20,
                                                       ),
-                                                      _builTextField(
-                                                          imageController,
-                                                          'Image Url'),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
                                                       ElevatedButton(
                                                         child: const Padding(
                                                           padding:
@@ -178,16 +169,12 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                               'Update Restaurant Details'),
                                                         ),
                                                         style: ButtonStyle(
-                                                            backgroundColor:
-                                                                MaterialStateProperty
-                                                                    .all(Colors
-                                                                        .green)),
+                                                            backgroundColor:MaterialStateProperty.all(Colors.green)),
                                                         onPressed: () {
                                                           context.read<AdminProvider>().updateRest(
                                                               email: provider.restaurants[index].id,
                                                               name: nameController.text,
                                                               cuisine: cuisineController.text,
-                                                              imageUrl: imageController.text,
                                                               desc: descController.text)
                                                               .then((value) => showDialog(
                                                                 context: context,
@@ -214,13 +201,9 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                       ElevatedButton(
                                                         style: ButtonStyle(
                                                             backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all(Colors
-                                                                .red)),
+                                                            MaterialStateProperty.all(Colors.red)),
                                                         child: const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16.0),
+                                                          padding: EdgeInsets.all(16.0),
                                                           child: Text(
                                                               'Delete Restaurant'),
                                                         ),

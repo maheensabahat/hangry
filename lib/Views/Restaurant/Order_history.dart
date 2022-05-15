@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/Providers/AdminProvider.dart';
-import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/Restaurant/RestaurantOrder.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/RestaurantProvider.dart';
-import '../../Entities/Products.dart';
-import '../../Providers/RestaurantProvider.dart';
-import '../Admin/AdRestaurantsDisplay.dart';
 import 'RestaurantHome.dart';
 import 'Widgets/BackButton.dart';
 
@@ -23,18 +18,15 @@ class _Order_historyState extends State<Order_history>
 
   @override
   late List<Orders?> Pending_Orders = [];
-
   late List<Orders?> Approved_Orders = [];
-
   late List<Orders?> Rejected_orders = [];
-
   var restaurant_id;
 
 
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           leading: Back(
-            route: MaterialPageRoute(builder: (context) => RestaurantHome()),
+            route: MaterialPageRoute(builder: (context) => const RestaurantHome()),
           ),
           toolbarHeight: 150,
           elevation: 0,
@@ -82,6 +74,10 @@ class _Order_historyState extends State<Order_history>
           ),
         ),
         body: Consumer<RestaurantProvider>(builder: (context, provider, child) {
+          restaurant_id = context.read<RestaurantProvider>().getEmail();
+          Pending_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Pending") as List<Orders?>;
+          Approved_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Approved") as List<Orders?>;
+          Rejected_orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Approved") as List<Orders?>;
          return (provider.isLoaded)
               ? TabBarView(
             controller: _tabController,
@@ -89,26 +85,20 @@ class _Order_historyState extends State<Order_history>
               Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 20),
                 child: Container(
-                  child: list(Pending_Orders =
-                  context.read<RestaurantProvider>().getRestOrders(
-                      restaurant_id, "Pending") as List<Orders?>),
+                  child: list(Pending_Orders),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 20),
                 child: Container(
-                  child: list(Approved_Orders =
-                  context.read<RestaurantProvider>().getRestOrders(
-                      restaurant_id, "Approved") as List<Orders?>),
+                  child: list(Approved_Orders),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 20),
                 child: Container(
-                  child: list(Rejected_orders =
-                  context.read<RestaurantProvider>().getRestOrders(
-                      restaurant_id, "Approved") as List<Orders?>),
-                ),
+                  child: list(Rejected_orders),
+              ),
               ),
             ],
           )
