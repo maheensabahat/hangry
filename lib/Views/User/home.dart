@@ -99,13 +99,14 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: !widget.user.qr
+      floatingActionButton: !context.read<UserProvider>().getQR()
           ? FadeInUp(
               delay: Duration(milliseconds: 800),
               child: FloatingActionButton.extended(
                 heroTag: null,
-                label: Text('Scan QR', style: TextStyle(color: Colors.black)),
-                icon: Icon(
+                label: const Text('Scan QR',
+                    style: TextStyle(color: Colors.black)),
+                icon: const Icon(
                   Icons.qr_code,
                   color: Colors.black,
                 ),
@@ -115,13 +116,13 @@ class _HomeState extends State<Home> {
                             user: widget.user,
                           )));
                 },
-                backgroundColor: Color(0xff51bfa3),
+                backgroundColor: const Color(0xff51bfa3),
               ),
             )
           : FloatingActionButton.extended(
               heroTag: null,
-              label: Text('Menu', style: TextStyle(color: Colors.black)),
-              icon: Icon(
+              label: const Text('Menu', style: TextStyle(color: Colors.black)),
+              icon: const Icon(
                 Icons.restaurant_menu,
                 color: Colors.black,
               ),
@@ -168,7 +169,7 @@ class HomeHeader extends StatelessWidget {
               padding: EdgeInsets.only(
                   top: 30, left: MediaQuery.of(context).size.width * 0.55),
               child: InkWell(
-                child: Icon(
+                child: const Icon(
                   Icons.logout,
                   color: Color(0xFF5ABFA3),
                 ),

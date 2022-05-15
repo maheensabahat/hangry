@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/OrdersRest.dart';
@@ -7,6 +8,8 @@ import 'package:project/Views/User/Cart_Widgets/Order.dart';
 class OrdersProvider extends ChangeNotifier {
   List<OrderItem> friendOrders = [];
   int price = 0;
+  bool myOrderStatus = false;
+  bool friendsOrderStatus = false;
 
   Orders createOrder(
       {required restaurant_id,
@@ -81,10 +84,29 @@ class OrdersProvider extends ChangeNotifier {
     for (OrderItem orderItem in myOrders) {
       price += orderItem.price * orderItem.quantity;
     }
-    //notifyListeners();
+
+    notifyListeners();
   }
 
   int getTotalPrice({required List<OrderItem> myOrder}) {
     return price;
+  }
+
+  setMyOrderStatus(bool status) {
+    myOrderStatus = status;
+    notifyListeners();
+  }
+
+  checkMyOrderStatus() {
+    return myOrderStatus;
+  }
+
+  setFriendsOrderStatus(bool status) {
+    friendsOrderStatus = status;
+    notifyListeners();
+  }
+
+  checkFriendsOrderStatus() {
+    return friendsOrderStatus;
   }
 }
