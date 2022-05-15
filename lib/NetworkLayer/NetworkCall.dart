@@ -125,7 +125,6 @@ class FirebaseNetworkCall implements NetworkCall {
       i++;
     }
 
-    print("y" + reqs.toString());
     return reqs;
   }
 

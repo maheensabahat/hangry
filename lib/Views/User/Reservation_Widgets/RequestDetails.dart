@@ -21,12 +21,24 @@ class RequestDetails extends StatelessWidget {
         InputBox(
           label: !isUser ? 'Name' : 'Restaurant',
           hintText: '',
-          icon: Icon(!isUser ? Icons.person : Icons.restaurant, color: Color(0xFF5ABFA3)),
+          icon: Icon(!isUser ? Icons.person : Icons.restaurant,
+              color: Color(0xFF5ABFA3)),
           controller: TextEditingController(
               text: !isUser ? request.name : request.restaurantName),
           isNum: false,
           canEdit: false,
         ),
+        !isUser
+            ? InputBox(
+                label: 'Contact',
+                hintText: '',
+                icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
+                controller:
+                    TextEditingController(text: request.phone.toString()),
+                isNum: false,
+                canEdit: false,
+              )
+            : Container(),
         InputBox(
           label: 'Date',
           hintText: '',

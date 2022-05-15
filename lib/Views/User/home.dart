@@ -13,6 +13,7 @@ import '../../Entities/Category.dart';
 import '../../Entities/Restaurant.dart';
 import '../../Entities/User.dart';
 import '../../Providers/UserProvider.dart';
+import '../Restaurant/Widgets/Loader.dart';
 import 'ScanQR.dart';
 import 'UserMenu.dart';
 
@@ -42,110 +43,117 @@ class _HomeState extends State<Home> {
   ];
 
   List<Restaurant> restaurants = [];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Provider.of<UserProvider>(context, listen: false).getRestaurants();
-    restaurants = Provider.of<UserProvider>(context, listen: false).restaurants;
-  }
+  bool isSearch = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //Header
-            FadeInDown(
-              delay: Duration(milliseconds: 800),
-              child: HomeHeader(
-                userName: context.read<UserProvider>().getFirstName(),
-              ),
-            ),
-
-            //Search Bar
-            FadeInLeft(
+    return Consumer<UserProvider>(builder: (context, provider, child) {
+      provider.getRestaurants();
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //Header
+              FadeInDown(
                 delay: Duration(milliseconds: 800),
-                child: SearchBar(
-                  getRestaurants: (Restaurants) {
-                    restaurants = Restaurants as List<Restaurant>;
-                    setState(() {});
-                  },
-                )),
+                child: HomeHeader(
+                  userName: context.read<UserProvider>().getFirstName(),
+                ),
+              ),
 
-            //Categories - heading
-            FadeInRight(
-              delay: Duration(milliseconds: 800),
-              child: const Padding(
-                padding: EdgeInsets.only(top: 5, left: 24),
-                child: Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    // color: Color(0xFF5ABFA3),
+              //Search Bar
+              FadeInLeft(
+                  delay: Duration(milliseconds: 800),
+                  child: SearchBar(
+                    getRestaurants: (Restaurants) {
+                      restaurants = Restaurants as List<Restaurant>;
+                      isSearch = true;
+                      setState(() {});
+                    },
+                    refresh: (refresh) {
+                      if (refresh) {
+                        isSearch = false;
+                        setState(() {});
+                      }
+                    },
+                  )),
+
+              //Categories - heading
+              FadeInRight(
+                delay: Duration(milliseconds: 800),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 5, left: 24),
+                  child: Text(
+                    'Categories',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      // color: Color(0xFF5ABFA3),
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            //Categories ListView
-            CategoriesList(list: Categories),
+              //Categories ListView
+              CategoriesList(list: Categories),
 
-            //ScanQR_ViewMenu(),
+              //ScanQR_ViewMenu(),
 
-            //Restaurants
-            FadeInLeft(
-                delay: Duration(milliseconds: 800),
-                child: RestaurantDisplay(restaurants: restaurants))
-          ],
+              //Restaurants
+              FadeInLeft(
+                  delay: Duration(milliseconds: 800),
+                  child: RestaurantDisplay(
+                      restaurants:
+                          isSearch ? restaurants : provider.restaurants))
+            ],
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: !widget.user.qr
-          ? FadeInUp(
-              delay: Duration(milliseconds: 800),
-              child: FloatingActionButton.extended(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: !widget.user.qr
+            ? FadeInUp(
+                delay: Duration(milliseconds: 800),
+                child: FloatingActionButton.extended(
+                  heroTag: null,
+                  label: Text('Scan QR', style: TextStyle(color: Colors.black)),
+                  icon: Icon(
+                    Icons.qr_code,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ScanQR(
+                              user: widget.user,
+                            )));
+                  },
+                  backgroundColor: Color(0xff51bfa3),
+                ),
+              )
+            : FloatingActionButton.extended(
                 heroTag: null,
-                label: Text('Scan QR', style: TextStyle(color: Colors.black)),
+                label: Text('Menu', style: TextStyle(color: Colors.black)),
                 icon: Icon(
-                  Icons.qr_code,
+                  Icons.restaurant_menu,
                   color: Colors.black,
                 ),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScanQR(
-                            user: widget.user,
+                      builder: (context) => UserMenu(
+                            user: context.read<UserProvider>().getUser(),
+                            scanned: context.read<UserProvider>().getQR(),
+                            restaurant: context
+                                .read<RestaurantProvider>()
+                                .getRestaurant(
+                                  context
+                                      .read<ScanProvider>()
+                                      .getScannedEmail(),
+                                ),
                           )));
                 },
                 backgroundColor: Color(0xff51bfa3),
               ),
-            )
-          : FloatingActionButton.extended(
-              heroTag: null,
-              label: Text('Menu', style: TextStyle(color: Colors.black)),
-              icon: Icon(
-                Icons.restaurant_menu,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserMenu(
-                          user: context.read<UserProvider>().getUser(),
-                          scanned: context.read<UserProvider>().getQR(),
-                          restaurant: context
-                              .read<RestaurantProvider>()
-                              .getRestaurant(
-                                context.read<ScanProvider>().getScannedEmail(),
-                              ),
-                        )));
-              },
-              backgroundColor: Color(0xff51bfa3),
-            ),
-    );
+      );
+    });
   }
 }
 
@@ -214,8 +222,10 @@ class HomeHeader extends StatelessWidget {
 
 class SearchBar extends StatefulWidget {
   Function(List) getRestaurants;
+  Function(bool)? refresh;
 
-  SearchBar({Key? key, required this.getRestaurants}) : super(key: key);
+  SearchBar({Key? key, required this.getRestaurants, this.refresh})
+      : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -259,6 +269,13 @@ class _SearchBarState extends State<SearchBar> {
             },
           ),
         ),
+        onChanged: (String) {
+          if (String.length == 0) {
+            widget.refresh!(true);
+          } else {
+            widget.refresh!(false);
+          }
+        },
         cursorColor: Color(0xFF5ABFA3),
       ),
     );

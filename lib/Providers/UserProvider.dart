@@ -10,6 +10,7 @@ import '../NetworkLayer/NetworkCall.dart';
 class UserProvider extends ChangeNotifier {
   late User user;
   bool reqsLoaded = false;
+  bool isLoaded = false;
   List<Restaurant> restaurants = [];
 
   NetworkCall networkCall = FirebaseNetworkCall();
@@ -96,7 +97,6 @@ class UserProvider extends ChangeNotifier {
       setLocation(userModel.location);
       setPhone(userModel.phone);
       user.docID = networkCall.ID;
-      print(user.docID);
     }
     notifyListeners();
   }
@@ -125,7 +125,6 @@ class UserProvider extends ChangeNotifier {
     List<ReservationRequest> r = [];
 
     r = await networkCall.getRequests(this.user, status);
-    print("UP" + r.toString());
 
     return r;
   }
@@ -139,6 +138,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> getRestaurants() async {
+    isLoaded = false;
+    await Future.delayed(
+      Duration(milliseconds: 1),
+    );
+    notifyListeners();
+
     var restList = await networkCall.getRestaurants();
 
     restaurants = restList
@@ -150,6 +155,9 @@ class UserProvider extends ChangeNotifier {
             image: e.image,
             isFav: false))
         .toList();
+
+    isLoaded = true;
+    notifyListeners();
   }
 
   Future<void> MarkFav(Restaurant r) async {
@@ -172,15 +180,17 @@ class UserProvider extends ChangeNotifier {
     print(user.favs);
   }
 
-  List<Restaurant> searchRestaurant(String s){
+  List<Restaurant> searchRestaurant(String s) {
     List<Restaurant> rest = [];
 
     restaurants.forEach((element) {
-      if (element.name == s){
+      if (element.name.toLowerCase() == s.toLowerCase()) {
         rest.add(element);
       }
     });
 
     return rest;
   }
+
+
 }

@@ -16,16 +16,14 @@ class RestaurantWidget extends StatefulWidget {
 }
 
 class _RestaurantState extends State<RestaurantWidget> {
-
   @override
   Widget build(BuildContext context) {
-    print(widget.restaurant.image);
     bool? isfav = widget.restaurant.isFav;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16, right: 16),
       width: MediaQuery.of(context).size.width * 0.85,
-      height: 200,
+      height: 170,
       decoration: BoxDecoration(
         border: Border.all(width: 1.5, color: Color(0xFF5ABFA3)),
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -48,7 +46,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     color: const Color.fromRGBO(255, 255, 255, 0.7),
                     colorBlendMode: BlendMode.modulate,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   )
                 : Image.network(widget.restaurant.image,
                     width: MediaQuery.of(context).size.width * 0.85,
@@ -110,7 +108,7 @@ class _RestaurantState extends State<RestaurantWidget> {
               top: 10,
               left: 255,
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   context.read<UserProvider>().MarkFav(widget.restaurant);
                 },
                 child: Icon(
