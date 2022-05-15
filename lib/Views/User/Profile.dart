@@ -57,6 +57,7 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
   Widget bottomSheet() {
     return Container(
       height: 100.0,
@@ -76,94 +77,90 @@ class _ProfileState extends State<Profile> {
           const SizedBox(
             height: 20,
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton.icon(
-                  icon: const Icon(Icons.camera),
-                  onPressed: () {
-                    takePhoto(ImageSource.camera);
-                  },
-                  label: const Text("Camera"),
-                ),
-                FlatButton.icon(
-                  icon: const Icon(Icons.image),
-                  onPressed: () {
-                    takePhoto(ImageSource.gallery);
-                  },
-                  label: const Text("Gallery"),
-                ),
-              ])
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: const Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: const Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: const Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: const Text("Gallery"),
+            ),
+          ])
         ],
       ),
     );
   }
-  Widget imageProfile(){
-    return Center(
-      child: Stack(
-          children: <Widget> [
-            _imageFile != null
-                ? CircleAvatar(
-                radius: 80.0,
-                backgroundImage: FileImage(File(_imageFile!.path))
-            )
-                : const CircleAvatar(
-                radius: 80.0,
-                backgroundImage: AssetImage("assets/profile.png")
-            ),
 
-            Positioned(
-              bottom: 20.0,
-              right: 20.0,
-              child: InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: ((builder) => bottomSheet()),
-                  );
-                },
-                child: const Icon(
-                  Icons.camera_alt,
-                  color: Color(0xFF5ABFA3),
-                  size: 28.0,
-                ),
-              ),
-            )
-          ]
-      ),
+  Widget imageProfile() {
+    return Center(
+      child: Stack(children: <Widget>[
+        _imageFile != null
+            ? CircleAvatar(
+                radius: 80.0,
+                backgroundImage: FileImage(File(_imageFile!.path)))
+            : const CircleAvatar(
+                radius: 80.0,
+                backgroundImage: AssetImage("assets/profile.png")),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: const Icon(
+              Icons.camera_alt,
+              color: Color(0xFF5ABFA3),
+              size: 28.0,
+            ),
+          ),
+        )
+      ]),
     );
   }
+
   void takePhoto(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
     );
-    setState(() async {
-      _imageFile = pickedFile;
-      FirebaseStorage _storage = FirebaseStorage.instance;
-      File file = File(_imageFile!.path);
-      //Putting the file in firebase storage
-      TaskSnapshot taskSnapshot =
-          await _storage.ref(_imageFile!.path).putFile(file);
-      //downloading URL from firebase storage
-      final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
-      await users.add({'image': downloadUrl}).then(
-            (value) => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Success'),
-            content: const Text(
-                'Restaurant has been added to the app successfully'),
-            actions: [
-              TextButton(
-                  onPressed: () =>
-                      Navigator.pop(context),
-                  child: const Text('Ok'))
-            ],
-          ),
-        ),
-      );
+    setState(() {
+      _imageFile = pickedFile;
     });
+    FirebaseStorage _storage = FirebaseStorage.instance;
+    File file = File(_imageFile!.path);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: const Text('Image has been updated successfully'),
+        actions: [
+          TextButton(
+              onPressed: () async {
+                //Putting the file in firebase storage
+                TaskSnapshot taskSnapshot =
+                    await _storage.ref(_imageFile!.path).putFile(file);
+                //downloading URL from firebase storage
+                final String downloadUrl =
+                    await taskSnapshot.ref.getDownloadURL();
+
+                await users.add({'image': downloadUrl});
+                Navigator.pop(context);
+              },
+              child: const Text('Ok'))
+        ],
+      ),
+    );
   }
 }
 
@@ -276,7 +273,8 @@ class buttons extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 60),
                 child: Text(
                   name,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFFf2f2f2)),
+                  style:
+                      const TextStyle(fontSize: 12, color: Color(0xFFf2f2f2)),
                 ),
               ),
             ),
@@ -324,8 +322,10 @@ class FavListView extends StatelessWidget {
                                   favorites: favourites,
                                 )));
                       },
-                      child: const Text('view all',
-                        style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
+                      child: const Text(
+                        'view all',
+                        style:
+                            TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
                       )),
                 )
               ],
