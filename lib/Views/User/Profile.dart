@@ -101,13 +101,9 @@ class _ProfileState extends State<Profile> {
   Widget imageProfile() {
     return Center(
       child: Stack(children: <Widget>[
-        _imageFile != null
-            ? CircleAvatar(
+        CircleAvatar(
                 radius: 80.0,
-                backgroundImage: FileImage(File(_imageFile!.path)))
-            : const CircleAvatar(
-                radius: 80.0,
-                backgroundImage: AssetImage("assets/profile.png")),
+                backgroundImage: FileImage(File(_imageFile!.path))),
         Positioned(
           bottom: 20.0,
           right: 20.0,
@@ -137,30 +133,45 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _imageFile = pickedFile;
     });
+    StoringImage();
+  }
+
+  Future<void> StoringImage() async {
     FirebaseStorage _storage = FirebaseStorage.instance;
     File file = File(_imageFile!.path);
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content: const Text('Image has been updated successfully'),
-        actions: [
-          TextButton(
-              onPressed: () async {
-                //Putting the file in firebase storage
-                TaskSnapshot taskSnapshot =
-                    await _storage.ref(_imageFile!.path).putFile(file);
-                //downloading URL from firebase storage
-                final String downloadUrl =
-                    await taskSnapshot.ref.getDownloadURL();
 
-                await users.add({'image': downloadUrl});
-                Navigator.pop(context);
-              },
-              child: const Text('Ok'))
-        ],
-      ),
-    );
+    //Putting the file in firebase storage
+    TaskSnapshot taskSnapshot =
+        await _storage.ref(_imageFile!.path).putFile(file);
+    //downloading URL from firebase storage
+    final String downloadUrl =
+        await taskSnapshot.ref.getDownloadURL();
+
+    await users.where("email", isEqualTo: users.id).get().then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(doc.id)
+            .update({
+          "image": downloadUrl,
+        }).then(
+              (value) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Success'),
+              content: const Text(
+                  'Restaurant has been added to the app successfully'),
+              actions: [
+                TextButton(
+                    onPressed: () =>
+                        Navigator.pop(context),
+                    child: const Text('Ok'))
+              ],
+            ),
+          ),
+        );
+      }
+    });
   }
 }
 
@@ -195,7 +206,7 @@ class ButtonMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FadeInLeft(
-            delay: Duration(milliseconds: 700),
+            delay: const Duration(milliseconds: 700),
             child: buttons(
               name: 'My orders',
               icon: 'assets/Order.png',
@@ -205,7 +216,7 @@ class ButtonMenu extends StatelessWidget {
             ),
           ),
           FadeInRight(
-            delay: Duration(milliseconds: 700),
+            delay: const Duration(milliseconds: 700),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: buttons(
@@ -240,9 +251,9 @@ class buttons extends StatelessWidget {
       : super(key: key);
 
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      onPrimary: Color(0xFF154038),
-      primary: Color(0xFF5ABFA3),
-      textStyle: TextStyle(fontWeight: FontWeight.bold));
+      onPrimary: const Color(0xFF154038),
+      primary: const Color(0xFF5ABFA3),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold));
 
   @override
   Widget build(BuildContext context) {
@@ -256,9 +267,9 @@ class buttons extends StatelessWidget {
             MaterialPageRoute(builder: (context) {
               if (istable) {
                 context.read<UserProvider>().getRequests('pending');
-                return UserTableReservations();
+                return const UserTableReservations();
               }
-              return MyOrders();
+              return const MyOrders();
             }),
           );
         },
@@ -303,7 +314,7 @@ class FavListView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FadeInLeft(
-                  delay: Duration(milliseconds: 900),
+                  delay: const Duration(milliseconds: 900),
                   child: const Text(
                     'Your Favourites',
                     style: TextStyle(
