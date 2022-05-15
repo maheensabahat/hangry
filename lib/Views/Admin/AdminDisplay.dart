@@ -30,7 +30,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
             ),
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AdMainPage()));
+                  MaterialPageRoute(builder: (context) => const AdMainPage()));
             },
           ),
         ),

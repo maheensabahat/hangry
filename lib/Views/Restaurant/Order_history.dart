@@ -42,17 +42,6 @@ class _Order_historyState extends State<Order_history>
           backgroundColor: Colors.white,
           title: Column(
             children: [
-  Consumer<UserProvider>(builder: (context, provider, child) {
-            restaurant_id = context.read<UserProvider>().getEmail();
-
-           return Consumer<RestaurantProvider>(builder: (context, provider, child) {
-
-
-              Pending_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Pending") as List<Orders?>;
-              Approved_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Approved") as List<Orders?>;
-              Rejected_orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Rejected") as List<Orders?>;
-          return Column(
-              children:[
               Text(
           context.read<RestaurantProvider>().restaurant.name,
           textAlign: TextAlign.center,
@@ -65,8 +54,6 @@ class _Order_historyState extends State<Order_history>
           textAlign: TextAlign.center,
           ),
           ),
-          ]);});
-        })
             ],
           ),
           centerTitle: true,
@@ -94,29 +81,48 @@ class _Order_historyState extends State<Order_history>
             ],
           ),
         ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 20),
-              child: Container(
-                child: list(Pending_Orders),
+        body: Consumer<RestaurantProvider>(builder: (context, provider, child) {
+         return (provider.isLoaded)
+              ? TabBarView(
+            controller: _tabController,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 20),
+                child: Container(
+                  child: list(Pending_Orders =
+                  context.read<RestaurantProvider>().getRestOrders(
+                      restaurant_id, "Pending") as List<Orders?>),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 20),
-              child: Container(
-                child: list(Approved_Orders),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 20),
+                child: Container(
+                  child: list(Approved_Orders =
+                  context.read<RestaurantProvider>().getRestOrders(
+                      restaurant_id, "Approved") as List<Orders?>),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 20),
-              child: Container(
-                child: list(Rejected_orders),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 20),
+                child: Container(
+                  child: list(Rejected_orders =
+                  context.read<RestaurantProvider>().getRestOrders(
+                      restaurant_id, "Approved") as List<Orders?>),
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          )
+              : Center(
+          child: Container(
+          child: const CircularProgressIndicator(
+          color: Color(0xffadd9c9),
+          ),
+          height: 50,
+          width: 50,
+          ));
+
+        })
+
       );
 }
 

@@ -135,6 +135,10 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getEmail() {
+    return restaurant.id;
+  }
+
   // Future<void> getRestOrders() async {
   //   isLoaded = false;
   //   await Future.delayed(const Duration(milliseconds: 1));
