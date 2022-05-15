@@ -16,7 +16,7 @@ class AdRestaurantsDisplay extends StatefulWidget {
 class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
   _builTextField(TextEditingController controller, String labelText) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: const Color(0xff5abfa3),
         border: Border.all(color: const Color(0xFF154038)),
@@ -184,23 +184,12 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                                         .green)),
                                                         onPressed: () {
                                                           context.read<AdminProvider>().updateRest(
-                                                              email: provider
-                                                                  .restaurants[
-                                                                      index]
-                                                                  .id,
-                                                              name:
-                                                                  nameController
-                                                                      .text,
-                                                              cuisine:
-                                                                  cuisineController
-                                                                      .text,
-                                                              imageUrl:
-                                                                  imageController
-                                                                      .text,
-                                                              desc:
-                                                                  descController
-                                                                      .text).then((value) =>
-                                                              showDialog(
+                                                              email: provider.restaurants[index].id,
+                                                              name: nameController.text,
+                                                              cuisine: cuisineController.text,
+                                                              imageUrl: imageController.text,
+                                                              desc: descController.text)
+                                                              .then((value) => showDialog(
                                                                 context: context,
                                                                 builder: (context) => AlertDialog(
                                                                   title: const Text('Success'),
@@ -209,7 +198,10 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                                   actions: [
                                                                     TextButton(
                                                                         onPressed: () =>
-                                                                            Navigator.pop(context),
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(builder: (context) => const AdRestaurantsDisplay()),
+                                                              ),
                                                                         child: const Text('Ok'))
                                                                   ],
                                                                 ),
@@ -250,7 +242,10 @@ class _AdRestaurantsDisplayState extends State<AdRestaurantsDisplay> {
                                                                   actions: [
                                                                     TextButton(
                                                                         onPressed: () =>
-                                                                            Navigator.pop(context),
+                                                                            Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(builder: (context) => const AdRestaurantsDisplay()),
+                                                                            ),
                                                                         child: const Text('Ok'))
                                                                   ],
                                                                 ),

@@ -12,12 +12,14 @@ class OrdersProvider extends ChangeNotifier {
       {required restaurant_id,
       required user_id,
       required qr_id,
-      required order_status}) {
+      required order_status,
+      required tableNum}) {
     return Orders(
         restaurant_id: restaurant_id,
         user_id: user_id,
         qr_id: qr_id,
-        order_status: order_status);
+        order_status: order_status,
+        tableNum: tableNum);
   }
 
   static fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class OrdersProvider extends ChangeNotifier {
       qr_id: json['qr_id'],
       product_ids: json['product_ids'],
       order_status: json['order_status'],
+      tableNum: json['tableNum'],
     );
   }
 
@@ -36,6 +39,7 @@ class OrdersProvider extends ChangeNotifier {
         'qr_id': order.qr_id,
         'product_ids': order.product_ids,
         "order_status": order.order_status,
+        "tableNum": order.tableNum,
       };
 
   Future<void> addOrderInFirebase(Orders order) async {

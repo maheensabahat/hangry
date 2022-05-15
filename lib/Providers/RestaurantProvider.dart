@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Entities/OrdersRest.dart';
 import 'package:project/Entities/ReservationRequest.dart';
 import '../Entities/Products.dart';
 import '../Entities/Restaurant.dart';
@@ -7,7 +8,10 @@ import '../NetworkLayer/RestaurantNetworkCall.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
+  late List orders;
   late String email;
+  late String restaurant_id;
+  late String order_status;
   bool isLoaded = true;
   late List<ReservationRequest> Approved_request;
   late List<ReservationRequest> Pending_request;
@@ -119,4 +123,37 @@ class RestaurantProvider extends ChangeNotifier {
     isLoaded = true;
     notifyListeners();
   }
+
+  Future<Orders?> getRestOrders(restaurant_id, order_status) async {
+    isLoaded = false;
+    notifyListeners();
+
+    orders = await networkCall.getRestOrders(restaurant_id,order_status);
+    print(orders);
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  // Future<void> getRestOrders() async {
+  //   isLoaded = false;
+  //   await Future.delayed(const Duration(milliseconds: 1));
+  //   notifyListeners();
+  //
+  //   var response = await networkCall.getRestOrders(id);
+  //
+  //   List<Orders> o = response
+  //       .map((e) => Orders(
+  //       user_id: e.user_id,
+  //       restaurant_id: e.restaurant_id,
+  //       qr_id: e.qr_id,
+  //       product_ids: e.product_ids,
+  //       order_status: e.order_status))
+  //       .toList();
+  //
+  //   orders = o ;
+  //
+  //   isLoaded = true;
+  //   notifyListeners();
+  // }
 }
