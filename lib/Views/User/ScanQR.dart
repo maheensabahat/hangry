@@ -123,6 +123,7 @@ class _ScanQRState extends State<ScanQR> {
                           context.read<ScanProvider>().addInstanceToFirebase(
                               scanned: scanInstance,
                               user: context.read<UserProvider>().getUser());
+                          context.read<UserProvider>().setQR(true);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => UserMenu(
                                     user: widget.user,

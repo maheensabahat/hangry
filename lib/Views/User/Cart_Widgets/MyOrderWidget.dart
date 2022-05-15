@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
+import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/User/home.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Entities/My_Order.dart';
@@ -222,6 +224,33 @@ class _MyOrderState extends State<MyOrderWidget> {
                         context.read<ScanProvider>().exitCart(
                             email: context.read<UserProvider>().getEmail(),
                             qr_id: context.read<ScanProvider>().getQRID());
+                        context.read<UserProvider>().setQR(false);
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Exiting Cart"),
+                                content: const Text(
+                                    "Sending you back to the homepage."),
+                                actions: [
+                                  TextButton(
+                                    child: const Text("OK"),
+                                    onPressed: () {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) => Home(
+                                              user: context
+                                                  .read<UserProvider>()
+                                                  .getUser(),
+                                            ),
+                                          ),
+                                          (Route<dynamic> route) => false);
+                                    },
+                                  )
+                                ],
+                              );
+                            });
                       },
                       backgroundColor: Color.fromARGB(255, 75, 156, 143),
                       label: const Text('Exit Cart')),
