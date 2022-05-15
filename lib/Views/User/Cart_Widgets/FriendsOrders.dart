@@ -53,7 +53,6 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                 singleFriendDishes.add(order);
               }
               allFriendsDishes.add(singleFriendDishes);
-              context.watch<OrdersProvider>().setFriendOrders(allFriendsDishes);
             }
           }
 
