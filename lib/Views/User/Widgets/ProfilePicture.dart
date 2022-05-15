@@ -46,10 +46,10 @@ class ProfilePicture extends StatelessWidget {
         Container(
           width: 170,
           height: 170,
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
               color: Colors.transparent,
               shape: BoxShape.circle,
-              border: Border.all(width: 1, color: Color(0xFFADD9C9))),
+              border: Border.all(width: 1, color: const Color(0xFFADD9C9))),
         ),
 
         //Profile Picture
@@ -62,8 +62,8 @@ class ProfilePicture extends StatelessWidget {
             )),
 
         //Edit Button
-        Padding(
-          padding: const EdgeInsets.only(left: 120, top: 120),
+        const Padding(
+          padding: EdgeInsets.only(left: 120, top: 120),
           child: CircleAvatar(
             radius: 20,
             backgroundColor: Color(0xF0ADD9C9),
