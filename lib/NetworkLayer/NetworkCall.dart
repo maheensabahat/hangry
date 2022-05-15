@@ -8,6 +8,8 @@ import '../Entities/Restaurant.dart';
 import '../Entities/User.dart';
 import 'package:flutter/material.dart';
 
+import '../Models/OrdersModel.dart';
+
 abstract class NetworkCall {
   Future<String> getUsers();
 
@@ -244,4 +246,23 @@ class FirebaseNetworkCall implements NetworkCall {
     // TODO: implement removeFav
     throw UnimplementedError();
   }
+
+  // Future<List<OrdersModel>> getOrderDetails(UserId) async {
+  //   List<OrdersModel> orders = [];
+  //
+  //   await FirebaseFirestore.instance
+  //       .collection('Users')
+  //       .doc(UserId)
+  //       .collection('Orders')
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       OrdersModel order =
+  //       OrdersModel.fromJson(doc.data() as Map<String, dynamic>);
+  //       order.ID = doc.id;
+  //       orders.add(order);
+  //     });
+  //   });
+  //   return orders;
+  // }
 }

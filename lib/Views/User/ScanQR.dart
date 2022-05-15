@@ -106,8 +106,11 @@ class _ScanQRState extends State<ScanQR> {
                         restaurant = context
                             .read<RestaurantProvider>()
                             .getRestaurant(email);
-                        if (!widget.user.qr && result != null) {
-                          widget.user.qr = true;
+                        //if (!widget.user.qr && result != null) {
+                        if (!context.read<UserProvider>().getQR() &&
+                            result != null) {
+                          context.read<UserProvider>().setQR(true);
+                          //widget.user.qr = true;
                           widget.user.CreateCart(restaurant);
                           Scanned scanInstance = context
                               .read<ScanProvider>()

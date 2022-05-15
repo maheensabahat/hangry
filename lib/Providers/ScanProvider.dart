@@ -76,6 +76,7 @@ class ScanProvider extends ChangeNotifier {
         "desc": order.desc,
         "price": order.price,
         "quantity": order.quantity,
+        "image": order.image
       });
     }
 
@@ -143,5 +144,24 @@ class ScanProvider extends ChangeNotifier {
             .update({"order_status": true});
       }
     });
+  }
+
+  Future exitCart({required String email, required String qr_id}) async {
+    await FirebaseFirestore.instance
+        .collection('Scanned')
+        .where("user_email", isEqualTo: email)
+        .where("qr_id", isEqualTo: qr_id)
+        .where("qr_status", isEqualTo: true)
+        .where("order_status", isEqualTo: false)
+        .get()
+        .then((QuerySnapshot querySnapshot) async => {
+              for (QueryDocumentSnapshot doc in querySnapshot.docs)
+                {
+                  await FirebaseFirestore.instance
+                      .collection("Scanned")
+                      .doc(doc.id)
+                      .delete()
+                }
+            });
   }
 }

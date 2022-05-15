@@ -4,9 +4,10 @@ class OrderItem {
   String user_id;
   late String restaurant_id;
   late String dish_id;
+  late String image;
   String name;
   String desc;
-  double price;
+  int price;
   int quantity;
 
   OrderItem(
@@ -16,7 +17,7 @@ class OrderItem {
       required this.price,
       required this.quantity});
 
-  double calculatePrice() {
+  int calculatePrice() {
     return this.price * this.quantity;
   }
 

@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/Products.dart';
 import '../Entities/ReservationRequest.dart';
+import '../Entities/OrdersRest.dart';
 import '../Entities/Restaurant.dart';
+import '../Models/OrdersModel.dart';
 import '../Models/ProductModel.dart';
 import '../Models/RestaurantModel.dart';
 
@@ -21,6 +23,8 @@ abstract class RestaurantNetworkCall {
   Future<List<ReservationRequest>> getRequest(var id, String status);
 
   Future<void> ApproveRequest(var id);
+
+  Future<List> getRestOrders(var restaurant_id,order_status);
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -42,7 +46,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
   Future updateDetails(Restaurant restaurant) async {
     CollectionReference res =
-        FirebaseFirestore.instance.collection('Restaurants');
+    FirebaseFirestore.instance.collection('Restaurants');
 
     await res.doc(restaurant.id).update({
       'name': restaurant.name,
@@ -72,7 +76,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
   Future<void> ApproveRequest(var id) async {
     CollectionReference rest =
-        FirebaseFirestore.instance.collection('Reservations');
+    FirebaseFirestore.instance.collection('Reservations');
 
     rest.doc(id).update({
       'status': 'approved',
@@ -84,7 +88,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
   @override
   Future<void> addProduct(ProductModel item, restaurant_id) async {
     CollectionReference rest =
-        FirebaseFirestore.instance.collection('Restaurants');
+    FirebaseFirestore.instance.collection('Restaurants');
     rest
         .doc(restaurant_id)
         .collection('Products')
@@ -96,7 +100,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
   Future updateProduct(ProductModel product, var restaurant_id) async {
     CollectionReference rest =
-        FirebaseFirestore.instance.collection('Restaurants');
+    FirebaseFirestore.instance.collection('Restaurants');
 
     rest.doc(restaurant_id).collection('Products').doc(product.ID).update({
       'name': product.name,
@@ -119,11 +123,56 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         ProductModel p =
-            ProductModel.fromJson(doc.data() as Map<String, dynamic>);
+        ProductModel.fromJson(doc.data() as Map<String, dynamic>);
         p.ID = doc.id;
         products.add(p);
       });
     });
     return products;
   }
+
+  @override
+  Future<List<Orders>> getRestOrders(restaurant_id, order_status) async {
+    List<Orders> orders = [];
+
+    await FirebaseFirestore.instance
+        .collection('Orders')
+        .where("restaurant_id", isEqualTo: restaurant_id)
+        .where("order_status", isEqualTo: order_status)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        var list = jsonDecode(jsonEncode(doc.data()));
+        Orders ord = Orders(
+            restaurant_id: list["restaurant_id"],
+            user_id: list["user_id"],
+            qr_id: list["qr_id"],
+            order_status: list["order_status"],
+            product_ids: list["product_ids"],
+            tableNum: list["tableNum"]);
+        orders.add(ord);
+      });
+    });
+    return orders;
+  }
 }
+
+  // Future<List<OrdersModel>> getOrderDetails(RestId) async {
+  //   List<OrdersModel> orders = [];
+  //
+  //   await FirebaseFirestore.instance
+  //       .collection('Orders')
+  //       .doc(RestId)
+  //       .collection('Orders')
+  //       .get()
+  //       .then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       OrdersModel order =
+  //       OrdersModel.fromJson(doc.data() as Map<String, dynamic>);
+  //       order.ID = doc.id;
+  //       orders.add(order);
+  //     });
+  //   });
+  //   return orders;
+  // }
+

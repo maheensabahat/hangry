@@ -30,7 +30,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
             ),
             onPressed: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AdMainPage()));
+                  MaterialPageRoute(builder: (context) => const AdMainPage()));
             },
           ),
         ),
@@ -47,12 +47,12 @@ class _AdminDisplayState extends State<AdminDisplay> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff5abfa3),
-        foregroundColor: Color(0xFF154038),
+        foregroundColor: const Color(0xFF154038),
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AdAdmins()),
+            MaterialPageRoute(builder: (context) => const AdAdmins()),
           );
         },
       ),
@@ -107,7 +107,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
                   )
                 : Center(
                     child: Container(
-                    child: CircularProgressIndicator(
+                    child: const CircularProgressIndicator(
                       color: Color(0xffadd9c9),
                     ),
                     height: 50,
