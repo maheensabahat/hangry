@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/Views/User/MyOrders.dart';
+import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/UserProvider.dart';
@@ -25,12 +26,14 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   List<Restaurant> fav = [];
   XFile? _imageFile;
+  // XFile? img;
   final ImagePicker _picker = ImagePicker();
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
   Widget build(BuildContext context) {
     context.read<UserProvider>().getFav();
     fav = context.read<UserProvider>().user.favs;
+    // img = context.read<UserProvider>().getImage();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -101,9 +104,18 @@ class _ProfileState extends State<Profile> {
   Widget imageProfile() {
     return Center(
       child: Stack(children: <Widget>[
-        CircleAvatar(
-                radius: 80.0,
-                backgroundImage: FileImage(File(_imageFile!.path))),
+        // img = context.read<UserProvider>().getImage(),
+        _imageFile != null
+            ? CircleAvatar(
+            radius: 80.0,
+            backgroundImage: FileImage(File(_imageFile!.path))
+        )
+            : ProfilePicture(),
+
+        // const CircleAvatar(
+        //     radius: 80.0,
+        //     backgroundImage: FileImage(File(img!.path)),
+        // ),
         Positioned(
           bottom: 20.0,
           right: 20.0,
