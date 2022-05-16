@@ -1,9 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/OrderItem.dart';
-import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 import '../Entities/User.dart';
 

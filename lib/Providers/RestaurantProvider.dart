@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrdersRest.dart';
 import 'package:project/Entities/ReservationRequest.dart';
+import 'package:project/Models/OrdersModel.dart';
 import '../Entities/Products.dart';
 import '../Entities/Restaurant.dart';
 import '../Models/ProductModel.dart';
@@ -111,7 +112,8 @@ class RestaurantProvider extends ChangeNotifier {
     var response = await networkCall.getProducts(restaurant.id);
 
     List<Products> products = response
-        .map((e) => Products(
+        .map((e) =>
+        Products(
             name: e.name,
             price: e.price,
             image: e.image,
@@ -125,7 +127,8 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List> getRestOrdersFromFirebase(restaurant_id, order_status) async {
+  Future<List<Orders?>> getRestOrdersFromFirebase(restaurant_id,
+      order_status) async {
     var orders;
     orders = await networkCall.getRestOrders(restaurant_id, order_status);
     for (Orders order in orders) {
@@ -143,6 +146,39 @@ class RestaurantProvider extends ChangeNotifier {
   String getEmail() {
     return restaurant.id;
   }
+
+
+  Future<void> getOrd(String status) async {
+    restaurant.Pending_Orders.clear();
+    changeLoadingVar(false);
+
+    List<OrdersModel> r = await getOrdFromDB(status);
+    if (status == 'Pending') {
+      restaurant.Pending_Orders = r;
+      notifyListeners();
+    } else {
+      restaurant.Approved_Orders = r;
+    }
+
+    changeLoadingVar(true);
+  }
+
+  Future<List<OrdersModel>> getOrdFromDB(String status) async {
+    List<OrdersModel> r = [];
+
+    r = await networkCall.getOrd(this.restaurant, status);
+
+    return r;
+  }
+
+  Future<void> changeLoadingVar(bool bvar) async {
+    isLoaded = bvar;
+    await Future.delayed(
+      const Duration(milliseconds: 1),
+    );
+    notifyListeners();
+  }
+}
 
 // Future<void> getRestOrders() async {
 //   isLoaded = false;
@@ -165,4 +201,4 @@ class RestaurantProvider extends ChangeNotifier {
 //   isLoaded = true;
 //   notifyListeners();
 // }
-}
+

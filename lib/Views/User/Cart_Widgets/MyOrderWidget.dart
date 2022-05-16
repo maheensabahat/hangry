@@ -12,6 +12,8 @@ import '../../../Entities/My_Order.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Cart_Widgets/Counter.dart';
 
+import 'AnimatedButton.dart';
+
 class MyOrderWidget extends StatefulWidget {
   MyOrder myOrder;
 
@@ -29,7 +31,7 @@ class _MyOrderState extends State<MyOrderWidget> {
     return Column(
       children: [
         Container(
-          height: 330,
+          height: orders.length > 1 ? 330 : 280,
           child: Stack(
             children: [
               Padding(
@@ -81,7 +83,7 @@ class _MyOrderState extends State<MyOrderWidget> {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.only(top: orders.length > 1 ? 20 : 70),
                   child: SizedBox(
                     width: 300,
                     height: 150,
@@ -149,7 +151,17 @@ class _MyOrderState extends State<MyOrderWidget> {
                                 ),
                                 const Spacer(),
                                 Counter(
-                                    item: orders[index],
+                                    canEdit:
+                                        widget.myOrder.isPlaced ? false : true,
+                                    onChangeValue: (value) {
+                                      print(value);
+                                      if (value != 0) {
+                                        orders[index].quantity = value;
+                                      } else {
+                                        orders.remove(orders[index]);
+                                      }
+                                      setState(() {});
+                                    },
                                     min: 0,
                                     max: 5,
                                     value: orders[index].quantity,
@@ -167,7 +179,7 @@ class _MyOrderState extends State<MyOrderWidget> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 24, bottom: 45),
+                    padding: const EdgeInsets.only(right: 30, bottom: 55),
                     child: Text(
                       'Total: ' +
                           '  ' +
@@ -193,78 +205,85 @@ class _MyOrderState extends State<MyOrderWidget> {
                       ? null
                       : SizedBox(
                           height: 42,
-                          child: FittedBox(
-                            child: FloatingActionButton.extended(
-                                onPressed: () {
-                                  context
-                                      .read<ScanProvider>()
-                                      .updateOrderStatusInFirebase(
-                                          email: context
-                                              .read<UserProvider>()
-                                              .getEmail(),
-                                          qr_id: context
-                                              .read<ScanProvider>()
-                                              .getQRID(),
-                                          status: true);
-                                  setState(() {});
-                                  widget.myOrder.MarkPlaced();
-                                  context
-                                      .read<OrdersProvider>()
-                                      .setMyOrderStatus(true);
-                                },
-                                backgroundColor: Color(0xFF5ABFA3),
-                                label: const Text('Place Order')),
-                          ),
-                        ),
+                          child: AnimatedButton(
+                            order_length: orders.length,
+                            isPlaced: (bool) {
+                              if (bool) {
+                                widget.myOrder.MarkPlaced();
+                                setState(() {});
+                              }
+                            },
+                          )),
+                  // : SizedBox(
+                  //     height: 42,
+                  //     child: FittedBox(
+                  //       child: FloatingActionButton.extended(
+                  //           onPressed: () {
+                  //             if (orders.isNotEmpty) {
+                  //               context
+                  //                   .read<ScanProvider>()
+                  //                   .updateOrderStatusInFirebase(
+                  //                       email: context
+                  //                           .read<UserProvider>()
+                  //                           .getEmail(),
+                  //                       qr_id: context
+                  //                           .read<ScanProvider>()
+                  //                           .getQRID(),
+                  //                       status: true);
+                  //               setState(() {});
+                  //               widget.myOrder.MarkPlaced();
+                  //               context
+                  //                   .read<OrdersProvider>()
+                  //                   .setMyOrderStatus(true);
+                  //             }
+                  //           },
+                  //           backgroundColor: Color(0xFF5ABFA3),
+                  //           label: const Text('Place Order')),
+                  //     ),
+                  //   ),
                 ),
               )
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-          child: Positioned.fill(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                height: 42,
-                child: FittedBox(
-                  child: FloatingActionButton.extended(
-                      onPressed: () {
-                        context.read<ScanProvider>().exitCart(
-                            email: context.read<UserProvider>().getEmail(),
-                            qr_id: context.read<ScanProvider>().getQRID());
-                        context.read<UserProvider>().setQR(false);
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Exiting Cart"),
-                                content: const Text(
-                                    "Sending you back to the homepage."),
-                                actions: [
-                                  TextButton(
-                                    child: const Text("OK"),
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MainPage(),
-                                              ),
-                                              (Route<dynamic> route) => false)
-                                          .then((_) => setState(() {}));
-                                    },
-                                  )
-                                ],
-                              );
-                            });
-                      },
-                      backgroundColor: Color.fromARGB(255, 75, 156, 143),
-                      label: const Text('Exit Cart')),
-                ),
-              ),
+          padding: const EdgeInsets.only(top: 12),
+          child: SizedBox(
+            height: 42,
+            child: FittedBox(
+              child: FloatingActionButton.extended(
+                  onPressed: () {
+                    context.read<ScanProvider>().exitCart(
+                        email: context.read<UserProvider>().getEmail(),
+                        qr_id: context.read<ScanProvider>().getQRID());
+                    context.read<UserProvider>().setQR(false);
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Exiting Cart"),
+                            content:
+                                const Text("Sending you back to the homepage."),
+                            actions: [
+                              TextButton(
+                                child: const Text("OK"),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) => MainPage(),
+                                          ),
+                                          (Route<dynamic> route) => false)
+                                      .then((_) => setState(() {}));
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  backgroundColor: Color.fromARGB(255, 75, 156, 143),
+                  label: const Text('Exit Cart')),
             ),
           ),
         )

@@ -9,6 +9,7 @@ import 'package:project/Views/User/Cart_Widgets/Order.dart';
 import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/OrderItem.dart';
+import '../../Restaurant/Widgets/Loader.dart';
 import '../Widgets/ProfilePicture.dart';
 import '../home.dart';
 import 'Counter.dart';
@@ -86,7 +87,11 @@ class _FriendsOrdersState extends State<FriendsOrders> {
 
                           // Navigator.push(
                           //   context,
-                          //   MaterialPageRoute(builder: (context) => MainPage()),
+                          //   MaterialPageRoute(
+                          //       builder: (context) => Home(
+                          //           user: context
+                          //               .read<UserProvider>()
+                          //               .getUser())),
                           // ).then((_) => setState((() {})));
                         },
                         child: const Text('Go Ahead'))
@@ -96,8 +101,8 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                   child: friendEmails.isEmpty
                       ? const Text("No Friend has joined yet",
                           style: TextStyle(
-                            color: Color(0xFF154038),
-                            fontSize: 16,
+                            color: Color(0xA0154038),
+                            fontSize: 12,
                           ))
                       : SizedBox(
                           height: 372 * friendEmails.length - 1,
@@ -278,16 +283,32 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                           ),
                                                           const Spacer(),
                                                           Counter(
-                                                              item: allFriendsDishes[
-                                                                      emailIndex]
-                                                                  [index],
-                                                              min: 0,
-                                                              max: 5,
-                                                              value: allFriendsDishes[
-                                                                          emailIndex]
-                                                                      [index]
-                                                                  .quantity,
-                                                              increments: 1)
+                                                            onChangeValue:
+                                                                (value) {
+                                                              var f =
+                                                                  allFriendsDishes[
+                                                                      emailIndex];
+                                                              if (value != 0) {
+                                                                f[index].quantity =
+                                                                    value;
+                                                              } else {
+                                                                f.remove(
+                                                                    f[index]);
+                                                              }
+                                                              setState(() {});
+                                                            },
+                                                            // item: allFriendsDishes[
+                                                            // emailIndex]
+                                                            // [index],
+                                                            min: 0,
+                                                            max: 5,
+                                                            value: allFriendsDishes[
+                                                                        emailIndex]
+                                                                    [index]
+                                                                .quantity,
+                                                            increments: 1,
+                                                            canEdit: false,
+                                                          )
                                                         ],
                                                       ),
                                                     ),
@@ -329,7 +350,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                         ),
                 );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return Loader();
         }
       },
     );

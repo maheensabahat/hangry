@@ -111,7 +111,12 @@ class _RestaurantState extends State<RestaurantWidget> {
               left: 185,
               child: InkWell(
                 onTap: () {
-                  context.read<UserProvider>().MarkFav(widget.restaurant);
+                  print(widget.restaurant.isFav);
+                  if (!(widget.restaurant.isFav!)) {
+                    context.read<UserProvider>().MarkFav(widget.restaurant);
+                  } else {
+                    context.read<UserProvider>().removeFav(widget.restaurant);
+                  }
                 },
                 child: Icon(
                   isfav ? Icons.favorite : Icons.favorite_border,

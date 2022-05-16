@@ -7,11 +7,13 @@ class Counter extends StatefulWidget {
   int max;
   int value;
   int increments;
-  OrderItem item;
+  bool canEdit;
+  Function(int) onChangeValue;
 
   Counter(
       {Key? key,
-      required this.item,
+      required this.canEdit,
+      required this.onChangeValue,
       required this.min,
       required this.max,
       required this.value,
@@ -87,16 +89,16 @@ class _CounterState extends State<Counter> {
   }
 
   void add() {
-    if (widget.value + widget.increments <= widget.max) {
+    if (widget.canEdit && widget.value + widget.increments <= widget.max) {
       widget.value = widget.value + widget.increments;
-      widget.item.quantity = widget.value;
+      widget.onChangeValue(widget.value);
     }
   }
 
   void sub() {
-    if (widget.value - widget.increments >= widget.min) {
+    if (widget.canEdit && widget.value - widget.increments >= widget.min) {
       widget.value = widget.value - widget.increments;
-      widget.item.quantity = widget.value;
+      widget.onChangeValue(widget.value);
     }
   }
 }

@@ -31,8 +31,7 @@ abstract class NetworkCall {
 
   Future<void> addFav(User user, var restaurant_id);
 
-  Future<void> removeFav();
-
+  Future<void> removeFav(User user, var restaurant_id);
 
   var ID;
 }
@@ -184,7 +183,7 @@ class FirebaseNetworkCall implements NetworkCall {
         });
       }
     });
-        }
+  }
 
   @override
   Future<List<RestaurantModel>> getRestaurants() async {
@@ -213,6 +212,19 @@ class FirebaseNetworkCall implements NetworkCall {
         .collection('Favourites')
         .add(UserModel.ID_toJson(restaurant_id));
     print("Favourite Added}");
+  }
+
+  Future<void> removeFav(User user, var restaurant_id) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    var snapshot = await users
+        .doc(user.docID)
+        .collection('Favourites')
+        .where('ID', isEqualTo: restaurant_id)
+        .get();
+
+    await snapshot.docs.first.reference.delete();
+    print("Favourite Removed}");
   }
 
   @override
@@ -261,12 +273,6 @@ class FirebaseNetworkCall implements NetworkCall {
         .toList();
 
     return thedetails;
-  }
-
-  @override
-  Future<void> removeFav() {
-    // TODO: implement removeFav
-    throw UnimplementedError();
   }
 
 // Future<List<OrdersModel>> getOrderDetails(UserId) async {

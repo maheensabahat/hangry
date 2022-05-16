@@ -100,6 +100,8 @@ class _UserMenuState extends State<UserMenu> {
                                                     ),
                                                     fit: BoxFit.fill,
                                                   ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 )),
                                             title: Text(
                                               menu[index].name,
@@ -178,12 +180,17 @@ class _UserMenuState extends State<UserMenu> {
                                                   ],
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text('\$ ' +
-                                                        menu[index]
-                                                            .price
-                                                            .toString()),
+                                                        const EdgeInsets.only(
+                                                            top: 2),
+                                                    child: Text(
+                                                      '\$ ' +
+                                                          menu[index]
+                                                              .price
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
                                                   )
                                                 ],
                                               ),
