@@ -114,7 +114,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                 child: Icon(
                   isfav ? Icons.favorite : Icons.favorite_border,
                   size: 35,
-                  color: Color(0xFF5ABFA3),
+                  color: Color(0xffF29191),
                 ),
               ),
             ),

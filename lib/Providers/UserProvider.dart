@@ -192,5 +192,15 @@ class UserProvider extends ChangeNotifier {
     return rest;
   }
 
+  List<Restaurant> searchCategory(String Category) {
+    List<Restaurant> rest = [];
 
+    restaurants.forEach((element) {
+      if (element.category.toLowerCase() == Category.toLowerCase()) {
+        rest.add(element);
+      }
+    });
+
+    return rest;
+  }
 }
