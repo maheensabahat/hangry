@@ -56,7 +56,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             ButtonMenu(),
-            FavListView(favourites: fav)
+            FavListView()
           ],
         ),
       ),

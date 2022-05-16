@@ -83,14 +83,14 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     status: false);
                           }
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Home(
-                                    user: context
-                                        .read<UserProvider>()
-                                        .getUser())),
-                          ).then((_) => setState((() {})));
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => Home(
+                          //           user: context
+                          //               .read<UserProvider>()
+                          //               .getUser())),
+                          // ).then((_) => setState((() {})));
                         },
                         child: const Text('Go Ahead'))
                   ],
