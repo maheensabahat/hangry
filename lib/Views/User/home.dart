@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Providers/GoogleSignInProvider.dart';
 import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
+import 'package:project/Views/User/Cart.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:project/main.dart';
@@ -101,7 +102,7 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: !context.read<UserProvider>().getQR()
           ? FadeInUp(
-              delay: Duration(milliseconds: 800),
+              delay: const Duration(milliseconds: 800),
               child: FloatingActionButton.extended(
                 heroTag: null,
                 label: const Text('Scan QR',
@@ -138,7 +139,7 @@ class _HomeState extends State<Home> {
                               ),
                         )));
               },
-              backgroundColor: Color(0xff51bfa3),
+              backgroundColor: const Color(0xff51bfa3),
             ),
     );
   }
@@ -378,7 +379,7 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
               Color(0xff5ABFA3),
               Color(0x405ABFA3),
@@ -391,7 +392,7 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Text('At a restaurant?'),
             Text(
               'Scan QR',
