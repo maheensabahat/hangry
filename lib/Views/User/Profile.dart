@@ -29,10 +29,12 @@ class _ProfileState extends State<Profile> {
   // XFile? img;
   final ImagePicker _picker = ImagePicker();
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  late String email;
 
   Widget build(BuildContext context) {
     context.read<UserProvider>().getFav();
     fav = context.read<UserProvider>().user.favs;
+    email = context.read<UserProvider>().getEmail();
     // img = context.read<UserProvider>().getImage();
     return Scaffold(
       body: SingleChildScrollView(
@@ -107,15 +109,10 @@ class _ProfileState extends State<Profile> {
         // img = context.read<UserProvider>().getImage(),
         _imageFile != null
             ? CircleAvatar(
-            radius: 80.0,
-            backgroundImage: FileImage(File(_imageFile!.path))
-        )
+                radius: 80.0,
+                backgroundImage: FileImage(File(_imageFile!.path)))
             : ProfilePicture(),
 
-        // const CircleAvatar(
-        //     radius: 80.0,
-        //     backgroundImage: FileImage(File(img!.path)),
-        // ),
         Positioned(
           bottom: 20.0,
           right: 20.0,
@@ -156,10 +153,12 @@ class _ProfileState extends State<Profile> {
     TaskSnapshot taskSnapshot =
         await _storage.ref(_imageFile!.path).putFile(file);
     //downloading URL from firebase storage
-    final String downloadUrl =
-        await taskSnapshot.ref.getDownloadURL();
+    final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
-    await users.where("email", isEqualTo: users.id).get().then((QuerySnapshot querySnapshot) async {
+    await users
+        .where("email", isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {
         await FirebaseFirestore.instance
             .collection("Users")
@@ -167,7 +166,7 @@ class _ProfileState extends State<Profile> {
             .update({
           "image": downloadUrl,
         }).then(
-              (value) => showDialog(
+          (value) => showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Success'),
@@ -175,8 +174,7 @@ class _ProfileState extends State<Profile> {
                   'Restaurant has been added to the app successfully'),
               actions: [
                 TextButton(
-                    onPressed: () =>
-                        Navigator.pop(context),
+                    onPressed: () => Navigator.pop(context),
                     child: const Text('Ok'))
               ],
             ),
