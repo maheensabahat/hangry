@@ -117,54 +117,65 @@ class _UserMenuState extends State<UserMenu> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   if (widget.scanned) ...[
-                                                    InkWell(
-                                                      child: Icon(
-                                                          Icons.shopping_cart),
-                                                      onTap: () {
-                                                        var order = OrderItem(
-                                                            user_id: context
-                                                                .read<
-                                                                    UserProvider>()
-                                                                .getEmail(),
-                                                            name: provider
-                                                                .restaurant
-                                                                .items[index]
-                                                                .name,
-                                                            desc: provider
-                                                                .restaurant
-                                                                .items[index]
-                                                                .desc,
-                                                            price: provider
-                                                                .restaurant
-                                                                .items[index]
-                                                                .price,
-                                                            quantity: 1);
-                                                        order.image = provider
-                                                            .restaurant
-                                                            .items[index]
-                                                            .image!;
-                                                        context
-                                                            .read<
-                                                                ScanProvider>()
-                                                            .addToOrder(
-                                                                order: order);
-                                                        context
-                                                            .read<
-                                                                ScanProvider>()
-                                                            .addToOrderFirebase(
-                                                                qr_id: context
-                                                                    .read<
-                                                                        ScanProvider>()
-                                                                    .getQRID(),
-                                                                email: context
-                                                                    .read<
-                                                                        UserProvider>()
-                                                                    .getEmail(),
-                                                                orders: context
-                                                                    .read<
-                                                                        ScanProvider>()
-                                                                    .getOrderList());
-                                                      },
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 0),
+                                                      child: InkWell(
+                                                        child: Icon(Icons
+                                                            .shopping_cart),
+                                                        onTap: () {
+                                                          var order = OrderItem(
+                                                              user_id: context
+                                                                  .read<
+                                                                      UserProvider>()
+                                                                  .getEmail(),
+                                                              name: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .name,
+                                                              desc: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .desc,
+                                                              price: provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .price,
+                                                              quantity: 1);
+                                                          order.image = provider
+                                                              .restaurant
+                                                              .items[index]
+                                                              .image!;
+                                                          order.ProductID =
+                                                              provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .ID;
+
+                                                          context
+                                                              .read<
+                                                                  ScanProvider>()
+                                                              .addToOrder(
+                                                                  order: order);
+                                                          context
+                                                              .read<
+                                                                  ScanProvider>()
+                                                              .addToOrderFirebase(
+                                                                  qr_id: context
+                                                                      .read<
+                                                                          ScanProvider>()
+                                                                      .getQRID(),
+                                                                  email: context
+                                                                      .read<
+                                                                          UserProvider>()
+                                                                      .getEmail(),
+                                                                  orders: context
+                                                                      .read<
+                                                                          ScanProvider>()
+                                                                      .getOrderList());
+                                                        },
+                                                      ),
                                                     ),
                                                   ],
                                                   Padding(

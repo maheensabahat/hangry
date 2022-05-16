@@ -70,6 +70,7 @@ class ScanProvider extends ChangeNotifier {
     jsonOrders.clear();
     for (var order in orders) {
       jsonOrders.add({
+        "product_id": order.ProductID,
         "name": order.name,
         "desc": order.desc,
         "price": order.price,
@@ -171,7 +172,6 @@ class ScanProvider extends ChangeNotifier {
         .collection('Scanned')
         .where("user_email", isEqualTo: email)
         .where("qr_id", isEqualTo: qr_id)
-        .where("qr_status", isEqualTo: true)
         .get()
         .then((QuerySnapshot querySnapshot) async => {
               for (QueryDocumentSnapshot doc in querySnapshot.docs)

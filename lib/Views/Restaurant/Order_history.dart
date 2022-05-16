@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/Models/OrdersModel.dart';
 import 'package:project/Views/Restaurant/RestaurantOrder.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/RestaurantProvider.dart';
@@ -17,10 +18,6 @@ class _Order_historyState extends State<Order_history>
   late final _tabController = TabController(length: 3, vsync: this);
 
   @override
-  late List<Orders?> Pending_Orders = [];
-  late List<Orders?> Approved_Orders = [];
-  late List<Orders?> Rejected_orders = [];
-  var restaurant_id;
 
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
@@ -83,32 +80,20 @@ class _Order_historyState extends State<Order_history>
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 20),
                     child: Container(
-                      child: list(List<Orders?>.from(context
-                          .read<RestaurantProvider>()
-                          .getOrders(
-                              context.read<RestaurantProvider>().getEmail(),
-                              'Pending'))),
+                      child: list('Rejected'),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 20),
                     child: Container(
-                      child: list(List.from(context
-                          .read<RestaurantProvider>()
-                          .getOrders(
-                              context.read<RestaurantProvider>().getEmail(),
-                              'Approved'))),
+                      child: list('Rejected'),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 20),
                     child: Container(
-                      child: list(List.from(context
-                          .read<RestaurantProvider>()
-                          .getOrders(
-                              context.read<RestaurantProvider>().getEmail(),
-                              'Rejected'))),
-                    ),
+                      child: list('Rejected'),
+                  ),
                   ),
                 ],
               )
@@ -130,52 +115,63 @@ class Orders {
   Orders({required this.name, required this.time});
 }
 
-ListView? list(List x) {
-  ListView.builder(
-    itemExtent: 100,
-    itemCount: x.length,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-        child: Container(
-          decoration: const BoxDecoration(
-              color: Color(0x505ABFA3),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          height: 100,
-          child: Align(
-            alignment: const Alignment(0, 0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RestaurantOrder()),
-                );
-              },
-              child: ListTile(
-                  title: Text(
-                    x[index].tableNum,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  // leading: Icon(Icons.restaurant),
-                  subtitle: Text(x[index].user_id),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.chevron_right),
-                    color: Colors.black,
-                    onPressed: () {},
-                  ),
-                  leading: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.fastfood,
-                      color: Colors.black,
-                      size: 30,
+Widget list(String status) {
+  return Consumer<RestaurantProvider>(builder: (context, RestaurantProvider, child)
+  {
+    List<OrdersModel> reqs;
+    if (status == 'Pending') {
+      reqs = RestaurantProvider.restaurant.Pending_Orders;
+    } else if (status == 'Approved') {
+      reqs = RestaurantProvider.restaurant.Approved_Orders;
+    } else {
+      reqs = RestaurantProvider.restaurant.Rejected_Orders;
+    }
+    return ListView.builder(
+      itemExtent: 100,
+      itemCount: reqs.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+          child: Container(
+            decoration: const BoxDecoration(
+                color: Color(0x505ABFA3),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            height: 100,
+            child: Align(
+              alignment: const Alignment(0, 0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RestaurantOrder()),
+                  );
+                },
+                child: ListTile(
+                    title: Text(
+                      reqs[index].TableNum,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
-                  )),
+                    // leading: Icon(Icons.restaurant),
+                    subtitle: Text(reqs[index].user_id),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.chevron_right),
+                      color: Colors.black,
+                      onPressed: () {},
+                    ),
+                    leading: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.fastfood,
+                        color: Colors.black,
+                        size: 30,
+                      ),
+                    )),
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  });
 }

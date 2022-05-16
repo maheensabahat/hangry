@@ -1,9 +1,10 @@
 import 'package:project/Views/User/Cart.dart';
 
 class OrderItem {
+  var ProductID;
   String user_id;
   late String restaurant_id;
-  late String dish_id;
+  late List<String> dish_id;
   late String image;
   String name;
   String desc;
