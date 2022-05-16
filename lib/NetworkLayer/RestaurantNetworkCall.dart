@@ -25,6 +25,10 @@ abstract class RestaurantNetworkCall {
   Future<void> ApproveRequest(var id);
 
   Future<List> getRestOrders(var restaurant_id, order_status);
+
+  Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status);
+
+
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -155,6 +159,59 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
       });
     });
     return orders;
+  }
+
+  Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status) async {
+    List<OrdersModel> reqs = [];
+
+    List ids = await getOrdId(restaurant);
+
+    int i = 0;
+    while (i < ids.length) {
+      OrdersModel r =
+      await getOrdusingID(ids[i], status) as OrdersModel;
+      if (r != null) {
+        reqs.add(r);
+      }
+      i++;
+    }
+
+    return reqs;
+  }
+
+  Future<OrdersModel?> getOrdusingID(var id, String status) async {
+    var x = await FirebaseFirestore.instance
+        .collection('Orders')
+        .doc(id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      OrdersModel req = OrdersModel.fromJson(
+          documentSnapshot.data() as Map<String, dynamic>);
+      print(req);
+      if (req.status == status) {
+        return req;
+      } else {
+        return null;
+      }
+    });
+
+    return x;
+  }
+
+  getOrdId(Restaurant restaurant) async {
+    QuerySnapshot query = await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .doc(restaurant.id)
+        .collection('Orders')
+        .get();
+
+    final thedetails = query.docs
+        .map((DocumentSnapshot e) => RestaurantModel.OrderID_fromJson(
+        e.data() as Map<String, dynamic>))
+        .toList();
+
+    print(thedetails);
+    return thedetails;
   }
 }
 

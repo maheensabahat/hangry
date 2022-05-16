@@ -20,6 +20,14 @@ class RestaurantModel {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'desc': desc, 'category': category, 'image': image};
+
+  static OrderID_fromJson(Map<String, dynamic> json) {
+    return json['Order-ID'];
+  }
+
+  static Map<String, dynamic> ID_toJson(var id) => {'ID': id};
+
+  static ID_fromJson(Map<String, dynamic> json) {
+    return json['ID'];
+  }
 }

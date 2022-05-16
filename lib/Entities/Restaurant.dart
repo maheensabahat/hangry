@@ -1,4 +1,5 @@
 import 'package:project/Entities/Products.dart';
+import 'package:project/Models/OrdersModel.dart';
 
 class Restaurant {
   String name;
@@ -16,6 +17,10 @@ class Restaurant {
       required this.image,
       this.isFav,
       this.id});
+
+  List<OrdersModel> Approved_Orders = [];
+  List<OrdersModel> Pending_Orders = [];
+  List<OrdersModel> Rejected_Orders = [];
 
   @override
   String toString() {
