@@ -6,6 +6,7 @@ import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
+import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/OrderItem.dart';
 import '../Widgets/ProfilePicture.dart';
@@ -83,14 +84,10 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     status: false);
                           }
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Home(
-                                    user: context
-                                        .read<UserProvider>()
-                                        .getUser())),
-                          ).then((_) => setState((() {})));
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => MainPage()),
+                          // ).then((_) => setState((() {})));
                         },
                         child: const Text('Go Ahead'))
                   ],

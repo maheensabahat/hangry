@@ -8,7 +8,7 @@ import '../NetworkLayer/RestaurantNetworkCall.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
-  late List orders;
+  List<Orders?> orders = [];
   late String email;
   late String restaurant_id;
   late String order_status;
@@ -124,15 +124,19 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Orders?> getRestOrders(restaurant_id, order_status) async {
-    isLoaded = false;
+  Future<List> getRestOrdersFromFirebase(restaurant_id, order_status) async {
+    var orders;
+    orders = await networkCall.getRestOrders(restaurant_id, order_status);
+    for (Orders order in orders) {
+      this.orders.add(order);
+    }
     notifyListeners();
+    return orders;
+  }
 
-    orders = await networkCall.getRestOrders(restaurant_id,order_status);
-    print(orders);
-
-    isLoaded = true;
-    notifyListeners();
+  List<Orders?> getOrders(restaurant_id, order_status) {
+    getRestOrdersFromFirebase(restaurant_id, order_status);
+    return orders;
   }
 
   String getEmail() {

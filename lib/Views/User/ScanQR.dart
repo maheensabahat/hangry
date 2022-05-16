@@ -9,6 +9,7 @@ import 'package:project/Views/User/UserMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../Entities/ShoppingCart.dart';
 import '../../Entities/User.dart';
 import '../../Entities/My_Order.dart';
 import '../../Providers/ScanProvider.dart';
@@ -117,6 +118,7 @@ class _ScanQRState extends State<ScanQR> {
                         //if (!widget.user.qr && result != null) {
                         if (!context.read<UserProvider>().getQR() &&
                             result != null) {
+                          ShoppingCart CurrentCart = ShoppingCart();
                           context.read<UserProvider>().setQR(true);
                           //widget.user.qr = true;
                           widget.user.CreateCart(restaurant);
