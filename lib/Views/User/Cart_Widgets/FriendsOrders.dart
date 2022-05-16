@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
-import 'package:project/Views/User/Cart_Widgets/Order.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/OrderItem.dart';
+import '../../Restaurant/Widgets/Loader.dart';
 import '../Widgets/ProfilePicture.dart';
-import '../home.dart';
 import 'Counter.dart';
 
 class FriendsOrders extends StatefulWidget {
@@ -99,8 +97,8 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                   child: friendEmails.isEmpty
                       ? const Text("No Friend has joined yet",
                           style: TextStyle(
-                            color: Color(0xFF154038),
-                            fontSize: 16,
+                            color: Color(0xA0154038),
+                            fontSize: 12,
                           ))
                       : SizedBox(
                           height: 372 * friendEmails.length - 1,
@@ -281,16 +279,30 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                           ),
                                                           const Spacer(),
                                                           Counter(
-                                                              item: allFriendsDishes[
-                                                                      emailIndex]
-                                                                  [index],
+                                                              onChangeValue:
+                                                                  (value) {
+                                                                var f = allFriendsDishes[
+                                                                    emailIndex];
+                                                                if (value !=
+                                                                    0) {
+                                                                  f[index].quantity =
+                                                                      value;
+                                                                } else {
+                                                                  f.remove(
+                                                                      f[index]);
+                                                                }
+                                                                setState(() {});
+                                                              },
+                                                              // item: allFriendsDishes[
+                                                              // emailIndex]
+                                                              // [index],
                                                               min: 0,
                                                               max: 5,
                                                               value: allFriendsDishes[
                                                                           emailIndex]
                                                                       [index]
                                                                   .quantity,
-                                                              increments: 1)
+                                                              increments: 1, canEdit: true,)
                                                         ],
                                                       ),
                                                     ),
@@ -332,7 +344,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                         ),
                 );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return Loader();
         }
       },
     );

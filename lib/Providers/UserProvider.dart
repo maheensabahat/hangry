@@ -184,7 +184,12 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> MarkFav(Restaurant r) async {
     await networkCall.addFav(user, r.id);
+    await getRestaurants();
+  }
 
+  Future<void> removeFav(Restaurant r) async {
+    await networkCall.removeFav(user, r.id);
+    await getRestaurants();
   }
 
   Future<void> getFav() async {

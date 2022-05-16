@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../Entities/User.dart';
 import '../../Providers/OrdersProvider.dart';
+import 'Cart_Widgets/AnimatedButton.dart';
 import 'Cart_Widgets/FriendsOrders.dart';
 import 'Cart_Widgets/MyOrderWidget.dart';
 import 'Cart_Widgets/Order.dart';
@@ -30,63 +31,70 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Header(
-              title: 'Cart',
-              bottom: 0,
-            ),
-          ),
-          // if (widget.user.qr) ...[
-          if (context.read<UserProvider>().getQR()) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: MyOrderWidget(
-                myOrder: widget.user.currentOrder,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 24, left: 36, bottom: 12),
-              child: Text(
-                'Friends',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-              ),
-            ),
-            const FriendsOrders(),
-            Padding(
-              padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
-              child: Container(
-                height: 100,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: widget.CurrentCart.friends.length - 1,
-                  itemBuilder: (context, index) {
-                    User friend = widget.CurrentCart.friends[index];
-                    if (index != 0) {
-                      return Order(
-                          name: friend.name!, order: friend.currentOrder);
-                    } else {
-                      return Container();
-                    }
-                  },
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Header(
+                  title: 'Cart',
+                  bottom: 5,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 36),
-              child: Summary(cart: widget.CurrentCart),
-            ),
-          ] else ...[
-            const Center(
-                child: Text(
-              'Empty Cart',
-            ))
-          ],
+              // if (widget.user.qr) ...[
+              if (context.read<UserProvider>().getQR()) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: MyOrderWidget(
+                    myOrder: widget.user.currentOrder,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 24, left: 36, bottom: 12),
+                  child: Text(
+                    'Friends',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                  ),
+                ),
+                const FriendsOrders(),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
+                //   child: Container(
+                //     height: 100,
+                //     child: ListView.builder(
+                //       padding: EdgeInsets.zero,
+                //       itemCount: widget.CurrentCart.friends.length - 1,
+                //       itemBuilder: (context, index) {
+                //         User friend = widget.CurrentCart.friends[index];
+                //         if (index != 0) {
+                //           return Order(
+                //               name: friend.name!, order: friend.currentOrder);
+                //         } else {
+                //           return Container();
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
+              ] else ...[
+                const Center(
+                    child: Text(
+                  'Empty Cart',
+                ))
+              ],
+            ],
+          ),
+        ),
+        if (context.read<UserProvider>().getQR()) ...[
+          Padding(
+            padding: const EdgeInsets.only(right: 32, bottom: 15),
+            child: Summary(cart: widget.CurrentCart),
+          ),
         ],
-      ),
+      ],
     );
   }
 }
