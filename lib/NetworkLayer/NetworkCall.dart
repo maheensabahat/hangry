@@ -130,7 +130,6 @@ class FirebaseNetworkCall implements NetworkCall {
       i++;
     }
 
-    print("y" + reqs.toString());
     return reqs;
   }
 
@@ -243,6 +242,7 @@ class FirebaseNetworkCall implements NetworkCall {
         .then((DocumentSnapshot documentSnapshot) {
       r = RestaurantModel.fromJson(
           documentSnapshot.data() as Map<String, dynamic>);
+      r.id = id;
     });
 
     return r;
@@ -269,22 +269,22 @@ class FirebaseNetworkCall implements NetworkCall {
     throw UnimplementedError();
   }
 
-  // Future<List<OrdersModel>> getOrderDetails(UserId) async {
-  //   List<OrdersModel> orders = [];
-  //
-  //   await FirebaseFirestore.instance
-  //       .collection('Users')
-  //       .doc(UserId)
-  //       .collection('Orders')
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     querySnapshot.docs.forEach((doc) {
-  //       OrdersModel order =
-  //       OrdersModel.fromJson(doc.data() as Map<String, dynamic>);
-  //       order.ID = doc.id;
-  //       orders.add(order);
-  //     });
-  //   });
-  //   return orders;
-  // }
+// Future<List<OrdersModel>> getOrderDetails(UserId) async {
+//   List<OrdersModel> orders = [];
+//
+//   await FirebaseFirestore.instance
+//       .collection('Users')
+//       .doc(UserId)
+//       .collection('Orders')
+//       .get()
+//       .then((QuerySnapshot querySnapshot) {
+//     querySnapshot.docs.forEach((doc) {
+//       OrdersModel order =
+//       OrdersModel.fromJson(doc.data() as Map<String, dynamic>);
+//       order.ID = doc.id;
+//       orders.add(order);
+//     });
+//   });
+//   return orders;
+// }
 }

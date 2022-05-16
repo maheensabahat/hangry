@@ -232,7 +232,9 @@ class _ReserveTableState extends State<ReserveTable> {
 
                               context.read<UserProvider>().reserveTable(req);
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ReservationDisplay()));
+                                  builder: (context) => ReservationDisplay(
+                                        request: req,
+                                      )));
                             }
                             // Navigator.of(context).push(widget.next_page);
                           },

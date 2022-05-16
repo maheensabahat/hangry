@@ -35,17 +35,12 @@ class UserMenu extends StatefulWidget {
 }
 
 class _UserMenuState extends State<UserMenu> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Provider.of<RestaurantProvider>(context, listen: false)
-        .setRestaurant(widget.restaurant);
-    Provider.of<RestaurantProvider>(context, listen: false).getProducts();
-  }
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<RestaurantProvider>(context, listen: false)
+        .setRestaurant(widget.restaurant);
+    Provider.of<RestaurantProvider>(context, listen: false).getProducts();
     return Scaffold(
         body: Stack(
           children: [

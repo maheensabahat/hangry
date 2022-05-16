@@ -5,7 +5,7 @@ class ReservationRequest {
   int phone;
   DateTime date;
   String? name;
-  String? restaurantName;
+  String restaurantName;
   var restaurant_id;
   var id;
 

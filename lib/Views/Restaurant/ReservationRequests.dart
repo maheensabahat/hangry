@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Providers/RestaurantProvider.dart';
+import 'package:project/Views/User/Reservation_Widgets/RequestDetails.dart';
 import 'package:provider/provider.dart';
 import '../../Entities/ReservationRequest.dart';
 import '../User/Widgets/InputBox.dart';
@@ -24,8 +25,6 @@ class _ReservationRequestsState extends State<ReservationRequests> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       textStyle: TextStyle(fontWeight: FontWeight.bold));
-
-  var formatter = DateFormat('EE dd-MMM-yy');
 
   @override
   Widget build(BuildContext context) {
@@ -57,42 +56,7 @@ class _ReservationRequestsState extends State<ReservationRequests> {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 50),
               child: Column(
                 children: [
-                  InputBox(
-                    label: 'Name',
-                    hintText: '',
-                    icon: Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                    controller:
-                        TextEditingController(text: widget.request.name),
-                    isNum: false,
-                    canEdit: false,
-                  ),
-                  InputBox(
-                    label: 'Date',
-                    hintText: '',
-                    icon: Icon(Icons.calendar_today, color: Color(0xFF5ABFA3)),
-                    controller: TextEditingController(
-                        text: formatter.format(widget.request.date)),
-                    isNum: false,
-                    canEdit: false,
-                  ),
-                  InputBox(
-                    label: 'Time',
-                    hintText: '',
-                    icon: Icon(Icons.timer_outlined, color: Color(0xFF5ABFA3)),
-                    controller:
-                        TextEditingController(text: widget.request.time),
-                    isNum: false,
-                    canEdit: false,
-                  ),
-                  InputBox(
-                    label: 'No. of persons',
-                    hintText: 'Pre-filled text field containing no. of persons',
-                    icon: Icon(Icons.group, color: Color(0xFF5ABFA3)),
-                    controller: TextEditingController(
-                        text: widget.request.seats.toString()),
-                    isNum: false,
-                    canEdit: false,
-                  ),
+                  RequestDetails(request: widget.request, isUser: false),
                   if (widget.type == 'pending') ...[
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
