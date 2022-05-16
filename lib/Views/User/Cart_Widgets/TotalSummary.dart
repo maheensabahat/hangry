@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
+import 'package:project/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Entities/ShoppingCart.dart';
 
 class Summary extends StatefulWidget {
-  ShoppingCart cart;
-
-  Summary({Key? key, required this.cart}) : super(key: key);
+  Summary({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _SummaryState createState() => _SummaryState();

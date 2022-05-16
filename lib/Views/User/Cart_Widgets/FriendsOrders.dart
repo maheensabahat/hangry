@@ -122,7 +122,6 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: friendEmails.length,
-                                // physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: ((context, emailIndex) {
                                   MyOrder friend = MyOrder();
                                   friend.isPlaced = order_status[emailIndex];

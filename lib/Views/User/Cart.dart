@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/My_Order.dart';
 import 'package:project/Entities/ShoppingCart.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
@@ -16,12 +17,11 @@ import 'Cart_Widgets/Order.dart';
 import 'Cart_Widgets/TotalSummary.dart';
 
 class Cart extends StatefulWidget {
-  late ShoppingCart CurrentCart;
   User user;
 
   Cart({Key? key, required this.user}) : super(key: key) {
-    CurrentCart = ShoppingCart();
-    CurrentCart.friends.add(user);
+    // CurrentCart = ShoppingCart();
+    // CurrentCart.friends.add(user);
   }
 
   @override
@@ -91,7 +91,7 @@ class _CartState extends State<Cart> {
         if (context.read<UserProvider>().getQR()) ...[
           Padding(
             padding: const EdgeInsets.only(right: 32, bottom: 15),
-            child: Summary(cart: widget.CurrentCart),
+            child: Summary(),
           ),
         ],
       ],

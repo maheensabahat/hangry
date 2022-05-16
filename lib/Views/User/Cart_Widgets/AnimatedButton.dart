@@ -65,15 +65,14 @@ class _AnimatedButtonState extends State<AnimatedButton>
     return Center(
         child: GestureDetector(
             onTap: () {
-              print(widget.order_length);
               if (widget.order_length > 0) {
+                _animationController.forward();
                 context.read<ScanProvider>().updateOrderStatusInFirebase(
                     email: context.read<UserProvider>().getEmail(),
                     qr_id: context.read<ScanProvider>().getQRID(),
                     status: true);
                 widget.isPlaced(true);
                 context.read<OrdersProvider>().setMyOrderStatus(true);
-                _animationController.forward();
               }
             },
             child: AnimatedContainer(
