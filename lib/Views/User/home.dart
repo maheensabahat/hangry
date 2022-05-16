@@ -38,8 +38,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<UserProvider>(context, listen: false).getRestaurants();
     return Consumer<UserProvider>(builder: (context, provider, child) {
-      provider.getRestaurants();
       return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -218,7 +218,6 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
                 child: Image.asset('assets/Pasta.png')),
           ),
         ),
-
         Positioned.fill(
           child: Align(
             alignment: Alignment.centerRight,

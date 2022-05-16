@@ -65,11 +65,13 @@ class _RestaurantState extends State<RestaurantWidget> {
                     begin: FractionalOffset.bottomCenter,
                     end: FractionalOffset.topCenter,
                     colors: [
+                      Colors.black87.withOpacity(0.5),
                       Colors.grey.withOpacity(0.0),
                       Colors.black54,
                       Colors.black87,
                     ],
                     stops: [
+                      1.0,
                       0.0,
                       0.5,
                       1.0
@@ -105,22 +107,22 @@ class _RestaurantState extends State<RestaurantWidget> {
           ),
           if (isfav != null) ...[
             Positioned(
-              top: 10,
-              left: 255,
+              bottom: 20,
+              left: 185,
               child: InkWell(
                 onTap: () {
                   context.read<UserProvider>().MarkFav(widget.restaurant);
                 },
                 child: Icon(
                   isfav ? Icons.favorite : Icons.favorite_border,
-                  size: 35,
+                  size: 40,
                   color: Color(0xffF29191),
                 ),
               ),
             ),
           ],
           Positioned(
-            left: 250,
+            left: 230,
             bottom: 15,
             child: FloatingActionButton.small(
               heroTag: null,

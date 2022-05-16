@@ -39,6 +39,7 @@ class RestaurantProvider extends ChangeNotifier {
 
   setRestaurant(Restaurant r) {
     restaurant = r;
+    restaurant_id = r.id;
   }
 
   getRequests(String status) async {
@@ -128,7 +129,7 @@ class RestaurantProvider extends ChangeNotifier {
     isLoaded = false;
     notifyListeners();
 
-    orders = await networkCall.getRestOrders(restaurant_id,order_status);
+    orders = await networkCall.getRestOrders(restaurant_id, order_status);
     print(orders);
 
     isLoaded = true;
@@ -139,25 +140,25 @@ class RestaurantProvider extends ChangeNotifier {
     return restaurant.id;
   }
 
-  // Future<void> getRestOrders() async {
-  //   isLoaded = false;
-  //   await Future.delayed(const Duration(milliseconds: 1));
-  //   notifyListeners();
-  //
-  //   var response = await networkCall.getRestOrders(id);
-  //
-  //   List<Orders> o = response
-  //       .map((e) => Orders(
-  //       user_id: e.user_id,
-  //       restaurant_id: e.restaurant_id,
-  //       qr_id: e.qr_id,
-  //       product_ids: e.product_ids,
-  //       order_status: e.order_status))
-  //       .toList();
-  //
-  //   orders = o ;
-  //
-  //   isLoaded = true;
-  //   notifyListeners();
-  // }
+// Future<void> getRestOrders() async {
+//   isLoaded = false;
+//   await Future.delayed(const Duration(milliseconds: 1));
+//   notifyListeners();
+//
+//   var response = await networkCall.getRestOrders(id);
+//
+//   List<Orders> o = response
+//       .map((e) => Orders(
+//       user_id: e.user_id,
+//       restaurant_id: e.restaurant_id,
+//       qr_id: e.qr_id,
+//       product_ids: e.product_ids,
+//       order_status: e.order_status))
+//       .toList();
+//
+//   orders = o ;
+//
+//   isLoaded = true;
+//   notifyListeners();
+// }
 }

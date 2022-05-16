@@ -51,7 +51,6 @@ class RestaurantList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: restaurants.length,
             itemBuilder: (BuildContext context, int index) {
-              // restaurants[index].user = context.read<UserProvider>().getUser();
               return RestaurantWidget(restaurant: restaurants[index]);
             }),
       ),

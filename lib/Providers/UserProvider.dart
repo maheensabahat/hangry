@@ -144,6 +144,9 @@ class UserProvider extends ChangeNotifier {
     );
     notifyListeners();
 
+    await getFav();
+    var fav = user.favs;
+
     var restList = await networkCall.getRestaurants();
 
     restaurants = restList
@@ -156,12 +159,21 @@ class UserProvider extends ChangeNotifier {
             isFav: false))
         .toList();
 
+    restaurants.forEach((element) {
+      fav.forEach((e) {
+        if (e.id == element.id) {
+          element.isFav = true;
+        }
+      });
+    });
+
     isLoaded = true;
     notifyListeners();
   }
 
   Future<void> MarkFav(Restaurant r) async {
     await networkCall.addFav(user, r.id);
+
   }
 
   Future<void> getFav() async {
@@ -177,7 +189,7 @@ class UserProvider extends ChangeNotifier {
             isFav: true))
         .toList();
 
-    print(user.favs);
+    notifyListeners();
   }
 
   List<Restaurant> searchRestaurant(String s) {
