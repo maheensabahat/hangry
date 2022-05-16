@@ -160,6 +160,16 @@ class _MyOrderState extends State<MyOrderWidget> {
                                       } else {
                                         orders.remove(orders[index]);
                                       }
+                                      context
+                                          .read<ScanProvider>()
+                                          .addToOrderFirebase(
+                                              email: context
+                                                  .read<UserProvider>()
+                                                  .getEmail(),
+                                              qr_id: context
+                                                  .read<ScanProvider>()
+                                                  .getQRID(),
+                                              orders: orders);
                                       setState(() {});
                                     },
                                     min: 0,
