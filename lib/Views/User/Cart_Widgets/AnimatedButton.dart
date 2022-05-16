@@ -32,7 +32,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
 
   late bool show;
   bool sent = false;
-  Color _color = Color(0xFF5ABFA3);
+  Color _color = const Color(0xFF5ABFA3);
 
   @override
   void initState() {

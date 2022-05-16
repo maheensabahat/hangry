@@ -53,7 +53,19 @@ class ScanProvider extends ChangeNotifier {
   }
 
   void addToOrder({required OrderItem order}) {
-    scanned.orders.add(order);
+    List productIDs = [];
+    for (var order in scanned.orders) {
+      productIDs.add(order.ProductID);
+    }
+    int index = productIDs.indexOf(order.ProductID);
+    if (index > -1) {
+      if (scanned.orders[index].quantity < 5) {
+        scanned.orders[index].quantity += 1;
+      }
+    } else {
+      scanned.orders.add(order);
+    }
+
     notifyListeners();
   }
 

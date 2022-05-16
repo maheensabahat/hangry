@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/OrdersRest.dart';
+import 'package:project/Entities/Products.dart';
+import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 class OrdersProvider extends ChangeNotifier {
@@ -108,5 +111,26 @@ class OrdersProvider extends ChangeNotifier {
 
   checkFriendsOrderStatus() {
     return friendsOrderStatus;
+  }
+
+  addFinalOrdersToFirebase(
+      String qr_id, String user_id, List<OrderItem> orders) async {
+    List product_details = [];
+    for (var order in orders) {
+      product_details
+          .add({"product_id": order.ProductID, "quantity": order.quantity});
+    }
+    String table_num = qr_id.split(" ")[1].split(":")[1];
+    String restaurant_id = qr_id.split(" ")[0].split(":")[1];
+
+    await FirebaseFirestore.instance.collection('Orders').add({
+      "user_id": user_id,
+      "qr_id": qr_id,
+      "restaurant_id": restaurant_id,
+      "product_details": product_details,
+      "table_num": table_num,
+      "date": DateTime.now(),
+      "status": "Pending",
+    });
   }
 }

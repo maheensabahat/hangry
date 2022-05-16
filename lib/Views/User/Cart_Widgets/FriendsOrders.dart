@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/User.dart';
@@ -74,9 +73,19 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                     TextButton(
                         onPressed: () {
                           context.read<UserProvider>().setQR(false);
-                          allEmails
-                              .add(context.read<UserProvider>().getEmail());
-                          for (String email in allEmails) {
+                          context
+                              .read<OrdersProvider>()
+                              .addFinalOrdersToFirebase(
+                                  context.read<ScanProvider>().getQRID(),
+                                  context.read<UserProvider>().getEmail(),
+                                  context.read<ScanProvider>().getOrderList());
+                          context.read<ScanProvider>().updateQRStatusInFirebase(
+                              email: context.read<UserProvider>().getEmail(),
+                              qr_id: context.read<ScanProvider>().getQRID(),
+                              status: false);
+
+                          int i = 0;
+                          for (String email in friendEmails) {
                             context
                                 .read<ScanProvider>()
                                 .updateQRStatusInFirebase(
@@ -84,288 +93,34 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     qr_id:
                                         context.read<ScanProvider>().getQRID(),
                                     status: false);
+                            context
+                                .read<OrdersProvider>()
+                                .addFinalOrdersToFirebase(
+                                    context.read<ScanProvider>().getQRID(),
+                                    email,
+                                    allFriendsDishes[i]);
+                            i++;
                           }
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => Home(
-                          //           user: context
-                          //               .read<UserProvider>()
-                          //               .getUser())),
-                          // ).then((_) => setState((() {})));
                         },
                         child: const Text('Go Ahead'))
                   ],
                 )
               : Center(
                   child: friendEmails.isEmpty
-                      ? const Text("No Friend has joined yet",
+                      ? const Text(
+                          "No Friend has joined yet",
                           style: TextStyle(
                             color: Color(0xA0154038),
                             fontSize: 12,
-                          ))
-<<<<<<< HEAD
-                      : SizedBox(
-                          height: 400 * friendEmails.length - 1,
-                          child: ListView.builder(
-                              itemCount: friendEmails.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: ((context, emailIndex) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 0, 16, 0),
-                                  child: Container(
-                                    height: 330,
-                                    child: Stack(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 310,
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xF0ADD9C9),
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(45),
-                                                  bottomRight:
-                                                      Radius.circular(30)),
-                                            ),
-                                          ),
-                                        ),
-                                        Picture(
-                                            radius: 40,
-                                            border: 4,
-                                            image: image[emailIndex]),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 100, top: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                name[emailIndex],
-                                                style: const TextStyle(
-                                                    color: Color(0xFF154038),
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              order_status[emailIndex]
-                                                  ? const Text(
-                                                      "have finalized their order",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xFF154038),
-                                                          fontSize: 14,
-                                                          fontStyle:
-                                                              FontStyle.italic))
-                                                  : const Text('is deciding..',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Color(0xFF154038),
-                                                          fontSize: 14,
-                                                          fontStyle:
-                                                              FontStyle.italic))
-                                            ],
-                                          ),
-                                        ),
-                                        Center(
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 30),
-                                            child: SizedBox(
-                                              width: 300,
-                                              height: 150,
-                                              child: ListView.builder(
-                                                padding: EdgeInsets.zero,
-                                                itemCount:
-                                                    allFriendsDishes[emailIndex]
-                                                        .length,
-                                                itemBuilder: (context, index) =>
-                                                    Container(
-                                                  height: 70,
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 4),
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0x905ABFA3),
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                10)),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.2),
-                                                        blurRadius: 4,
-                                                        spreadRadius: 2,
-                                                        offset:
-                                                            const Offset(4, 4),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  child: LimitedBox(
-                                                    //to solve proble of row in list view
-                                                    maxHeight: 100.0,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              right: 16),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            width: 60,
-                                                            height: 60,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    image:
-                                                                        DecorationImage(
-                                                                      image:
-                                                                          NetworkImage(
-                                                                        allFriendsDishes[emailIndex][index]
-                                                                            .image,
-                                                                      ),
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10)),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 12),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  allFriendsDishes[
-                                                                              emailIndex]
-                                                                          [
-                                                                          index]
-                                                                      .name,
-                                                                  style: const TextStyle(
-                                                                      color: Color(
-                                                                          0xFF154038),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                ),
-                                                                Text(
-                                                                  "\$" +
-                                                                      allFriendsDishes[emailIndex]
-                                                                              [
-                                                                              index]
-                                                                          .price
-                                                                          .toString(),
-                                                                  style: const TextStyle(
-                                                                      color: Color(
-                                                                          0xFF154038),
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const Spacer(),
-                                                          Counter(
-                                                            onChangeValue:
-                                                                (value) {
-                                                              var f =
-                                                                  allFriendsDishes[
-                                                                      emailIndex];
-                                                              if (value != 0) {
-                                                                f[index].quantity =
-                                                                    value;
-                                                              } else {
-                                                                f.remove(
-                                                                    f[index]);
-                                                              }
-                                                              context.read<ScanProvider>().addToOrderFirebase(
-                                                                  email: friendEmails[
-                                                                      emailIndex],
-                                                                  qr_id: context
-                                                                      .read<
-                                                                          ScanProvider>()
-                                                                      .getQRID(),
-                                                                  orders: f);
-                                                              setState(() {});
-                                                            },
-                                                            // item: allFriendsDishes[
-                                                            // emailIndex]
-                                                            // [index],
-                                                            min: 0,
-                                                            max: 5,
-                                                            value: allFriendsDishes[
-                                                                        emailIndex]
-                                                                    [index]
-                                                                .quantity,
-                                                            increments: 1,
-                                                            canEdit: false,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned.fill(
-                                          child: Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: 24, bottom: 45),
-                                              child: Text(
-                                                'Total: ' +
-                                                    '  ' +
-                                                    '\$' +
-                                                    context
-                                                        .watch<ScanProvider>()
-                                                        .Total(allFriendsDishes[
-                                                            emailIndex])
-                                                        .toString(),
-                                                style: TextStyle(
-                                                  color: Color(0xFF154038),
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              })),
-                        ),
-=======
+                          ),
+                        )
                       : Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 42),
-                        child: SizedBox(
+                          padding: EdgeInsets.symmetric(horizontal: 42),
+                          child: SizedBox(
                             // height: 372 * friendEmails.length - 1,
                             height: 100,
                             child: ListView.builder(
-                              padding: EdgeInsets.zero,
+                                padding: EdgeInsets.zero,
                                 itemCount: friendEmails.length,
                                 // physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: ((context, emailIndex) {
@@ -373,7 +128,9 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                   friend.isPlaced = order_status[emailIndex];
                                   friend.list = allFriendsDishes[emailIndex];
                                   return Order(
-                                      name: name[emailIndex], order: friend, image: image[emailIndex]);
+                                      name: name[emailIndex],
+                                      order: friend,
+                                      image: image[emailIndex]);
                                   // return Padding(
                                   //   padding:
                                   //       const EdgeInsets.fromLTRB(20, 0, 16, 0),
@@ -612,8 +369,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                   // );
                                 })),
                           ),
-                      ),
->>>>>>> 8c320d982db693665d2785e2100ed9acd3f69de2
+                        ),
                 );
         } else {
           return Loader();

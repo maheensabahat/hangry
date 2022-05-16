@@ -27,8 +27,6 @@ abstract class RestaurantNetworkCall {
   Future<List> getRestOrders(var restaurant_id, order_status);
 
   Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status);
-
-
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -168,8 +166,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
     int i = 0;
     while (i < ids.length) {
-      OrdersModel r =
-      await getOrdusingID(ids[i], status) as OrdersModel;
+      OrdersModel r = await getOrdusingID(ids[i], status) as OrdersModel;
       if (r != null) {
         reqs.add(r);
       }
@@ -185,8 +182,8 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
         .doc(id)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      OrdersModel req = OrdersModel.fromJson(
-          documentSnapshot.data() as Map<String, dynamic>);
+      OrdersModel req =
+          OrdersModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
       print(req);
       if (req.status == status) {
         return req;
@@ -206,31 +203,11 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
         .get();
 
     final thedetails = query.docs
-        .map((DocumentSnapshot e) => RestaurantModel.OrderID_fromJson(
-        e.data() as Map<String, dynamic>))
+        .map((DocumentSnapshot e) =>
+            RestaurantModel.OrderID_fromJson(e.data() as Map<String, dynamic>))
         .toList();
 
     print(thedetails);
     return thedetails;
   }
 }
-
-  // Future<List<OrdersModel>> getOrderDetails(RestId) async {
-  //   List<OrdersModel> orders = [];
-  //
-  //   await FirebaseFirestore.instance
-  //       .collection('Orders')
-  //       .doc(RestId)
-  //       .collection('Orders')
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) {
-  //     querySnapshot.docs.forEach((doc) {
-  //       OrdersModel order =
-  //       OrdersModel.fromJson(doc.data() as Map<String, dynamic>);
-  //       order.ID = doc.id;
-  //       orders.add(order);
-  //     });
-  //   });
-  //   return orders;
-  // }
-
