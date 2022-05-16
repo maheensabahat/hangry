@@ -85,10 +85,12 @@ class OrdersProvider extends ChangeNotifier {
       price += orderItem.price * orderItem.quantity;
     }
 
-    notifyListeners();
+    print(price);
+
   }
 
   int getTotalPrice({required List<OrderItem> myOrder}) {
+    setTotalPrice(myOrders: myOrder);
     return price;
   }
 

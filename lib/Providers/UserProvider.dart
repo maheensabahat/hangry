@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
+import '../Entities/My_Order.dart';
 import '../Entities/ReservationRequest.dart';
 import '../Models/UserModel.dart';
 import '../NetworkLayer/NetworkCall.dart';
@@ -37,6 +38,11 @@ class UserProvider extends ChangeNotifier {
 
   void setQR(bool status) {
     user.qr = status;
+    notifyListeners();
+  }
+
+  void initialiseCurrentOrder(){
+    user.currentOrder = MyOrder();
     notifyListeners();
   }
 

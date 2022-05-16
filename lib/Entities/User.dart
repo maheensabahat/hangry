@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Entities/ShoppingCart.dart';
 import 'package:provider/provider.dart';
 
 import 'My_Order.dart';
@@ -29,6 +30,8 @@ class User {
 
   //Favs rests
   List<Restaurant> favs = [];
+
+  // ShoppingCart currentCart = ShoppingCart();
 
   User({this.name, this.profilePicture, this.email}) {
     _first = name!.substring(0, name!.split(" ")[0].length);
