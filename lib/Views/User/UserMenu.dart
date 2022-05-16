@@ -35,7 +35,6 @@ class UserMenu extends StatefulWidget {
 }
 
 class _UserMenuState extends State<UserMenu> {
-
   @override
   Widget build(BuildContext context) {
     Provider.of<RestaurantProvider>(context, listen: false)
@@ -146,6 +145,12 @@ class _UserMenuState extends State<UserMenu> {
                                                               .restaurant
                                                               .items[index]
                                                               .image!;
+                                                          order.ProductID =
+                                                              provider
+                                                                  .restaurant
+                                                                  .items[index]
+                                                                  .ID;
+
                                                           context
                                                               .read<
                                                                   ScanProvider>()
