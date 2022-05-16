@@ -73,11 +73,15 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                           context.read<UserProvider>().setQR(false);
                           allEmails
                               .add(context.read<UserProvider>().getEmail());
-
-                          context.read<ScanProvider>().updateQRStatusInFirebase(
-                              email: context.read<UserProvider>().getEmail(),
-                              qr_id: context.read<ScanProvider>().getQRID(),
-                              status: false);
+                          for (String email in allEmails) {
+                            context
+                                .read<ScanProvider>()
+                                .updateQRStatusInFirebase(
+                                    email: email,
+                                    qr_id:
+                                        context.read<ScanProvider>().getQRID(),
+                                    status: false);
+                          }
 
                           Navigator.push(
                             context,
@@ -86,7 +90,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     user: context
                                         .read<UserProvider>()
                                         .getUser())),
-                          ).then((value) => setState((() {})));
+                          ).then((_) => setState((() {})));
                         },
                         child: const Text('Go Ahead'))
                   ],
