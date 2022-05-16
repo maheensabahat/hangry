@@ -105,7 +105,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                             fontSize: 12,
                           ))
                       : SizedBox(
-                          height: 372 * friendEmails.length - 1,
+                          height: 400 * friendEmails.length - 1,
                           child: ListView.builder(
                               itemCount: friendEmails.length,
                               physics: NeverScrollableScrollPhysics(),
@@ -295,6 +295,14 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                                 f.remove(
                                                                     f[index]);
                                                               }
+                                                              context.read<ScanProvider>().addToOrderFirebase(
+                                                                  email: friendEmails[
+                                                                      emailIndex],
+                                                                  qr_id: context
+                                                                      .read<
+                                                                          ScanProvider>()
+                                                                      .getQRID(),
+                                                                  orders: f);
                                                               setState(() {});
                                                             },
                                                             // item: allFriendsDishes[
