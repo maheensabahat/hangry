@@ -81,7 +81,7 @@ class ButtonMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 15),
+      padding: const EdgeInsets.only(top: 24, bottom: 28),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -147,7 +147,6 @@ class buttons extends StatelessWidget {
             MaterialPageRoute(builder: (context) {
               if (istable) {
                 context.read<UserProvider>().getRequests('pending');
-                context.read<UserProvider>().getRequests('approved');
                 return UserTableReservations();
               }
               return MyOrders();
@@ -215,8 +214,7 @@ class FavListView extends StatelessWidget {
                       },
                       child: Text(
                         'view all',
-                        style:
-                            TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
+                        style: TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
                       )),
                 )
               ],

@@ -51,7 +51,6 @@ class AdminProvider extends ChangeNotifier {
       {required String email,
       required String name,
       required String cuisine,
-      required String imageUrl,
       required String desc}) async {
     await FirebaseFirestore.instance
         .collection('Restaurants')
@@ -65,7 +64,6 @@ class AdminProvider extends ChangeNotifier {
             .update({
           "name": name,
           "cuisine": cuisine,
-          "image": imageUrl,
           "desc": desc,
         });
       }
