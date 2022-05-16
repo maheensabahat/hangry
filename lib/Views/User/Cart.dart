@@ -30,91 +30,63 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    return context.read<OrdersProvider>().checkFriendsOrderStatus() &&
-            context.read<OrdersProvider>().checkMyOrderStatus()
-        ? AlertDialog(
-            title: const Text(
-                'Your Order will be placed Now. Thank you for using hangry.'),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    context.read<UserProvider>().setQR(false);
-                    context.read<ScanProvider>().exitCart(
-                        email: context.read<UserProvider>().getEmail(),
-                        qr_id: context.read<ScanProvider>().getQRID());
-
-//////////////////////////////////////////////////////////////////////////
-                    ///
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(
-                              user: context.read<UserProvider>().getUser())),
-                    );
-                  },
-                  child: const Text('Go Ahead'))
-            ],
-          )
-        : SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Header(
-                    title: 'Cart',
-                    bottom: 0,
-                  ),
-                ),
-                // if (widget.user.qr) ...[
-                if (context.read<UserProvider>().getQR()) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: MyOrderWidget(
-                      myOrder: widget.user.currentOrder,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 24, left: 36, bottom: 12),
-                    child: Text(
-                      'Friends',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  const FriendsOrders(),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 42, right: 42, bottom: 26),
-                    child: Container(
-                      height: 100,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: widget.CurrentCart.friends.length - 1,
-                        itemBuilder: (context, index) {
-                          User friend = widget.CurrentCart.friends[index];
-                          if (index != 0) {
-                            return Order(
-                                name: friend.name!, order: friend.currentOrder);
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 36),
-                    child: Summary(cart: widget.CurrentCart),
-                  ),
-                ] else ...[
-                  const Center(
-                      child: Text(
-                    'Empty Cart',
-                  ))
-                ],
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Header(
+              title: 'Cart',
+              bottom: 0,
             ),
-          );
+          ),
+          // if (widget.user.qr) ...[
+          if (context.read<UserProvider>().getQR()) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: MyOrderWidget(
+                myOrder: widget.user.currentOrder,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 24, left: 36, bottom: 12),
+              child: Text(
+                'Friends',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+              ),
+            ),
+            const FriendsOrders(),
+            Padding(
+              padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
+              child: Container(
+                height: 100,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: widget.CurrentCart.friends.length - 1,
+                  itemBuilder: (context, index) {
+                    User friend = widget.CurrentCart.friends[index];
+                    if (index != 0) {
+                      return Order(
+                          name: friend.name!, order: friend.currentOrder);
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 36),
+              child: Summary(cart: widget.CurrentCart),
+            ),
+          ] else ...[
+            const Center(
+                child: Text(
+              'Empty Cart',
+            ))
+          ],
+        ],
+      ),
+    );
   }
 }

@@ -1,18 +1,20 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project/Views/User/MyOrders.dart';
+import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/UserProvider.dart';
 import 'User_TableReservations.dart';
-
 import '../../Entities/Restaurant.dart';
-import '../../Entities/User.dart';
-
 import 'Favorites.dart';
 import 'Widgets/Header.dart';
-import 'Widgets/ProfilePicture.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -22,7 +24,18 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  List<Restaurant> fav = [];
+  XFile? _imageFile;
+  // XFile? img;
+  final ImagePicker _picker = ImagePicker();
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  late String email;
+
   Widget build(BuildContext context) {
+    context.read<UserProvider>().getFav();
+    fav = context.read<UserProvider>().user.favs;
+    email = context.read<UserProvider>().getEmail();
+    // img = context.read<UserProvider>().getImage();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -36,18 +49,139 @@ class _ProfileState extends State<Profile> {
             ),
             Center(
               child: FadeInDown(
-                delay: Duration(milliseconds: 900),
+                delay: const Duration(milliseconds: 900),
                 child: Column(
-                  children: [ProfilePicture(), ProfileDetails()],
+                  children: [imageProfile(), ProfileDetails()],
                 ),
               ),
             ),
             ButtonMenu(),
-            FavListView()
+            FavListView(favourites: fav)
           ],
         ),
       ),
     );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          const Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: const Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: const Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: const Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: const Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+  Widget imageProfile() {
+    return Center(
+      child: Stack(children: <Widget>[
+        // img = context.read<UserProvider>().getImage(),
+        _imageFile != null
+            ? CircleAvatar(
+                radius: 80.0,
+                backgroundImage: FileImage(File(_imageFile!.path)))
+            : ProfilePicture(),
+
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: const Icon(
+              Icons.camera_alt,
+              color: Color(0xFF5ABFA3),
+              size: 28.0,
+            ),
+          ),
+        )
+      ]),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+    );
+
+    setState(() {
+      _imageFile = pickedFile;
+    });
+    StoringImage();
+  }
+
+  Future<void> StoringImage() async {
+    FirebaseStorage _storage = FirebaseStorage.instance;
+    File file = File(_imageFile!.path);
+
+    //Putting the file in firebase storage
+    TaskSnapshot taskSnapshot =
+        await _storage.ref(_imageFile!.path).putFile(file);
+    //downloading URL from firebase storage
+    final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+    await users
+        .where("email", isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(doc.id)
+            .update({
+          "image": downloadUrl,
+        }).then(
+          (value) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Success'),
+              content: const Text(
+                  'Restaurant has been added to the app successfully'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Ok'))
+              ],
+            ),
+          ),
+        );
+      }
+    });
   }
 }
 
@@ -82,7 +216,7 @@ class ButtonMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FadeInLeft(
-            delay: Duration(milliseconds: 700),
+            delay: const Duration(milliseconds: 700),
             child: buttons(
               name: 'My orders',
               icon: 'assets/Order.png',
@@ -92,7 +226,7 @@ class ButtonMenu extends StatelessWidget {
             ),
           ),
           FadeInRight(
-            delay: Duration(milliseconds: 700),
+            delay: const Duration(milliseconds: 700),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: buttons(
@@ -127,9 +261,9 @@ class buttons extends StatelessWidget {
       : super(key: key);
 
   final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      onPrimary: Color(0xFF154038),
-      primary: Color(0xFF5ABFA3),
-      textStyle: TextStyle(fontWeight: FontWeight.bold));
+      onPrimary: const Color(0xFF154038),
+      primary: const Color(0xFF5ABFA3),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold));
 
   @override
   Widget build(BuildContext context) {
@@ -143,9 +277,9 @@ class buttons extends StatelessWidget {
             MaterialPageRoute(builder: (context) {
               if (istable) {
                 context.read<UserProvider>().getRequests('pending');
-                return UserTableReservations();
+                return const UserTableReservations();
               }
-              return MyOrders();
+              return const MyOrders();
             }),
           );
         },
@@ -160,7 +294,8 @@ class buttons extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 60),
                 child: Text(
                   name,
-                  style: TextStyle(fontSize: 12, color: Color(0xFFf2f2f2)),
+                  style:
+                      const TextStyle(fontSize: 12, color: Color(0xFFf2f2f2)),
                 ),
               ),
             ),

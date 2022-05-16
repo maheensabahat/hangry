@@ -62,14 +62,14 @@ class ProfilePicture extends StatelessWidget {
             )),
 
         // Edit Button
-        const Padding(
-          padding: EdgeInsets.only(left: 120, top: 120),
-          child: CircleAvatar(
-            radius: 20,
-            backgroundColor: Color(0xF0ADD9C9),
-            // child: Icon(Icons.edit, color: Color(0xFF154038)),
-          ),
-        )
+        // const Padding(
+        //   padding: EdgeInsets.only(left: 120, top: 120),
+        //   child: CircleAvatar(
+        //     radius: 20,
+        //     backgroundColor: Color(0xF0ADD9C9),
+        //     // child: Icon(Icons.edit, color: Color(0xFF154038)),
+        //   ),
+        // )
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/User/MainPage.dart';
 import 'package:project/Views/User/home.dart';
 import 'package:provider/provider.dart';
 
@@ -52,21 +53,29 @@ class _MyOrderState extends State<MyOrderWidget> {
                 padding: const EdgeInsets.only(left: 100, top: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'You',
                       style: TextStyle(
                           color: Color(0xFF154038),
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'are deciding..',
-                      style: TextStyle(
-                          color: Color(0xFF154038),
-                          fontSize: 14,
-                          fontStyle: FontStyle.italic),
-                    ),
+                    widget.myOrder.isPlaced
+                        ? const Text(
+                            'have placed your order..',
+                            style: TextStyle(
+                                color: Color(0xFF154038),
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic),
+                          )
+                        : const Text(
+                            'are deciding..',
+                            style: TextStyle(
+                                color: Color(0xFF154038),
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic),
+                          ),
                   ],
                 ),
               ),
@@ -195,7 +204,8 @@ class _MyOrderState extends State<MyOrderWidget> {
                                               .getEmail(),
                                           qr_id: context
                                               .read<ScanProvider>()
-                                              .getQRID());
+                                              .getQRID(),
+                                          status: true);
                                   setState(() {});
                                   widget.myOrder.MarkPlaced();
                                   context
@@ -237,15 +247,14 @@ class _MyOrderState extends State<MyOrderWidget> {
                                   TextButton(
                                     child: const Text("OK"),
                                     onPressed: () {
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (context) => Home(
-                                              user: context
-                                                  .read<UserProvider>()
-                                                  .getUser(),
-                                            ),
-                                          ),
-                                          (Route<dynamic> route) => false);
+                                      Navigator.of(context)
+                                          .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MainPage(),
+                                              ),
+                                              (Route<dynamic> route) => false)
+                                          .then((_) => setState(() {}));
                                     },
                                   )
                                 ],

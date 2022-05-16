@@ -101,9 +101,9 @@ class OrdersProvider extends ChangeNotifier {
     return myOrderStatus;
   }
 
-  setFriendsOrderStatus(bool status) {
+  setFriendsOrderStatusList(bool status) {
     friendsOrderStatus = status;
-    notifyListeners();
+    //notifyListeners();
   }
 
   checkFriendsOrderStatus() {

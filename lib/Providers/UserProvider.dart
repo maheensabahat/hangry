@@ -68,6 +68,17 @@ class UserProvider extends ChangeNotifier {
     return user.profilePicture;
   }
 
+  Future updatePic(String email, String imageUrl) async {
+    reqsLoaded = false;
+    notifyListeners();
+
+    await networkCall.updatePic(email, imageUrl);
+    getImage();
+
+    reqsLoaded = true;
+    notifyListeners();
+  }
+
   Future checkUser(String? email) async {
     // Firebase API call
     if (email != null) {

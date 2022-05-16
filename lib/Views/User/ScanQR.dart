@@ -12,6 +12,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../../Entities/User.dart';
 import '../../Entities/My_Order.dart';
 import '../../Providers/ScanProvider.dart';
+import 'home.dart';
 
 class ScanQR extends StatefulWidget {
   User user;
@@ -54,9 +55,16 @@ class _ScanQRState extends State<ScanQR> {
               color: Colors.black,
             ),
             onPressed: () {
-              setState(() {
-                Navigator.of(context).pop();
-              });
+              Navigator.of(context).pop();
+              // Navigator.of(context)
+              //     .pushAndRemoveUntil(
+              //         MaterialPageRoute(
+              //           builder: (context) => Home(
+              //             user: context.read<UserProvider>().getUser(),
+              //           ),
+              //         ),
+              //         (Route<dynamic> route) => false)
+              //     .then((_) => setState(() {}));
             },
           ),
         ),
