@@ -97,6 +97,11 @@ class _ProfileState extends State<Profile> {
               },
               label: const Text("Gallery"),
             ),
+            FlatButton.icon(
+              icon: const Icon(Icons.add_circle),
+              onPressed: () {},
+              label: const Text("Gallery"),
+            ),
           ])
         ],
       ),
@@ -142,47 +147,87 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _imageFile = pickedFile;
     });
-    StoringImage();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content:
+            const Text('Restaurant has been added to the app successfully'),
+        actions: [
+          ElevatedButton(
+              onPressed: () async {
+                FirebaseStorage _storage = FirebaseStorage.instance;
+                File file = File(_imageFile!.path);
+                //Putting the file in firebase storage
+                TaskSnapshot taskSnapshot =
+                    await _storage.ref(_imageFile!.path).putFile(file);
+                //downloading URL from firebase storage
+                final String downloadUrl =
+                    await taskSnapshot.ref.getDownloadURL();
+                context.read<UserProvider>().updatePic(email, downloadUrl);
+                Navigator.pop(context);
+              },
+              child: const Text('Update'))
+        ],
+      ),
+    );
+    // await StoringImage(email, downloadUrl);
+    setState(() {});
   }
 
-  Future<void> StoringImage() async {
-    FirebaseStorage _storage = FirebaseStorage.instance;
-    File file = File(_imageFile!.path);
-
-    //Putting the file in firebase storage
-    TaskSnapshot taskSnapshot =
-        await _storage.ref(_imageFile!.path).putFile(file);
-    //downloading URL from firebase storage
-    final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-    await users
-        .where("email", isEqualTo: email)
-        .get()
-        .then((QuerySnapshot querySnapshot) async {
-      for (var doc in querySnapshot.docs) {
-        await FirebaseFirestore.instance
-            .collection("Users")
-            .doc(doc.id)
-            .update({
-          "image": downloadUrl,
-        }).then(
-          (value) => showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Success'),
-              content: const Text(
-                  'Restaurant has been added to the app successfully'),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Ok'))
-              ],
-            ),
-          ),
-        );
-      }
-    });
-  }
+  // Future StoringImage(String email, String image) async {
+  //   Consumer<UserProvider>(builder: (context, provider, child) {
+  //     return (provider.reqsLoaded)
+  //         ? provider.updatePic(email, downloadUrl)
+  //
+  //         : Center(
+  //     child: Container(
+  //     child: const CircularProgressIndicator(
+  //     color: Color(0xffadd9c9),
+  //     ),
+  //     height: 50,
+  //     width: 50,
+  //     ));
+  // FirebaseStorage _storage = FirebaseStorage.instance;
+  // File file = File(_imageFile!.path);
+  //
+  // //Putting the file in firebase storage
+  // TaskSnapshot taskSnapshot =
+  // await _storage.ref(_imageFile!.path).putFile(file);
+  // //downloading URL from firebase storage
+  // final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+  //
+  // await users
+  //     .where("email", isEqualTo: email)
+  //     .get()
+  //     .then((QuerySnapshot querySnapshot) async {
+  //   for (var doc in querySnapshot.docs) {
+  //     await FirebaseFirestore.instance
+  //         .collection("Users")
+  //         .doc(doc.id)
+  //         .update({
+  //       "image": downloadUrl,
+  //     }).then(
+  //           (value) =>
+  //           showDialog(
+  //             context: context,
+  //             builder: (context) =>
+  //                 AlertDialog(
+  //                   title: const Text('Success'),
+  //                   content: const Text(
+  //                       'Restaurant has been added to the app successfully'),
+  //                   actions: [
+  //                     TextButton(
+  //                         onPressed: () => Navigator.pop(context),
+  //                         child: const Text('Ok'))
+  //                   ],
+  //                 ),
+  //           ),
+  //     );
+  //   }
+  // });
+  //   });
+  // }
 }
 
 class ProfileDetails extends StatelessWidget {

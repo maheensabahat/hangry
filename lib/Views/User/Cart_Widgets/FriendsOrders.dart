@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/User/Cart_Widgets/Order.dart';
+import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/OrderItem.dart';
 import '../../Restaurant/Widgets/Loader.dart';
 import '../Widgets/ProfilePicture.dart';
+import '../home.dart';
 import 'Counter.dart';
 
 class FriendsOrders extends StatefulWidget {
@@ -302,7 +306,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                                           emailIndex]
                                                                       [index]
                                                                   .quantity,
-                                                              increments: 1, canEdit: true,)
+                                                              increments: 1)
                                                         ],
                                                       ),
                                                     ),
