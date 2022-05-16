@@ -283,30 +283,32 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                                           ),
                                                           const Spacer(),
                                                           Counter(
-                                                              onChangeValue:
-                                                                  (value) {
-                                                                var f = allFriendsDishes[
-                                                                    emailIndex];
-                                                                if (value !=
-                                                                    0) {
-                                                                  f[index].quantity =
-                                                                      value;
-                                                                } else {
-                                                                  f.remove(
-                                                                      f[index]);
-                                                                }
-                                                                setState(() {});
-                                                              },
-                                                              // item: allFriendsDishes[
-                                                              // emailIndex]
-                                                              // [index],
-                                                              min: 0,
-                                                              max: 5,
-                                                              value: allFriendsDishes[
-                                                                          emailIndex]
-                                                                      [index]
-                                                                  .quantity,
-                                                              increments: 1)
+                                                            onChangeValue:
+                                                                (value) {
+                                                              var f =
+                                                                  allFriendsDishes[
+                                                                      emailIndex];
+                                                              if (value != 0) {
+                                                                f[index].quantity =
+                                                                    value;
+                                                              } else {
+                                                                f.remove(
+                                                                    f[index]);
+                                                              }
+                                                              setState(() {});
+                                                            },
+                                                            // item: allFriendsDishes[
+                                                            // emailIndex]
+                                                            // [index],
+                                                            min: 0,
+                                                            max: 5,
+                                                            value: allFriendsDishes[
+                                                                        emailIndex]
+                                                                    [index]
+                                                                .quantity,
+                                                            increments: 1,
+                                                            canEdit: false,
+                                                          )
                                                         ],
                                                       ),
                                                     ),
