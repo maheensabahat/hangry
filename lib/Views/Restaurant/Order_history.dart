@@ -75,9 +75,10 @@ class _Order_historyState extends State<Order_history>
         ),
         body: Consumer<RestaurantProvider>(builder: (context, provider, child) {
           restaurant_id = context.read<RestaurantProvider>().getEmail();
-          Pending_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Pending") as List<Orders?>;
-          Approved_Orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Approved") as List<Orders?>;
-          Rejected_orders = context.read<RestaurantProvider>().getRestOrders(restaurant_id, "Approved") as List<Orders?>;
+          Pending_Orders = List<Orders?>.from(context.read<RestaurantProvider>().getRestOrders(restaurant_id, 'Pending') as List<Orders?> );
+          Approved_Orders = List.from(context.read<RestaurantProvider>().getRestOrders(restaurant_id, 'Pending') as List<Orders?>);
+          Rejected_orders = List.from(context.read<RestaurantProvider>().getRestOrders(restaurant_id, 'Pending') as List<Orders?>);
+
          return (provider.isLoaded)
               ? TabBarView(
             controller: _tabController,

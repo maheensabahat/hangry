@@ -23,6 +23,8 @@ abstract class NetworkCall {
 
   Future<List<ReservationRequest>> getRequests(User user, String status);
 
+  Future updatePic(String email, String imageUrl);
+
   Future<List<RestaurantModel>> getRestaurants();
 
   Future<List> getFavs(User user);
@@ -30,6 +32,7 @@ abstract class NetworkCall {
   Future<void> addFav(User user, var restaurant_id);
 
   Future<void> removeFav();
+
 
   var ID;
 }
@@ -165,6 +168,24 @@ class FirebaseNetworkCall implements NetworkCall {
     print(thedetails);
     return thedetails;
   }
+
+  Future updatePic(String email, String imageUrl) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    await users
+        .where("email", isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for (var doc in querySnapshot.docs) {
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(doc.id)
+            .update({
+          "image": imageUrl,
+        });
+      }
+    });
+        }
 
   @override
   Future<List<RestaurantModel>> getRestaurants() async {
