@@ -145,8 +145,9 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                                     'name': name.text,
                                     'cuisine': cuisine.text,
                                     'desc': desc.text,
-                                    'image':
-                                        _imageFile != null ? downloadUrl : widget.restaurant?.image
+                                    'image': _imageFile != null
+                                        ? downloadUrl
+                                        : widget.restaurant?.image
                                   }).then(
                                     (value) => showDialog(
                                       context: context,
@@ -228,13 +229,19 @@ class _AdRestaurantsState extends State<AdRestaurants> {
       padding: const EdgeInsets.only(bottom: 30),
       child: Center(
         child: Stack(children: <Widget>[
-          _imageFile != null
-              ? CircleAvatar(
-                  radius: 80.0,
-                  backgroundImage: FileImage(File(_imageFile!.path)))
-              : const CircleAvatar(
-                  radius: 80.0,
-                  backgroundImage: AssetImage("assets/restaurant.jpg")),
+          CircleAvatar(
+            radius: 83.0,
+            backgroundColor: Color(0xFF5ABFA3),
+            child: Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: _imageFile != null
+                    ? CircleAvatar(
+                    radius: 80.0,
+                    backgroundImage: FileImage(File(_imageFile!.path)))
+                    : const CircleAvatar(
+                    radius: 80.0,
+                    backgroundImage: AssetImage("assets/restaurant.jpg"))),
+          ),
           Positioned(
             bottom: 10.0,
             right: 10.0,

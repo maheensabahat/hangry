@@ -5,9 +5,6 @@ import 'package:project/Views/Restaurant/Order_history.dart';
 import 'package:project/Views/Restaurant/RestaurantMenu.dart';
 import 'package:project/Views/Restaurant/TableReservations.dart';
 import 'package:provider/provider.dart';
-
-import '../../Providers/GoogleSignInProvider.dart';
-import '../../main.dart';
 import '../Admin/AdMainPage.dart';
 import 'RestaurantDetails.dart';
 import 'TableReservations.dart';
@@ -32,21 +29,8 @@ class _RestaurantHomeState extends State<RestaurantHome> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 50, bottom: 150, right: 20),
+            padding: const EdgeInsets.only(top: 20, bottom: 100, right: 20),
             child: FadeInRight(child: LogoutButton()),
-          ),
-          InkWell(
-            child: Icon(
-              Icons.logout,
-              color: Color(0xFF5ABFA3),
-            ),
-            onTap: () {
-              context.read<GoogleSignInProvider>().signOut();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage(title: '')),
-              );
-            },
           ),
           Container(
             child: Image.asset(
