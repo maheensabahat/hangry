@@ -74,14 +74,14 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'Order Confirmed',
                           style: TextStyle(
                               color: Colors.black87,
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),
-                        Text(
+                        const Text(
                           "Everyone finalized their orders.\n Orders are being sent to restaurant.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -94,7 +94,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                           child: SizedBox(
                             height: 35,
                             child: FloatingActionButton.extended(
-                              backgroundColor: Color(0xFF5ABFA3),
+                              backgroundColor: const Color(0xFF5ABFA3),
                               onPressed: () {
                                 context
                                     .read<OrdersProvider>()

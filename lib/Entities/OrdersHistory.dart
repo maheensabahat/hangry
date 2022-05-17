@@ -7,6 +7,7 @@ class OrdersHistory {
   String qr_id;
   List product_details;
   String restaurant_id;
+  var id;
 
   //user
   //rest
@@ -19,7 +20,8 @@ class OrdersHistory {
         required this.time,
         required this.user_id,
         required this.date,
-        this.status});
+        this.status,
+      });
 
   void approveRequest() {
     status = 'approved';

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project/Entities/Products.dart';
 import '../Entities/OrdersHistory.dart';
 import '../Entities/ReservationRequest.dart';
 import '../Entities/OrdersRest.dart';
@@ -96,11 +95,11 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).catchError((error) => print("Failed to approve request: $error"));
   }
 
-  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status) async {
+  Future<List<OrdersHistory>> getOrderHistory1(var id, String status) async {
     List<OrdersHistory> requests = [];
     await FirebaseFirestore.instance
         .collection('Orders')
-        .where('restaurant_id', isEqualTo: restaurant_id)
+        .where('restaurant_id', isEqualTo: id)
         .where('status', isEqualTo: status)
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -119,7 +118,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
-      'status': 'approved',
+      'status': 'Approved',
     }).then((value) {
       print("Order approved.");
     }).catchError((error) => print("Failed to approve order: $error"));
@@ -131,7 +130,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
-      'status': 'rejected',
+      'status': 'Rejected',
     }).then((value) {
       print("Order rejected.");
     }).catchError((error) => print("Failed to reject order: $error"));

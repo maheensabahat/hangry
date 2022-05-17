@@ -88,9 +88,9 @@ class RestaurantProvider extends ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
 
-    if (status == 'pending') {
+    if (status == 'Pending') {
       Pending_orders = await networkCall.getOrderHistory1(restaurant.id, status);
-    } else if (status == 'approved'){
+    } else if (status == 'Approved'){
       Approved_orders = await networkCall.getOrderHistory1(restaurant.id, status);
     }
     else {
@@ -102,17 +102,17 @@ class RestaurantProvider extends ChangeNotifier {
   }
 
   approveOrder(var request_id) async {
-    await networkCall.ApproveRequest(request_id);
-    getOrderHistory('approved');
-    getOrderHistory('pending');
-    getOrderHistory('rejected');
+    await networkCall.ApproveOrder(request_id);
+    getOrderHistory('Approved');
+    getOrderHistory('Pending');
+    getOrderHistory('Rejected');
   }
 
   rejectOrder(var request_id) async {
-    await networkCall.ApproveRequest(request_id);
-    getOrderHistory('pending');
-    getOrderHistory('approved');
-    getOrderHistory('rejected');
+    await networkCall.RejectOrder(request_id);
+    getOrderHistory('Pending');
+    getOrderHistory('Approved');
+    getOrderHistory('Rejected');
   }
 
   Future<void> updateDetails(Restaurant r) async {
