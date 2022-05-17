@@ -34,8 +34,6 @@ class _ScanQRState extends State<ScanQR> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool pressable = false;
 
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
@@ -86,20 +84,21 @@ class _ScanQRState extends State<ScanQR> {
             ),
             FittedBox(
               fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    // Text("Successfully Scanned, Press Next\n"
-                    //     'Barcode Type: ${describeEnum(result!.format)}   \nData: ${result!.code}')
-                    Text("Successfully Scanned")
-                  else
-                    const Text('Scan a code'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    if (result != null)
+                      Text("Successfully Scanned")
+                    else
+                      const Text('Scan a code'),
+                  ],
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 36),
+              padding: const EdgeInsets.only(top: 20),
               child: FloatingActionButton.extended(
                 onPressed: pressable
                     ? () async {
@@ -111,7 +110,6 @@ class _ScanQRState extends State<ScanQR> {
                               .read<RestaurantProvider>()
                               .getRestaurant(email);
                           print(restaurant.name);
-                          //if (!widget.user.qr && result != null) {
                           if (!context.read<UserProvider>().getQR() &&
                               result != null) {
                             // ShoppingCart CurrentCart = ShoppingCart();
@@ -119,8 +117,9 @@ class _ScanQRState extends State<ScanQR> {
                             context
                                 .read<UserProvider>()
                                 .initialiseCurrentOrder();
-                            //widget.user.qr = true;
+
                             widget.user.CreateCart(restaurant);
+
                             Scanned scanInstance = context
                                 .read<ScanProvider>()
                                 .createScannedInstance(
@@ -129,50 +128,64 @@ class _ScanQRState extends State<ScanQR> {
                                         context.read<UserProvider>().getEmail(),
                                     order_status: false,
                                     qr_status: true);
+
                             context.read<ScanProvider>().addInstanceToFirebase(
                                 scanned: scanInstance,
                                 user: context.read<UserProvider>().getUser());
+
                             context.read<UserProvider>().setQR(true);
-                            Navigator.of(context).push(MaterialPageRoute(
+
+                            Provider.of<RestaurantProvider>(context,
+                                    listen: false)
+                                .setRestaurant(restaurant);
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
                                 builder: (context) => UserMenu(
-                                      user: widget.user,
-                                      scanned: true,
-                                      restaurant: restaurant,
-                                      data: result!.code as String,
-                                    )));
+                                  user: widget.user,
+                                  scanned: true,
+                                  restaurant: restaurant,
+                                  data: result!.code as String,
+                                ),
+                              ),
+                            );
                           }
                         } else {
                           showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                      backgroundColor: Colors.white,
-                                      title: const Text('Invalid QR Code',
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold)),
-                                      content:
-                                          Text('We are closing the camera now.',
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                              )),
-                                      actions: [
-                                        FlatButton(
-                                          color: Color(0xFF5ABFA3),
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return MainPage();
-                                            }));
-                                          },
-                                          child: const Text(
-                                            'OK',
-                                            style: TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ]));
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              backgroundColor: Colors.white,
+                              title: const Text('Invalid QR Code',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              content: Text(
+                                'We are closing the camera now.',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              actions: [
+                                FlatButton(
+                                  color: Color(0xFF5ABFA3),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return MainPage();
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'OK',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       }
                     : null,
@@ -180,7 +193,7 @@ class _ScanQRState extends State<ScanQR> {
                 label: Text('Next'),
                 icon: Icon(Icons.arrow_forward),
               ),
-            )
+            ),
           ],
         ),
       ),

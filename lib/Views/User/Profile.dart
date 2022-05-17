@@ -1,20 +1,15 @@
-import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project/Views/User/MyOrders.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
-import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
 import 'package:provider/provider.dart';
 import '../../Providers/UserProvider.dart';
-import 'User_TableReservations.dart';
+import 'Profile_Widgets/ButtonMenu.dart';
+import 'Profile_Widgets/FavListView.dart';
 import '../../Entities/Restaurant.dart';
-import 'Favorites.dart';
 import 'Widgets/Header.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -82,181 +77,5 @@ class ProfileDetails extends StatelessWidget {
             style: const TextStyle(fontSize: 14)),
       ],
     );
-  }
-}
-
-class ButtonMenu extends StatelessWidget {
-  ButtonMenu({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FadeInLeft(
-            delay: const Duration(milliseconds: 700),
-            child: buttons(
-              name: 'My orders',
-              icon: 'assets/Order.png',
-              width: 100,
-              height: 65,
-              istable: false,
-            ),
-          ),
-          FadeInRight(
-            delay: const Duration(milliseconds: 700),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: buttons(
-                name: 'Reservations',
-                icon: 'assets/Table.png',
-                width: 100,
-                height: 60,
-                istable: true,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class buttons extends StatelessWidget {
-  bool istable;
-  String icon;
-  double width;
-  double height;
-  String name;
-
-  buttons(
-      {Key? key,
-      required this.name,
-      required this.icon,
-      required this.width,
-      required this.height,
-      required this.istable})
-      : super(key: key);
-
-  final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
-      onPrimary: const Color(0xFF154038),
-      primary: const Color(0xFF5ABFA3),
-      textStyle: const TextStyle(fontWeight: FontWeight.bold));
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 120,
-      height: 100,
-      child: ElevatedButton(
-        style: buttonStyle,
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              if (istable) {
-                context.read<UserProvider>().getRequests('pending');
-                context.read<UserProvider>().getRequests('approved');
-                return const UserTableReservations();
-              }
-              return const MyOrders();
-            }),
-          );
-        },
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 20),
-              child: Image.asset(icon, width: width, height: height),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Text(
-                  name,
-                  style:
-                      const TextStyle(fontSize: 12, color: Color(0xFFf2f2f2)),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FavListView extends StatelessWidget {
-  FavListView({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Provider.of<UserProvider>(context, listen: false).getFav();
-    return Consumer<UserProvider>(builder: (context, provider, child) {
-      List<Restaurant> favs = provider.user.favs;
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FadeInLeft(
-                    delay: Duration(milliseconds: 900),
-                    child: Text(
-                      'Your Favourites',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        // color: Color(0xFF5ABFA3),
-                      ),
-                    ),
-                  ),
-                  FadeInUp(
-                    delay: Duration(milliseconds: 800),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Favorites(
-                                    favorites: favs,
-                                  )));
-                        },
-                        child: Text(
-                          'view all',
-                          style:
-                              TextStyle(color: Color(0xFF5ABFA3), fontSize: 12),
-                        )),
-                  )
-                ],
-              ),
-            ),
-            FadeInUp(
-              delay: Duration(milliseconds: 900),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.85,
-                height: MediaQuery.of(context).size.height * 0.25,
-                child: Center(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: favs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            child: RestaurantWidget(restaurant: favs[index]));
-                      }),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
   }
 }

@@ -111,49 +111,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // floatingActionButton: !widget.user.qr
-        //     ? FadeInUp(
-        //         delay: Duration(milliseconds: 800),
-        //         child: FloatingActionButton.extended(
-        //           heroTag: null,
-        //           label: Text('Scan QR', style: TextStyle(color: Colors.black)),
-        //           icon: Icon(
-        //             Icons.qr_code,
-        //             color: Colors.black,
-        //           ),
-        //           onPressed: () {
-        //             Navigator.of(context).push(MaterialPageRoute(
-        //                 builder: (context) => ScanQR(
-        //                       user: widget.user,
-        //                     )));
-        //           },
-        //           backgroundColor: Color(0xff51bfa3),
-        //         ),
-        //       )
-        //     : FloatingActionButton.extended(
-        //         heroTag: null,
-        //         label: Text('Menu', style: TextStyle(color: Colors.black)),
-        //         icon: Icon(
-        //           Icons.restaurant_menu,
-        //           color: Colors.black,
-        //         ),
-        //         onPressed: () {
-        //           Navigator.of(context).push(MaterialPageRoute(
-        //               builder: (context) => UserMenu(
-        //                     user: context.read<UserProvider>().getUser(),
-        //                     scanned: context.read<UserProvider>().getQR(),
-        //                     restaurant: context
-        //                         .read<RestaurantProvider>()
-        //                         .getRestaurant(
-        //                           context
-        //                               .read<ScanProvider>()
-        //                               .getScannedEmail(),
-        //                         ),
-        //                   )));
-        //         },
-        //         backgroundColor: Color(0xff51bfa3),
-        //       ),
       );
     });
   }

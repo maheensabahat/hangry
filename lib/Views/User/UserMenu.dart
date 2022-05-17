@@ -9,12 +9,8 @@ import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/ReserveTable.dart';
 import 'package:provider/provider.dart';
-
-import '../../Entities/My_Order.dart';
-import '../../Entities/My_Order.dart';
 import '../../Providers/RestaurantProvider.dart';
 import 'MainPage.dart';
-import 'ScanQR.dart';
 import 'Widgets/RestaurantBanner.dart';
 
 class UserMenu extends StatefulWidget {

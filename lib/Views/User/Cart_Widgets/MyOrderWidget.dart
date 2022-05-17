@@ -223,34 +223,8 @@ class _MyOrderState extends State<MyOrderWidget> {
                                 setState(() {});
                               }
                             },
-                          )),
-                  // : SizedBox(
-                  //     height: 42,
-                  //     child: FittedBox(
-                  //       child: FloatingActionButton.extended(
-                  //           onPressed: () {
-                  //             if (orders.isNotEmpty) {
-                  //               context
-                  //                   .read<ScanProvider>()
-                  //                   .updateOrderStatusInFirebase(
-                  //                       email: context
-                  //                           .read<UserProvider>()
-                  //                           .getEmail(),
-                  //                       qr_id: context
-                  //                           .read<ScanProvider>()
-                  //                           .getQRID(),
-                  //                       status: true);
-                  //               setState(() {});
-                  //               widget.myOrder.MarkPlaced();
-                  //               context
-                  //                   .read<OrdersProvider>()
-                  //                   .setMyOrderStatus(true);
-                  //             }
-                  //           },
-                  //           backgroundColor: Color(0xFF5ABFA3),
-                  //           label: const Text('Place Order')),
-                  //     ),
-                  //   ),
+                          ),
+                        ),
                 ),
               )
             ],
@@ -262,66 +236,69 @@ class _MyOrderState extends State<MyOrderWidget> {
             height: 42,
             child: FittedBox(
               child: FloatingActionButton.extended(
-                  onPressed: () async {
-                    var exit = await showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text(
-                              "Exiting Cart",
-                              style: TextStyle(
-                                  color: Color(0xFF5ABFA3),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            content: const Text(
-                              "Are you sure you want to exit?",
-                              style: TextStyle(fontSize: 13),
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text(
-                                  "YES",
-                                  style: TextStyle(
-                                      color: Color(0xFF5ABFA3),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
+                onPressed: () async {
+                  var exit = await showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text(
+                            "Exiting Cart",
+                            style: TextStyle(
+                                color: Color(0xFF5ABFA3),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          content: const Text(
+                            "Are you sure you want to exit?",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                "YES",
+                                style: TextStyle(
+                                    color: Color(0xFF5ABFA3),
+                                    fontWeight: FontWeight.bold),
                               ),
-                              TextButton(
-                                child: const Text(
-                                  "CANCEL",
-                                  style: TextStyle(
-                                      color: Color(0xFF5ABFA3),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                              )
-                            ],
-                          );
-                        });
-
-                    if (exit) {
-                      context.read<ScanProvider>().exitCart(
-                          email: context.read<UserProvider>().getEmail(),
-                          qr_id: context.read<ScanProvider>().getQRID());
-                      context.read<UserProvider>().setQR(false);
-
-                      Navigator.of(context)
-                          .pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => MainPage(),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                "CANCEL",
+                                style: TextStyle(
+                                    color: Color(0xFF5ABFA3),
+                                    fontWeight: FontWeight.bold),
                               ),
-                              (Route<dynamic> route) => false)
-                          .then((_) => setState(() {}));
-                    }
-                  },
-                  backgroundColor: Color.fromARGB(255, 75, 156, 143),
-                  label: const Text('Exit Cart')),
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                            ),
+                          ],
+                        );
+                      });
+
+                  if (exit) {
+                    context.read<ScanProvider>().exitCart(
+                        email: context.read<UserProvider>().getEmail(),
+                        qr_id: context.read<ScanProvider>().getQRID());
+                    context.read<UserProvider>().setQR(false);
+
+                    Navigator.of(context)
+                        .pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => MainPage(),
+                            ),
+                            (Route<dynamic> route) => false)
+                        .then(
+                          (_) => setState(() {}),
+                        );
+                  }
+                },
+                backgroundColor: Color.fromARGB(255, 75, 156, 143),
+                label: const Text('Exit Cart'),
+              ),
             ),
           ),
         )
