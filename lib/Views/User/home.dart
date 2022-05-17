@@ -27,10 +27,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Category> Categories = [
-    Category(Icon(Icons.soup_kitchen), 'Chinese'),
-    Category(Icon(Icons.fastfood), 'Fast food'),
-    Category(Icon(Icons.local_cafe_sharp), 'Cafe'),
-    Category(Icon(Icons.dinner_dining), 'Italian'),
+    Category(const Icon(Icons.soup_kitchen), 'Chinese'),
+    Category(const Icon(Icons.fastfood), 'Fast food'),
+    Category(const Icon(Icons.local_cafe_sharp), 'Cafe'),
+    Category(const Icon(Icons.dinner_dining), 'Italian'),
   ];
 
   List<Restaurant> restaurants = [];
@@ -178,9 +178,9 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: FadeInRight(
-              delay: Duration(milliseconds: 500),
+              delay: const Duration(milliseconds: 500),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     gradient: LinearGradient(colors: [
                       Color(0x305ABFA3),
                       Color(0x205ABFA3),
@@ -199,14 +199,14 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
                           !widget.user.qr
                               ? 'At a restaurant?'
                               : 'Place you order now',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                           )),
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
                           !widget.user.qr ? 'Scan QR' : 'Go to Menu',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic),
@@ -220,7 +220,7 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
           ),
         ),
         FadeInLeft(
-          delay: Duration(milliseconds: 900),
+          delay: const Duration(milliseconds: 900),
           child: Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Container(
@@ -239,8 +239,8 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
               padding: const EdgeInsets.only(right: 20),
               child: GestureDetector(
                 child: FadeInRight(
-                  delay: Duration(milliseconds: 600),
-                  child: Icon(
+                  delay: const Duration(milliseconds: 600),
+                  child: const Icon(
                     Icons.arrow_forward_ios_rounded,
                     size: 18,
                   ),

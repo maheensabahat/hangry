@@ -17,7 +17,7 @@ class Order extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Stack(
         children: [
           Padding(
@@ -45,13 +45,13 @@ class Order extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xFF154038),
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
                 if (!order.isPlaced) ...[
-                  Text(
+                  const Text(
                     'is deciding..',
                     style: TextStyle(
                         color: Color(0xFF154038),
@@ -60,14 +60,14 @@ class Order extends StatelessWidget {
                   ),
                 ] else ...[
                   name == 'You'
-                      ? Text(
+                      ? const Text(
                           'have placed order',
                           style: TextStyle(
                               color: Color(0xFF154038),
                               fontSize: 13,
                               fontStyle: FontStyle.italic),
                         )
-                      : Text(
+                      : const Text(
                           'has placed order',
                           style: TextStyle(
                               color: Color(0xFF154038),
@@ -92,7 +92,7 @@ class Order extends StatelessWidget {
                               OrderSummary(name: name, order: order)),
                     );
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_forward_ios,
                     size: 20,
                   ),
@@ -107,7 +107,7 @@ class Order extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 30, bottom: 20),
                 child: Text(
                   'Total: ' + '  ' + '\$ ' + order.Total().toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF154038),
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

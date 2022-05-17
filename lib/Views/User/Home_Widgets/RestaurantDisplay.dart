@@ -16,7 +16,7 @@ class RestaurantDisplay extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //Heading
-          Padding(
+          const Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               'Restuarants',

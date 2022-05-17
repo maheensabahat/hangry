@@ -84,7 +84,7 @@ class _RestaurantState extends State<RestaurantWidget> {
               children: [
                 Text(
                   widget.restaurant.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xFFADD9C9),
                       fontSize: 18,
                       fontWeight: FontWeight.w800),
@@ -92,12 +92,13 @@ class _RestaurantState extends State<RestaurantWidget> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: Text(widget.restaurant.desc,
-                      style: TextStyle(color: Color(0xFFF2F2F2), fontSize: 12)),
+                      style: const TextStyle(
+                          color: Color(0xFFF2F2F2), fontSize: 12)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(widget.restaurant.category,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFFADD9C9),
                           fontSize: 14,
                           fontWeight: FontWeight.w900)),
@@ -111,11 +112,15 @@ class _RestaurantState extends State<RestaurantWidget> {
               left: 185,
               child: InkWell(
                 onTap: () {
-                  print(widget.restaurant.isFav);
+                  debugPrint(widget.restaurant.isFav.toString());
                   if (!(widget.restaurant.isFav!)) {
-                    context.read<UserProvider>().MarkFav(widget.restaurant);
+                    setState(() {
+                      context.read<UserProvider>().MarkFav(widget.restaurant);
+                    });
                   } else {
-                    context.read<UserProvider>().removeFav(widget.restaurant);
+                    setState(() {
+                      context.read<UserProvider>().removeFav(widget.restaurant);
+                    });
                   }
                 },
                 child: Icon(
@@ -141,7 +146,7 @@ class _RestaurantState extends State<RestaurantWidget> {
               },
               backgroundColor: Color(0xFF5ABFA3),
               foregroundColor: Color(0xFFF2F2F2),
-              child: Icon(Icons.arrow_forward_sharp),
+              child: const Icon(Icons.arrow_forward_sharp),
             ),
           )
         ],

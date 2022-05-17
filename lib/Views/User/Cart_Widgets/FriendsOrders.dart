@@ -55,6 +55,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                     price: data["price"] as int,
                     quantity: data["quantity"]);
                 order.image = data["image"];
+                order.ProductID = data["product_id"];
 
                 singleFriendDishes.add(order);
               }
@@ -83,7 +84,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                               email: context.read<UserProvider>().getEmail(),
                               qr_id: context.read<ScanProvider>().getQRID(),
                               status: false);
-
+                          print(context.read<ScanProvider>().getOrderList());
                           int i = 0;
                           for (String email in friendEmails) {
                             context
@@ -99,6 +100,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     context.read<ScanProvider>().getQRID(),
                                     email,
                                     allFriendsDishes[i]);
+                            print(allFriendsDishes[i]);
                             i++;
                           }
                         },
@@ -118,7 +120,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                           padding: EdgeInsets.symmetric(horizontal: 42),
                           child: SizedBox(
                             // height: 372 * friendEmails.length - 1,
-                            height: 100,
+                            height: 130,
                             child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: friendEmails.length,
