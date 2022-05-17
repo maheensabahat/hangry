@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:project/Entities/My_Order.dart';
 import 'package:project/Entities/OrderItem.dart';
+import 'package:project/Entities/Order_details.dart';
+import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
+import 'package:provider/provider.dart';
 
-class OrderSummary extends StatefulWidget {
+class OrderSummaryUser extends StatefulWidget {
   String name;
-  MyOrder order;
+  List<ProductDetails> productDetails;
 
-  OrderSummary({Key? key, required this.name, required this.order})
+  OrderSummaryUser({Key? key, required this.name, required this.productDetails})
       : super(key: key);
 
   @override
-  State<OrderSummary> createState() => _OrderSummaryState();
+  State<OrderSummaryUser> createState() => _OrderSummaryUserState();
 }
 
-class _OrderSummaryState extends State<OrderSummary> {
+class _OrderSummaryUserState extends State<OrderSummaryUser> {
+  int getTotal(List<ProductDetails> products) {
+    int total = 0;
+    for (var product in products) {
+      total += product.price * product.quantity;
+    }
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
     String name = '';
@@ -39,7 +50,7 @@ class _OrderSummaryState extends State<OrderSummary> {
           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
           child: Text(
             name + " Order",
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
@@ -53,9 +64,9 @@ class _OrderSummaryState extends State<OrderSummary> {
               Expanded(
                 child: ListView.builder(
                   itemExtent: 100,
-                  itemCount: widget.order.list.length,
+                  itemCount: widget.productDetails.length,
                   itemBuilder: ((context, index) {
-                    OrderItem item = widget.order.list[index];
+                    ProductDetails item = widget.productDetails[index];
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(24, 5, 24, 10),
                       child: Container(
@@ -66,20 +77,29 @@ class _OrderSummaryState extends State<OrderSummary> {
                                 BorderRadius.all(Radius.circular(15))),
                         height: 80,
                         child: ListTile(
-                            title: Text(
-                              item.name,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              item.quantity.toString() +
-                                  ' x \$ ' +
-                                  item.price.toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            leading: Picture(
-                                radius: 25,
-                                border: 0.5,
-                                image: 'assets/pasta.jpg')),
+                          title: Text(
+                            item.name,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            item.quantity.toString() +
+                                ' x \$ ' +
+                                item.price.toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          leading: Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    item.image,
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
+                        ),
                       ),
                     );
                   }),
@@ -96,13 +116,14 @@ class _OrderSummaryState extends State<OrderSummary> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Items: ' + widget.order.list.length.toString(),
-                            style: TextStyle(
+                            'Items: ' + widget.productDetails.length.toString(),
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'Total: \$ ' + widget.order.Total().toString(),
-                            style: TextStyle(
+                            'Total: \$ ' +
+                                getTotal(widget.productDetails).toString(),
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           )
                         ],

@@ -1,13 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/RestaurantProvider.dart';
-import 'package:project/Views/Restaurant/Order_history.dart';
 import 'package:project/Views/Restaurant/RestaurantMenu.dart';
 import 'package:project/Views/Restaurant/TableReservations.dart';
 import 'package:provider/provider.dart';
 import '../Admin/AdMainPage.dart';
 import 'RestaurantDetails.dart';
 import 'TableReservations.dart';
+import 'Orders.dart';
 
 class RestaurantHome extends StatefulWidget {
   const RestaurantHome({Key? key}) : super(key: key);
@@ -77,7 +77,7 @@ class _RestaurantHomeState extends State<RestaurantHome> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Order_history()),
+                                  builder: (context) =>  const Orders2()),
                             );
                           },
                           child: const Text('Orders'),

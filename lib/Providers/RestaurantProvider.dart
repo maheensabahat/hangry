@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Entities/OrdersRest.dart';
 import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Models/OrdersModel.dart';
+import '../Entities/OrdersHistory.dart';
 import '../Entities/Products.dart';
 import '../Entities/Restaurant.dart';
 import '../Models/ProductModel.dart';
@@ -18,7 +19,12 @@ class RestaurantProvider extends ChangeNotifier {
   bool isLoaded = true;
   late List<ReservationRequest> Approved_request;
   late List<ReservationRequest> Pending_request;
+  late String name = '';
   bool notFound = false;
+
+  late List<OrdersHistory> Pending_orders;
+  late List<OrdersHistory> Approved_orders;
+  late List<OrdersHistory> Rejected_orders;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -74,6 +80,39 @@ class RestaurantProvider extends ChangeNotifier {
     await networkCall.ApproveRequest(request_id);
     getRequests('approved');
     getRequests('pending');
+  }
+
+
+  getOrderHistory(String status) async {
+    isLoaded = false;
+    await Future.delayed(const Duration(milliseconds: 1));
+    notifyListeners();
+
+    if (status == 'pending') {
+      Pending_orders = await networkCall.getOrderHistory1(restaurant.id, status);
+    } else if (status == 'approved'){
+      Approved_orders = await networkCall.getOrderHistory1(restaurant.id, status);
+    }
+    else {
+      Rejected_orders = await networkCall.getOrderHistory1(restaurant.id, status);
+    }
+
+    isLoaded = true;
+    notifyListeners();
+  }
+
+  approveOrder(var request_id) async {
+    await networkCall.ApproveRequest(request_id);
+    getOrderHistory('approved');
+    getOrderHistory('pending');
+    getOrderHistory('rejected');
+  }
+
+  rejectOrder(var request_id) async {
+    await networkCall.ApproveRequest(request_id);
+    getOrderHistory('pending');
+    getOrderHistory('approved');
+    getOrderHistory('rejected');
   }
 
   Future<void> updateDetails(Restaurant r) async {
@@ -187,6 +226,15 @@ class RestaurantProvider extends ChangeNotifier {
       const Duration(milliseconds: 1),
     );
     notifyListeners();
+  }
+
+  getRestaurantNameFromFirebase(String rest_id) async {
+    name = await networkCall.getRestaurantName(rest_id);
+  }
+
+  getRestaurantName(String rest_id) {
+    getRestaurantNameFromFirebase(rest_id);
+    return name;
   }
 }
 

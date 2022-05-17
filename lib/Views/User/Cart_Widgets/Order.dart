@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/Views/User/OrderSummary.dart';
+import 'package:project/Views/User/OrderSummaryCart.dart';
 import 'package:project/Views/User/Widgets/ProfilePicture.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/My_Order.dart';
@@ -89,7 +89,7 @@ class Order extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              OrderSummary(name: name, order: order)),
+                              OrderSummaryCart(name: name, order: order)),
                     );
                   },
                   child: const Icon(
