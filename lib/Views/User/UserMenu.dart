@@ -95,8 +95,7 @@ class _UserMenuState extends State<UserMenu> {
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      provider.restaurant
-                                                          .items[index].image!,
+                                                      menu[index].image!,
                                                     ),
                                                     fit: BoxFit.fill,
                                                   ),
@@ -122,8 +121,17 @@ class _UserMenuState extends State<UserMenu> {
                                                           const EdgeInsets.only(
                                                               bottom: 0),
                                                       child: InkWell(
-                                                        child: Icon(Icons
-                                                            .shopping_cart),
+                                                        child: Icon(
+                                                          Icons.shopping_cart,
+                                                          color: context
+                                                                  .read<
+                                                                      ScanProvider>()
+                                                                  .checkItemPresent(
+                                                                      menu[index]
+                                                                          .ID)
+                                                              ? Colors.green
+                                                              : Colors.black,
+                                                        ),
                                                         onTap: () {
                                                           var order = OrderItem(
                                                               user_id: context
@@ -158,6 +166,7 @@ class _UserMenuState extends State<UserMenu> {
                                                                   ScanProvider>()
                                                               .addToOrder(
                                                                   order: order);
+
                                                           context
                                                               .read<
                                                                   ScanProvider>()

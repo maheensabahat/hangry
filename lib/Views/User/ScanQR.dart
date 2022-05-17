@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Providers/RestaurantProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
+import 'package:project/Views/User/MainPage.dart';
 import 'package:project/Views/User/UserMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -26,6 +27,7 @@ class ScanQR extends StatefulWidget {
 
 class _ScanQRState extends State<ScanQR> {
   late Restaurant restaurant;
+  String status = '';
   String? email;
   Barcode? result;
   QRViewController? controller;
@@ -57,15 +59,6 @@ class _ScanQRState extends State<ScanQR> {
             ),
             onPressed: () {
               Navigator.of(context).pop();
-              // Navigator.of(context)
-              //     .pushAndRemoveUntil(
-              //         MaterialPageRoute(
-              //           builder: (context) => Home(
-              //             user: context.read<UserProvider>().getUser(),
-              //           ),
-              //         ),
-              //         (Route<dynamic> route) => false)
-              //     .then((_) => setState(() {}));
             },
           ),
         ),
@@ -97,8 +90,9 @@ class _ScanQRState extends State<ScanQR> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text("Successfully Scanned, Press Next\n"
-                        'Barcode Type: ${describeEnum(result!.format)}   \nData: ${result!.code}')
+                    // Text("Successfully Scanned, Press Next\n"
+                    //     'Barcode Type: ${describeEnum(result!.format)}   \nData: ${result!.code}')
+                    Text("Successfully Scanned")
                   else
                     const Text('Scan a code'),
                 ],
@@ -112,36 +106,73 @@ class _ScanQRState extends State<ScanQR> {
                         await context
                             .read<RestaurantProvider>()
                             .getRestaurantFromFirebase(email);
-                        restaurant = context
-                            .read<RestaurantProvider>()
-                            .getRestaurant(email);
-                        //if (!widget.user.qr && result != null) {
-                        if (!context.read<UserProvider>().getQR() &&
-                            result != null) {
-                          // ShoppingCart CurrentCart = ShoppingCart();
-                          context.read<UserProvider>().setQR(true);
-                          context.read<UserProvider>().initialiseCurrentOrder();
-                          //widget.user.qr = true;
-                          widget.user.CreateCart(restaurant);
-                          Scanned scanInstance = context
-                              .read<ScanProvider>()
-                              .createScannedInstance(
-                                  qr_id: result!.code.toString(),
-                                  user_id:
-                                      context.read<UserProvider>().getEmail(),
-                                  order_status: false,
-                                  qr_status: true);
-                          context.read<ScanProvider>().addInstanceToFirebase(
-                              scanned: scanInstance,
-                              user: context.read<UserProvider>().getUser());
-                          context.read<UserProvider>().setQR(true);
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => UserMenu(
-                                    user: widget.user,
-                                    scanned: true,
-                                    restaurant: restaurant,
-                                    data: result!.code as String,
-                                  )));
+                        if (!context.read<RestaurantProvider>().notFound) {
+                          restaurant = context
+                              .read<RestaurantProvider>()
+                              .getRestaurant(email);
+                          print(restaurant.name);
+                          //if (!widget.user.qr && result != null) {
+                          if (!context.read<UserProvider>().getQR() &&
+                              result != null) {
+                            // ShoppingCart CurrentCart = ShoppingCart();
+                            context.read<UserProvider>().setQR(true);
+                            context
+                                .read<UserProvider>()
+                                .initialiseCurrentOrder();
+                            //widget.user.qr = true;
+                            widget.user.CreateCart(restaurant);
+                            Scanned scanInstance = context
+                                .read<ScanProvider>()
+                                .createScannedInstance(
+                                    qr_id: result!.code.toString(),
+                                    user_id:
+                                        context.read<UserProvider>().getEmail(),
+                                    order_status: false,
+                                    qr_status: true);
+                            context.read<ScanProvider>().addInstanceToFirebase(
+                                scanned: scanInstance,
+                                user: context.read<UserProvider>().getUser());
+                            context.read<UserProvider>().setQR(true);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => UserMenu(
+                                      user: widget.user,
+                                      scanned: true,
+                                      restaurant: restaurant,
+                                      data: result!.code as String,
+                                    )));
+                          }
+                        } else {
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      title: const Text('Invalid QR Code',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                      content:
+                                          Text('We are closing the camera now.',
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                      actions: [
+                                        FlatButton(
+                                          color: Color(0xFF5ABFA3),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              return MainPage();
+                                            }));
+                                          },
+                                          child: const Text(
+                                            'OK',
+                                            style: TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ]));
                         }
                       }
                     : null,
@@ -183,14 +214,16 @@ class _ScanQRState extends State<ScanQR> {
     });
     controller.scannedDataStream.listen((scanData) {
       if (scanData.code != null) {
+        result = scanData;
         if (scanData.code!.contains(" ") && scanData.code!.contains(":")) {
           email = (scanData.code!.split(" ")[0]).split(":")[1];
-          setState(() {
-            result = scanData;
-            pressable = true;
-            context.read<ScanProvider>().setScannedEmail(email: email!);
-          });
+          print(email);
+          pressable = true;
+          context.read<ScanProvider>().setScannedEmail(email: email!);
+        } else {
+          status = 'Invalid code';
         }
+        setState(() {});
       }
     });
   }

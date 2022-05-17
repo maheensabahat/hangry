@@ -79,9 +79,8 @@ class _FavoritesState extends State<Favorites> {
                               width: 70,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage(
-                                      'assets/restaurant.jpg',
-                                    ),
+                                    image: NetworkImage(
+                                        widget.favorites[index].image),
                                     fit: BoxFit.fill,
                                   ),
                                   borderRadius: BorderRadius.circular(10)),

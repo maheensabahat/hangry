@@ -33,52 +33,13 @@ class AdminProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> updateRestDetails(
-  //     {required String email, required String qr_id}) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('Restaurants')
-  //       .where("email", isEqualTo: Restemail)
-  //   isLoaded = false;
-  //   notifyListeners();
-  //
-  //   await networkCall.updateRestDetails(r);
-  //
-  //   isLoaded = true;
-  //   notifyListeners();
-  // }
-
-  Future updateRest(
-      {required String email,
-      required String name,
-      required String cuisine,
-      required String desc}) async {
-    await FirebaseFirestore.instance
-        .collection('Restaurants')
-        .where("email", isEqualTo: email)
-        .get()
-        .then((QuerySnapshot querySnapshot) async {
-      for (var doc in querySnapshot.docs) {
-        await FirebaseFirestore.instance
-            .collection("Restaurants")
-            .doc(doc.id)
-            .update({
-          "name": name,
-          "cuisine": cuisine,
-          "desc": desc,
-        });
-      }
-    });
+  Future<void> updateRestDetails(Restaurant restaurant) async {
+    await networkCall.updateRestDetails(restaurant);
+    getRestaurants();
   }
 
-//   Future deleteRest({required String email}) async {
-//     await FirebaseFirestore.instance
-//         .collection('Restaurants')
-//         .get()
-//         .then((QuerySnapshot querySnapshot) {
-//           querySnapshot.data.documents[index]
-//               .delete();
-//     };
-//
-//
-// }
+  Future<void> DeleteRestaurant(Restaurant restaurant) async {
+    await networkCall.DeleteRestaurant(restaurant);
+    getRestaurants();
+  }
 }

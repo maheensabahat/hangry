@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:project/Entities/ReservationRequest.dart';
 import 'package:project/Views/User/Reservation_Widgets/RequestDetails.dart';
 
+import '../MainPage.dart';
+
 class ReservationDisplay extends StatefulWidget {
   ReservationRequest request;
+  bool fromList;
 
-  ReservationDisplay({Key? key, required this.request}) : super(key: key);
+  ReservationDisplay({Key? key, required this.request, required this.fromList})
+      : super(key: key);
 
   @override
   _ReservationDisplayState createState() => _ReservationDisplayState();
@@ -21,16 +25,6 @@ class _ReservationDisplayState extends State<ReservationDisplay> {
           children: [
             Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 20),
-                  child: IconButton(
-                      onPressed: () {
-                        print('x');
-                        Navigator.of(context).pop();
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainPage()));
-                      },
-                      icon: Icon(Icons.clear, color: Colors.black)),
-                ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.12, left: 35),
@@ -71,12 +65,25 @@ class _ReservationDisplayState extends State<ReservationDisplay> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 20),
+                  child: InkWell(
+                      onTap: () {
+                        if (widget.fromList) {
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MainPage()));
+                        }
+                      },
+                      child: Icon(Icons.clear, color: Colors.black)),
+                ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               child: RequestDetails(request: widget.request, isUser: true),
-            )
+            ),
           ],
         ),
       ),

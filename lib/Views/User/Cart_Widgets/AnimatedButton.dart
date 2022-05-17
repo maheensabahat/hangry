@@ -64,9 +64,10 @@ class _AnimatedButtonState extends State<AnimatedButton>
   Widget build(BuildContext context) {
     return Center(
         child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (widget.order_length > 0) {
                 _animationController.forward();
+                await Future.delayed(Duration(milliseconds: 2500));
                 context.read<ScanProvider>().updateOrderStatusInFirebase(
                     email: context.read<UserProvider>().getEmail(),
                     qr_id: context.read<ScanProvider>().getQRID(),

@@ -23,6 +23,7 @@ class ScanProvider extends ChangeNotifier {
   late String ScannedEmail;
   late Scanned scanned;
   List jsonOrders = [];
+
   //List id = [];
 
   Scanned createScannedInstance({
@@ -50,6 +51,15 @@ class ScanProvider extends ChangeNotifier {
 
   String getQRID() {
     return scanned.qr_id;
+  }
+
+  bool checkItemPresent(var product) {
+    List productIDs = [];
+    for (var order in scanned.orders) {
+      productIDs.add(order.ProductID);
+    }
+    int index = productIDs.indexOf(product);
+    return index > -1;
   }
 
   void addToOrder({required OrderItem order}) {

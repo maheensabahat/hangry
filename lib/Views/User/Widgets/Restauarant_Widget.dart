@@ -107,29 +107,46 @@ class _RestaurantState extends State<RestaurantWidget> {
             ),
           ),
           if (isfav != null) ...[
-            Positioned(
-              bottom: 20,
-              left: 185,
-              child: InkWell(
-                onTap: () {
-                  debugPrint(widget.restaurant.isFav.toString());
-                  if (!(widget.restaurant.isFav!)) {
-                    setState(() {
-                      context.read<UserProvider>().MarkFav(widget.restaurant);
-                    });
-                  } else {
-                    setState(() {
-                      context.read<UserProvider>().removeFav(widget.restaurant);
-                    });
-                  }
-                },
-                child: Icon(
-                  isfav ? Icons.favorite : Icons.favorite_border,
-                  size: 40,
-                  color: Color(0xffF29191),
-                ),
-              ),
-            ),
+            context.read<UserProvider>().FavLoaded
+                ? Positioned(
+                    bottom: 20,
+                    left: 185,
+                    child: InkWell(
+                      onTap: () {
+                        debugPrint(widget.restaurant.isFav.toString());
+                        if (!(widget.restaurant.isFav!)) {
+                          setState(() {
+                            context
+                                .read<UserProvider>()
+                                .MarkFav(widget.restaurant);
+                          });
+                        } else {
+                          setState(() {
+                            context
+                                .read<UserProvider>()
+                                .removeFav(widget.restaurant);
+                          });
+                        }
+                      },
+                      child: Icon(
+                        isfav ? Icons.favorite : Icons.favorite_border,
+                        size: 40,
+                        color: Color(0xffF29191),
+                      ),
+                    ),
+                  )
+                : Positioned(
+                    bottom: 30,
+                    left: 200,
+                    child: Container(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Color(0xffF29191),
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
           ],
           Positioned(
             left: 230,

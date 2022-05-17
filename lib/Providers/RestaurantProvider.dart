@@ -16,6 +16,7 @@ class RestaurantProvider extends ChangeNotifier {
   bool isLoaded = true;
   late List<ReservationRequest> Approved_request;
   late List<ReservationRequest> Pending_request;
+  bool notFound = false;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -30,6 +31,9 @@ class RestaurantProvider extends ChangeNotifier {
           desc: rModel.desc,
           image: rModel.image);
       this.email = email;
+      notFound = false;
+    } else {
+      notFound = true;
     }
     notifyListeners();
   }
@@ -112,8 +116,7 @@ class RestaurantProvider extends ChangeNotifier {
     var response = await networkCall.getProducts(restaurant.id);
 
     List<Products> products = response
-        .map((e) =>
-        Products(
+        .map((e) => Products(
             name: e.name,
             price: e.price,
             image: e.image,
@@ -127,8 +130,8 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Orders?>> getRestOrdersFromFirebase(restaurant_id,
-      order_status) async {
+  Future<List<Orders?>> getRestOrdersFromFirebase(
+      restaurant_id, order_status) async {
     var orders;
     orders = await networkCall.getRestOrders(restaurant_id, order_status);
     for (Orders order in orders) {
@@ -146,7 +149,6 @@ class RestaurantProvider extends ChangeNotifier {
   String getEmail() {
     return restaurant.id;
   }
-
 
   Future<void> getOrd(String status) async {
     restaurant.Pending_Orders.clear();
@@ -201,4 +203,3 @@ class RestaurantProvider extends ChangeNotifier {
 //   isLoaded = true;
 //   notifyListeners();
 // }
-
