@@ -102,14 +102,14 @@ class RestaurantProvider extends ChangeNotifier {
   }
 
   approveOrder(var request_id) async {
-    await networkCall.ApproveRequest(request_id);
+    await networkCall.ApproveOrder(request_id);
     getOrderHistory('approved');
     getOrderHistory('pending');
     getOrderHistory('rejected');
   }
 
   rejectOrder(var request_id) async {
-    await networkCall.ApproveRequest(request_id);
+    await networkCall.RejectOrder(request_id);
     getOrderHistory('pending');
     getOrderHistory('approved');
     getOrderHistory('rejected');

@@ -18,7 +18,7 @@ class Orders2 extends StatefulWidget {
 
 class _Orders2State extends State<Orders2>
     with SingleTickerProviderStateMixin {
-  late final _tabController = TabController(length: 2, vsync: this);
+  late final _tabController = TabController(length: 3, vsync: this);
 
   Widget build(BuildContext context) {
     context.read<RestaurantProvider>().getOrderHistory('pending');
