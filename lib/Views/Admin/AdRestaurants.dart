@@ -141,12 +141,12 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                                         .updateRestDetails(r);
                                 } else {
                                   await restaurants.add({
-                                    'email': email.text,
+                                    'email': email.text.trim(),
                                     'name': name.text,
                                     'cuisine': cuisine.text,
                                     'desc': desc.text,
                                     'image':
-                                        _imageFile != null ? downloadUrl : null
+                                        _imageFile != null ? downloadUrl : widget.restaurant?.image
                                   }).then(
                                     (value) => showDialog(
                                       context: context,

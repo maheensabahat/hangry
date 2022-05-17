@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../Providers/GoogleSignInProvider.dart';
 import '../../main.dart';
+import '../Admin/AdMainPage.dart';
 import 'RestaurantDetails.dart';
 import 'TableReservations.dart';
 
@@ -30,6 +31,10 @@ class _RestaurantHomeState extends State<RestaurantHome> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 50, bottom: 150, right: 20),
+            child: FadeInRight(child: LogoutButton()),
+          ),
           InkWell(
             child: Icon(
               Icons.logout,

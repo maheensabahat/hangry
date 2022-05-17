@@ -68,7 +68,7 @@ class _AdAdminsState extends State<AdAdmins> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await restaurants
-                                  .add({'Email': email.text}).then((value) {
+                                  .add({'Email': email.text.trim()}).then((value) {
                                 Provider.of<AdminProvider>(context,
                                         listen: false)
                                     .getAdmins();
