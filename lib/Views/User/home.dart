@@ -166,7 +166,7 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
                               ? 'Scan QR'
                               : context
                                       .read<RestaurantProvider>()
-                                      .restaurant
+                                      .Cartrestaurant
                                       .name +
                                   " Menu",
                           style: TextStyle(
@@ -210,17 +210,16 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
                 ),
                 onTap: () {
                   if (widget.user.qr) {
+                    Restaurant r =
+                        context.read<RestaurantProvider>().Cartrestaurant;
+                    context.read<RestaurantProvider>().setRestaurant(r);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => UserMenu(
                               user: context.read<UserProvider>().getUser(),
                               scanned: context.read<UserProvider>().getQR(),
                               restaurant: context
                                   .read<RestaurantProvider>()
-                                  .getRestaurant(
-                                    context
-                                        .read<ScanProvider>()
-                                        .getScannedEmail(),
-                                  ),
+                                  .getRestaurant(),
                             )));
                   } else {
                     Navigator.of(context).push(MaterialPageRoute(

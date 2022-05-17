@@ -3,9 +3,6 @@ import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
-
-import '../../../Entities/ShoppingCart.dart';
-
 class Summary extends StatefulWidget {
   Summary({
     Key? key,

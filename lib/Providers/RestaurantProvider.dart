@@ -46,7 +46,7 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Restaurant getRestaurant(String? email) {
+  Restaurant getRestaurant() {
     return restaurant;
   }
 
