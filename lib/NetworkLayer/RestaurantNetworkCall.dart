@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/Entities/Products.dart';
+import '../Entities/OrdersHistory.dart';
 import '../Entities/ReservationRequest.dart';
 import '../Entities/OrdersRest.dart';
 import '../Entities/Restaurant.dart';
@@ -23,6 +24,12 @@ abstract class RestaurantNetworkCall {
   Future<List<ReservationRequest>> getRequest(var id, String status);
 
   Future<void> ApproveRequest(var id);
+
+  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status);
+
+  Future<void> ApproveOrder(var id);
+
+  Future<void> RejectOrder(var id);
 
   Future<List> getRestOrders(var restaurant_id, order_status);
 
@@ -87,6 +94,47 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).then((value) {
       print("Request approved.");
     }).catchError((error) => print("Failed to approve request: $error"));
+  }
+
+  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status) async {
+    List<OrdersHistory> requests = [];
+    await FirebaseFirestore.instance
+        .collection('Orders')
+        .where('restaurant_id', isEqualTo: restaurant_id)
+        .where('status', isEqualTo: status)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        var r = OrdersHistory.fromJson(doc.data() as Map<String, dynamic>);
+        r.id = doc.id;
+        requests.add(r);
+      });
+    });
+    return requests;
+  }
+
+  @override
+  Future<void> ApproveOrder(var id) async {
+    CollectionReference ord =
+    FirebaseFirestore.instance.collection('Orders');
+
+    ord.doc(id).update({
+      'status': 'approved',
+    }).then((value) {
+      print("Order approved.");
+    }).catchError((error) => print("Failed to approve order: $error"));
+  }
+
+  @override
+  Future<void> RejectOrder(var id) async {
+    CollectionReference ord =
+    FirebaseFirestore.instance.collection('Orders');
+
+    ord.doc(id).update({
+      'status': 'rejected',
+    }).then((value) {
+      print("Order rejected.");
+    }).catchError((error) => print("Failed to reject order: $error"));
   }
 
   @override
