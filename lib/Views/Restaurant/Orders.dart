@@ -168,7 +168,7 @@ class _RequestListState extends State<RequestList> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ShowOrders(
-                                    type: 'pending',
+                                    type: 'Pending',
                                     request: widget.reqs[index],
                                   )));
                         },

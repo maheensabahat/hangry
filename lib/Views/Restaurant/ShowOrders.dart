@@ -55,7 +55,7 @@ class _ShowOrdersState extends State<ShowOrders> {
               child: Column(
                 children: [
                   OrderDetails(request: widget.request, isUser: false),
-                  if (widget.type == 'pending') ...[
+                  if (widget.type == 'Pending') ...[
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: SizedBox(
