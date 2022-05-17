@@ -262,35 +262,62 @@ class _MyOrderState extends State<MyOrderWidget> {
             height: 42,
             child: FittedBox(
               child: FloatingActionButton.extended(
-                  onPressed: () {
+                  onPressed: () async {
                     context.read<ScanProvider>().exitCart(
                         email: context.read<UserProvider>().getEmail(),
                         qr_id: context.read<ScanProvider>().getQRID());
                     context.read<UserProvider>().setQR(false);
-                    showDialog(
+                    var exit = await showDialog(
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text("Exiting Cart"),
-                            content:
-                                const Text("Sending you back to the homepage."),
+                            title: const Text(
+                              "Exiting Cart",
+                              style: TextStyle(
+                                  color: Color(0xFF5ABFA3),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            content: const Text(
+                              "Are you sure you want to exit",
+                              style: TextStyle(fontSize: 13),
+                            ),
                             actions: [
                               TextButton(
-                                child: const Text("OK"),
+                                child: const Text(
+                                  "OK",
+                                  style: TextStyle(
+                                      color: Color(0xFF5ABFA3),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (context) => MainPage(),
-                                          ),
-                                          (Route<dynamic> route) => false)
-                                      .then((_) => setState(() {}));
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                              TextButton(
+                                child: const Text(
+                                  "CANCEL",
+                                  style: TextStyle(
+                                      color: Color(0xFF5ABFA3),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
                                 },
                               )
                             ],
                           );
                         });
+
+                    if (exit) {
+                      Navigator.of(context)
+                          .pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => MainPage(),
+                              ),
+                              (Route<dynamic> route) => false)
+                          .then((_) => setState(() {}));
+                    }
                   },
                   backgroundColor: Color.fromARGB(255, 75, 156, 143),
                   label: const Text('Exit Cart')),

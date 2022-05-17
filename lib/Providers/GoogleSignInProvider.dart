@@ -28,7 +28,11 @@ class GoogleSignInProvider extends ChangeNotifier {
       debugPrint("Error $onError");
     });
 
-    if (googleUser == null) return;
+    if (googleUser == null) {
+      isLoggedIn = true;
+      notifyListeners();
+      return;
+    }
     _user = googleUser;
     try {
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -74,7 +78,6 @@ class GoogleSignInProvider extends ChangeNotifier {
       });
 
       if (adminEmail == _user!.email) {
-        print(adminEmail);
         _isAdmin = true;
       } else {
         _isAdmin = false;
@@ -100,12 +103,10 @@ class GoogleSignInProvider extends ChangeNotifier {
   }
 
   bool checkRestaurant() {
-    print('x');
     return _isRestaurant;
   }
 
   bool checkAdmin() {
-    print('y');
     return _isAdmin;
   }
 }

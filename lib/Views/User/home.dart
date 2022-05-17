@@ -205,7 +205,13 @@ class _ScanQR_ViewMenuState extends State<ScanQR_ViewMenu> {
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
-                          !widget.user.qr ? 'Scan QR' : 'Go to Menu',
+                          !widget.user.qr
+                              ? 'Scan QR'
+                              : context
+                                      .read<RestaurantProvider>()
+                                      .restaurant
+                                      .name +
+                                  " Menu",
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,

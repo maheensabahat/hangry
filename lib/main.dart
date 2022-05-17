@@ -179,11 +179,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               context
                                   .read<GoogleSignInProvider>()
                                   .googleLogin()
-                                  .whenComplete(
-                                () async {
-                                  var googleuser =
-                                      context.read<GoogleSignInProvider>().user;
+                                  .whenComplete(() async {
+                                var googleuser =
+                                    context.read<GoogleSignInProvider>().user;
 
+                                if (googleuser != null) {
                                   if (context
                                       .read<GoogleSignInProvider>()
                                       .checkAdmin()) {
@@ -199,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       context
                                           .read<RestaurantProvider>()
                                           .getRestaurantFromFirebase(
-                                              googleuser?.email);
+                                              googleuser.email);
 
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -208,9 +208,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       );
                                     } else {
                                       context.read<UserProvider>().createUser(
-                                          name: googleuser?.displayName,
-                                          profilePicture: googleuser?.photoUrl,
-                                          email: googleuser?.email);
+                                          name: googleuser.displayName,
+                                          profilePicture: googleuser.photoUrl,
+                                          email: googleuser.email);
 
                                       if (googleuser != null) {
                                         bool userExists = await context
@@ -240,8 +240,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                       }
                                     }
                                   }
-                                },
-                              );
+                                }
+                              });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
