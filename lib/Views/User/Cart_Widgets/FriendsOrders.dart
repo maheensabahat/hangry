@@ -73,7 +73,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                   actions: [
                     TextButton(
                         onPressed: () {
-                          context.read<UserProvider>().setQR(false);
+                          // context.read<UserProvider>().setQR(false);
                           context
                               .read<OrdersProvider>()
                               .addFinalOrdersToFirebase(
@@ -84,7 +84,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                               email: context.read<UserProvider>().getEmail(),
                               qr_id: context.read<ScanProvider>().getQRID(),
                               status: false);
-                          print(context.read<ScanProvider>().getOrderList());
+                          //print(context.read<ScanProvider>().getOrderList());
                           int i = 0;
                           for (String email in friendEmails) {
                             context
@@ -100,9 +100,13 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                     context.read<ScanProvider>().getQRID(),
                                     email,
                                     allFriendsDishes[i]);
-                            print(allFriendsDishes[i]);
+
+                            //print(allFriendsDishes[i]);
                             i++;
                           }
+                          context
+                              .read<OrdersProvider>()
+                              .setMyOrderStatus(false);
                         },
                         child: const Text('Go Ahead'))
                   ],

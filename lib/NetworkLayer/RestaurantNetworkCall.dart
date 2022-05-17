@@ -27,6 +27,7 @@ abstract class RestaurantNetworkCall {
   Future<List> getRestOrders(var restaurant_id, order_status);
 
   Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status);
+  Future<String> getRestaurantName(String rest_id);
 }
 
 class RFirebaseNetworkCall implements RestaurantNetworkCall {
@@ -209,5 +210,17 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
     print(thedetails);
     return thedetails;
+  }
+
+  getRestaurantName(String rest_id) async {
+    String name = '';
+    await FirebaseFirestore.instance
+        .collection("Restaurants")
+        .where("email", isEqualTo: rest_id)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      name = querySnapshot.docs[0].get("name");
+    });
+    return name;
   }
 }

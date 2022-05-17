@@ -2,14 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
+import 'package:project/Entities/Order_details.dart';
 import 'package:project/Entities/OrdersRest.dart';
 import 'package:project/Entities/Products.dart';
 import 'package:project/Entities/Restaurant.dart';
+import 'package:project/Entities/User.dart';
+import 'package:project/Entities/User_order.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 class OrdersProvider extends ChangeNotifier {
   List<OrderItem> friendOrders = [];
+  List<UserOrders> userOrders = [];
   int price = 0;
   bool myOrderStatus = false;
   bool friendsOrderStatus = false;
@@ -21,6 +25,21 @@ class OrdersProvider extends ChangeNotifier {
       required order_status,
       required tableNum}) {
     return Orders(
+        restaurant_id: restaurant_id,
+        user_id: user_id,
+        qr_id: qr_id,
+        order_status: order_status,
+        tableNum: tableNum);
+  }
+
+  UserOrders createUserOrder({
+    required restaurant_id,
+    required user_id,
+    required qr_id,
+    required order_status,
+    required tableNum,
+  }) {
+    return UserOrders(
         restaurant_id: restaurant_id,
         user_id: user_id,
         qr_id: qr_id,
@@ -118,21 +137,62 @@ class OrdersProvider extends ChangeNotifier {
       String qr_id, String user_id, List<OrderItem> orders) async {
     List product_details = [];
     for (var order in orders) {
-      product_details
-          .add({"product_id": order.ProductID, "quantity": order.quantity});
+      product_details.add({
+        "product_id": order.ProductID,
+        "quantity": order.quantity,
+        "image": order.image,
+        "name": order.name,
+        "price": order.price * order.quantity
+      });
       debugPrint(order.ProductID);
     }
     String table_num = qr_id.split(" ")[1].split(":")[1];
     String restaurant_id = qr_id.split(" ")[0].split(":")[1];
 
-    await FirebaseFirestore.instance.collection('Orders').add({
-      "user_id": user_id,
-      "qr_id": qr_id,
-      "restaurant_id": restaurant_id,
-      "product_details": product_details,
-      "table_num": table_num,
-      "date": DateTime.now(),
-      "status": "Pending",
+    await FirebaseFirestore.instance.collection('Orders').add(
+      {
+        "user_id": user_id,
+        "qr_id": qr_id,
+        "restaurant_id": restaurant_id,
+        "product_details": product_details,
+        "table_num": table_num,
+        "date": DateTime.now(),
+        "status": "Pending",
+      },
+    );
+  }
+
+  getOrdersFromFirebase({required String email}) async {
+    await FirebaseFirestore.instance
+        .collection('Orders')
+        .where("user_id", isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        var order = UserOrders(
+            restaurant_id: doc.get("restaurant_id"),
+            user_id: doc.get("user_id"),
+            qr_id: doc.get("qr_id"),
+            order_status: doc.get("status"),
+            tableNum: doc.get("table_num"));
+        order.id = doc.id;
+        order.date = (doc.get("date") as Timestamp).toDate().toUtc().toString();
+        userOrders.add(order);
+        userOrders[userOrders.length - 1].product_details = [];
+        List productdetails = doc.get("product_details");
+        for (int i = 0; i < productdetails.length; i++) {
+          userOrders[userOrders.length - 1].product_details!.add(ProductDetails(
+              ProductID: productdetails[i]["product_id"],
+              quantity: productdetails[i]["quantity"],
+              image: productdetails[i]["image"],
+              name: productdetails[i]["name"],
+              price: productdetails[i]["price"]));
+        }
+      }
     });
+  }
+
+  List<UserOrders> getUserOrders() {
+    return userOrders;
   }
 }
