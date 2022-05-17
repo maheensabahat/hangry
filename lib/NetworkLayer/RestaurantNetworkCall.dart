@@ -118,7 +118,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
-      'status': 'approved',
+      'status': 'Approved',
     }).then((value) {
       print("Order approved.");
     }).catchError((error) => print("Failed to approve order: $error"));
@@ -130,7 +130,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
-      'status': 'rejected',
+      'status': 'Rejected',
     }).then((value) {
       print("Order rejected.");
     }).catchError((error) => print("Failed to reject order: $error"));
