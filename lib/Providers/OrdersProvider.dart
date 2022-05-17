@@ -8,11 +8,16 @@ import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
+import '../Entities/Order_details.dart';
+import '../Entities/User_order.dart';
+
 class OrdersProvider extends ChangeNotifier {
   List<OrderItem> friendOrders = [];
   int price = 0;
   bool myOrderStatus = false;
   bool friendsOrderStatus = false;
+
+  get userOrders => null;
 
   Orders createOrder(
       {required restaurant_id,
