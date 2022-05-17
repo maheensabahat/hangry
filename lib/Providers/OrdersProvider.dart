@@ -17,7 +17,7 @@ class OrdersProvider extends ChangeNotifier {
   bool myOrderStatus = false;
   bool friendsOrderStatus = false;
 
-  get userOrders => null;
+  List<UserOrders> userOrders = [];
 
   Orders createOrder(
       {required restaurant_id,
@@ -46,6 +46,10 @@ class OrdersProvider extends ChangeNotifier {
         qr_id: qr_id,
         order_status: order_status,
         tableNum: tableNum);
+  }
+
+  List<OrderItem> getFriendsOrdersList() {
+    return friendOrders;
   }
 
   static fromJson(Map<String, dynamic> json) {

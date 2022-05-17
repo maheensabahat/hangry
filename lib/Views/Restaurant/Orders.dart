@@ -16,9 +16,8 @@ class Orders2 extends StatefulWidget {
   _Orders2State createState() => _Orders2State();
 }
 
-class _Orders2State extends State<Orders2>
-    with SingleTickerProviderStateMixin {
-  late final _tabController = TabController(length: 2, vsync: this);
+class _Orders2State extends State<Orders2> with SingleTickerProviderStateMixin {
+  late final _tabController = TabController(length: 3, vsync: this);
 
   Widget build(BuildContext context) {
     context.read<RestaurantProvider>().getOrderHistory('pending');
@@ -84,18 +83,18 @@ class _Orders2State extends State<Orders2>
           Consumer<RestaurantProvider>(builder: (context, provider, child) {
             return provider.isLoaded
                 ? Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 20),
-              child: RequestList(reqs: provider.Pending_orders),
-            )
+                    padding: const EdgeInsets.only(top: 16, bottom: 20),
+                    child: RequestList(reqs: provider.Pending_orders),
+                  )
                 : const Loader();
           }),
           Consumer<RestaurantProvider>(builder: (context, provider, child) {
             return Container(
               child: provider.isLoaded
                   ? Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 20),
-                child: RequestList(reqs: provider.Approved_orders),
-              )
+                      padding: const EdgeInsets.only(top: 16, bottom: 20),
+                      child: RequestList(reqs: provider.Approved_orders),
+                    )
                   : const Loader(),
             );
           }),
@@ -103,9 +102,9 @@ class _Orders2State extends State<Orders2>
             return Container(
               child: provider.isLoaded
                   ? Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 20),
-                child: RequestList(reqs: provider.Rejected_orders),
-              )
+                      padding: const EdgeInsets.only(top: 16, bottom: 20),
+                      child: RequestList(reqs: provider.Rejected_orders),
+                    )
                   : const Loader(),
             );
           }),
@@ -147,7 +146,8 @@ class _RequestListState extends State<RequestList> {
                   child: InkWell(
                     child: ListTile(
                       title: Text(
-                          " Table num " + widget.reqs[index].table_num.toString(),
+                          " Table num " +
+                              widget.reqs[index].table_num.toString(),
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500)),
                       // leading: Icon(Icons.restaurant),
@@ -168,9 +168,9 @@ class _RequestListState extends State<RequestList> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ShowOrders(
-                                type: 'pending',
-                                request: widget.reqs[index],
-                              )));
+                                    type: 'pending',
+                                    request: widget.reqs[index],
+                                  )));
                         },
                       ),
                     ),
