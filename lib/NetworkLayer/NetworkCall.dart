@@ -34,6 +34,8 @@ abstract class NetworkCall {
   Future<void> removeFav(User user, var restaurant_id);
 
   var ID;
+
+  Future<void> updateUser(User user);
 }
 
 class FirebaseNetworkCall implements NetworkCall {
@@ -121,8 +123,7 @@ class FirebaseNetworkCall implements NetworkCall {
 
     int i = 0;
     while (i < ids.length) {
-      ReservationRequest r =
-          await getRequestusingID(ids[i], status) as ReservationRequest;
+      ReservationRequest? r = await getRequestusingID(ids[i], status);
       if (r != null) {
         reqs.add(r);
       }
@@ -140,7 +141,6 @@ class FirebaseNetworkCall implements NetworkCall {
         .then((DocumentSnapshot documentSnapshot) {
       ReservationRequest req = ReservationRequest.fromJson(
           documentSnapshot.data() as Map<String, dynamic>);
-      print(req);
       if (req.status == status) {
         return req;
       } else {
@@ -275,6 +275,19 @@ class FirebaseNetworkCall implements NetworkCall {
     return thedetails;
   }
 
+  @override
+  Future<void> updateUser(User user) async {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+    await users.doc(user.docID).update({
+      'name': user.name,
+      'phone': user.phone,
+    }).then((value) {
+      print("User updated.");
+    }).catchError((error) => print("Failed to updated user: $error"));
+  }
+}
+
 // Future<List<OrdersModel>> getOrderDetails(UserId) async {
 //   List<OrdersModel> orders = [];
 //
@@ -293,4 +306,3 @@ class FirebaseNetworkCall implements NetworkCall {
 //   });
 //   return orders;
 // }
-}

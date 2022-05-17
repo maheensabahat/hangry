@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../Entities/My_Order.dart';
 import '../../Entities/My_Order.dart';
 import '../../Providers/RestaurantProvider.dart';
+import 'MainPage.dart';
 import 'ScanQR.dart';
 import 'Widgets/RestaurantBanner.dart';
 
@@ -90,18 +91,18 @@ class _UserMenuState extends State<UserMenu> {
                                           alignment: const Alignment(0, 0),
                                           child: ListTile(
                                             leading: Container(
-                                                height: 100,
-                                                width: 70,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      menu[index].image!,
-                                                    ),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                )),
+                                              height: 100,
+                                              width: 70,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      menu[index].image!),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
                                             title: Text(
                                               menu[index].name,
                                               style: TextStyle(
@@ -236,7 +237,22 @@ class _UserMenuState extends State<UserMenu> {
 
         //Back
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: BackButton());
+        floatingActionButton: FloatingActionButton.small(
+          heroTag: null,
+          onPressed: () {
+            if (!widget.scanned) {
+              Navigator.of(context).pop();
+            } else {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => MainPage()));
+            }
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xFF5ABFA3),
+        ));
   }
 }
 

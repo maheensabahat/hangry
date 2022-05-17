@@ -1,9 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Views/User/UserMenu.dart';
 import 'package:project/Views/User/Widgets/Restauarant_Widget.dart';
+import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 import '../../Entities/Restaurant.dart';
+import '../../Providers/UserProvider.dart';
 
 class Favorites extends StatefulWidget {
   List<Restaurant> favorites;
@@ -68,9 +71,21 @@ class _FavoritesState extends State<Favorites> {
                           alignment: const Alignment(0, 0),
                           //Each fav
                           child: ListTile(
-                            trailing: const Icon(
-                              Icons.favorite,
-                              color: Color(0xFFF29191),
+                            trailing: InkWell(
+                              child: const Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 20,
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => UserMenu(
+                                          user: context
+                                              .read<UserProvider>()
+                                              .getUser(),
+                                          scanned: false,
+                                          restaurant: widget.favorites[index],
+                                        )));
+                              },
                             ),
 
                             //Image

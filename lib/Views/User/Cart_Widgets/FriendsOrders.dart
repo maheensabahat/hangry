@@ -73,7 +73,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                   actions: [
                     TextButton(
                         onPressed: () {
-                          context.read<UserProvider>().setQR(false);
+                          // context.read<UserProvider>().setQR(false);
                           context
                               .read<OrdersProvider>()
                               .addFinalOrdersToFirebase(
@@ -103,6 +103,9 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                             print(allFriendsDishes[i]);
                             i++;
                           }
+                          context
+                              .read<OrdersProvider>()
+                              .setMyOrderStatus(false);
                         },
                         child: const Text('Go Ahead'))
                   ],

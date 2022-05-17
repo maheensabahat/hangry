@@ -26,6 +26,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   List<Restaurant> fav = [];
   XFile? _imageFile;
+
   // XFile? img;
   final ImagePicker _picker = ImagePicker();
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
               child: FadeInDown(
                 delay: const Duration(milliseconds: 900),
                 child: Column(
-                  children: [imageProfile(), ProfileDetails()],
+                  children: [ProfilePicture(), ProfileDetails()],
                 ),
               ),
             ),
@@ -62,172 +63,6 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
-  Widget bottomSheet() {
-    return Container(
-      height: 100.0,
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-        children: <Widget>[
-          const Text(
-            "Choose Profile photo",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            FlatButton.icon(
-              icon: const Icon(Icons.camera),
-              onPressed: () {
-                takePhoto(ImageSource.camera);
-              },
-              label: const Text("Camera"),
-            ),
-            FlatButton.icon(
-              icon: const Icon(Icons.image),
-              onPressed: () {
-                takePhoto(ImageSource.gallery);
-              },
-              label: const Text("Gallery"),
-            ),
-            FlatButton.icon(
-              icon: const Icon(Icons.add_circle),
-              onPressed: () {},
-              label: const Text("Gallery"),
-            ),
-          ])
-        ],
-      ),
-    );
-  }
-
-  Widget imageProfile() {
-    return Center(
-      child: Stack(children: <Widget>[
-        // img = context.read<UserProvider>().getImage(),
-        _imageFile != null
-            ? CircleAvatar(
-                radius: 80.0,
-                backgroundImage: FileImage(File(_imageFile!.path)))
-            : ProfilePicture(),
-
-        Positioned(
-          bottom: 20.0,
-          right: 20.0,
-          child: InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: ((builder) => bottomSheet()),
-              );
-            },
-            child: const Icon(
-              Icons.camera_alt,
-              color: Color(0xFF5ABFA3),
-              size: 28.0,
-            ),
-          ),
-        )
-      ]),
-    );
-  }
-
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-    );
-
-    setState(() {
-      _imageFile = pickedFile;
-    });
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Success'),
-        content:
-            const Text('Restaurant has been added to the app successfully'),
-        actions: [
-          ElevatedButton(
-              onPressed: () async {
-                FirebaseStorage _storage = FirebaseStorage.instance;
-                File file = File(_imageFile!.path);
-                //Putting the file in firebase storage
-                TaskSnapshot taskSnapshot =
-                    await _storage.ref(_imageFile!.path).putFile(file);
-                //downloading URL from firebase storage
-                final String downloadUrl =
-                    await taskSnapshot.ref.getDownloadURL();
-                context.read<UserProvider>().updatePic(email, downloadUrl);
-                Navigator.pop(context);
-              },
-              child: const Text('Update'))
-        ],
-      ),
-    );
-    // await StoringImage(email, downloadUrl);
-    setState(() {});
-  }
-
-  // Future StoringImage(String email, String image) async {
-  //   Consumer<UserProvider>(builder: (context, provider, child) {
-  //     return (provider.reqsLoaded)
-  //         ? provider.updatePic(email, downloadUrl)
-  //
-  //         : Center(
-  //     child: Container(
-  //     child: const CircularProgressIndicator(
-  //     color: Color(0xffadd9c9),
-  //     ),
-  //     height: 50,
-  //     width: 50,
-  //     ));
-  // FirebaseStorage _storage = FirebaseStorage.instance;
-  // File file = File(_imageFile!.path);
-  //
-  // //Putting the file in firebase storage
-  // TaskSnapshot taskSnapshot =
-  // await _storage.ref(_imageFile!.path).putFile(file);
-  // //downloading URL from firebase storage
-  // final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-  //
-  // await users
-  //     .where("email", isEqualTo: email)
-  //     .get()
-  //     .then((QuerySnapshot querySnapshot) async {
-  //   for (var doc in querySnapshot.docs) {
-  //     await FirebaseFirestore.instance
-  //         .collection("Users")
-  //         .doc(doc.id)
-  //         .update({
-  //       "image": downloadUrl,
-  //     }).then(
-  //           (value) =>
-  //           showDialog(
-  //             context: context,
-  //             builder: (context) =>
-  //                 AlertDialog(
-  //                   title: const Text('Success'),
-  //                   content: const Text(
-  //                       'Restaurant has been added to the app successfully'),
-  //                   actions: [
-  //                     TextButton(
-  //                         onPressed: () => Navigator.pop(context),
-  //                         child: const Text('Ok'))
-  //                   ],
-  //                 ),
-  //           ),
-  //     );
-  //   }
-  // });
-  //   });
-  // }
 }
 
 class ProfileDetails extends StatelessWidget {
@@ -238,7 +73,7 @@ class ProfileDetails extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 4),
+          padding: const EdgeInsets.only(top: 18, bottom: 4),
           child: Text(context.read<UserProvider>().getName(),
               style:
                   const TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
@@ -256,7 +91,7 @@ class ButtonMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, bottom: 28),
+      padding: const EdgeInsets.only(top: 24, bottom: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -322,6 +157,7 @@ class buttons extends StatelessWidget {
             MaterialPageRoute(builder: (context) {
               if (istable) {
                 context.read<UserProvider>().getRequests('pending');
+                context.read<UserProvider>().getRequests('approved');
                 return const UserTableReservations();
               }
               return const MyOrders();
@@ -405,15 +241,17 @@ class FavListView extends StatelessWidget {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
                 height: MediaQuery.of(context).size.height * 0.25,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: favs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          child: RestaurantWidget(restaurant: favs[index]));
-                    }),
+                child: Center(
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: favs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width * 0.80,
+                            child: RestaurantWidget(restaurant: favs[index]));
+                      }),
+                ),
               ),
             ),
           ],

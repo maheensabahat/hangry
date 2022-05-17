@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:project/Views/Restaurant/ReservationRequests.dart';
 
 import '../../../Entities/ReservationRequest.dart';
 import '../Widgets/InputBox.dart';
@@ -28,17 +27,14 @@ class RequestDetails extends StatelessWidget {
           isNum: false,
           canEdit: false,
         ),
-        !isUser
-            ? InputBox(
-                label: 'Contact',
-                hintText: '',
-                icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
-                controller:
-                    TextEditingController(text: request.phone.toString()),
-                isNum: false,
-                canEdit: false,
-              )
-            : Container(),
+        InputBox(
+          label: 'Contact',
+          hintText: '',
+          icon: Icon(Icons.phone, color: Color(0xFF5ABFA3)),
+          controller: TextEditingController(text: request.phone.toString()),
+          isNum: false,
+          canEdit: false,
+        ),
         InputBox(
           label: 'Date',
           hintText: '',

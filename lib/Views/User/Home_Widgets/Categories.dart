@@ -47,6 +47,11 @@ class _CategoriesListState extends State<CategoriesList> {
                   widget.list[index].isSelected =
                       !widget.list[index].isSelected;
                   if (widget.list[index].isSelected) {
+                    widget.list.forEach((element) {
+                      if (element != widget.list[index]) {
+                        element.isSelected = false;
+                      }
+                    });
                     List rest = context
                         .read<UserProvider>()
                         .searchCategory(widget.list[index].label);
