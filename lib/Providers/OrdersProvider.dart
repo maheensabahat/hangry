@@ -74,12 +74,12 @@ class OrdersProvider extends ChangeNotifier {
     for (var list in friendOrders) {
       for (OrderItem orderItem in list) {
         this.friendOrders.add(orderItem);
-        debugPrint(orderItem.price.toString());
+        // debugPrint(orderItem.price.toString());
       }
     }
   }
 
-  void setTotalPrice({required List<OrderItem> myOrders}) {
+  Future<void> setTotalPrice({required List<OrderItem> myOrders}) async {
     price = 0;
     for (OrderItem orderItem in friendOrders) {
       price += orderItem.price * orderItem.quantity;
@@ -88,7 +88,8 @@ class OrdersProvider extends ChangeNotifier {
       price += orderItem.price * orderItem.quantity;
     }
 
-    print(price);
+    await Future.delayed(Duration(milliseconds: 1));
+    notifyListeners();
   }
 
   int getTotalPrice({required List<OrderItem> myOrder}) {
@@ -120,7 +121,7 @@ class OrdersProvider extends ChangeNotifier {
     for (var order in orders) {
       product_details
           .add({"product_id": order.ProductID, "quantity": order.quantity});
-      debugPrint(order.ProductID);
+      // debugPrint(order.ProductID);
     }
     String table_num = qr_id.split(" ")[1].split(":")[1];
     String restaurant_id = qr_id.split(" ")[0].split(":")[1];

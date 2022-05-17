@@ -9,9 +9,11 @@ import '../NetworkLayer/RestaurantNetworkCall.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   late Restaurant restaurant;
+  late Restaurant Cartrestaurant;
   List<Orders?> orders = [];
   late String email;
   late String restaurant_id;
+  late String Cartrestaurant_id;
   late String order_status;
   bool isLoaded = true;
   late List<ReservationRequest> Approved_request;
@@ -42,10 +44,16 @@ class RestaurantProvider extends ChangeNotifier {
     return restaurant;
   }
 
+  setCartRestaurant(Restaurant r) {
+    Cartrestaurant = r;
+    Cartrestaurant_id = r.id;
+  }
+
   setRestaurant(Restaurant r) {
     restaurant = r;
     restaurant_id = r.id;
   }
+
 
   getRequests(String status) async {
     isLoaded = false;

@@ -154,7 +154,6 @@ class _MyOrderState extends State<MyOrderWidget> {
                                     canEdit:
                                         widget.myOrder.isPlaced ? false : true,
                                     onChangeValue: (value) {
-                                      print(value);
                                       if (value != 0) {
                                         orders[index].quantity = value;
                                       } else {

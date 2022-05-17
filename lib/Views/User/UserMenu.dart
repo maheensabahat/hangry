@@ -121,7 +121,7 @@ class _UserMenuState extends State<UserMenu> {
                                                         child: Icon(
                                                           Icons.shopping_cart,
                                                           color: context
-                                                                  .read<
+                                                                  .watch<
                                                                       ScanProvider>()
                                                                   .checkItemPresent(
                                                                       menu[index]

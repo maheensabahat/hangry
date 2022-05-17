@@ -144,6 +144,8 @@ class _SelectionButtonState extends State<SelectionButton> {
         content: StatefulBuilder(
           builder: (context, SBsetState) {
             return NumberPicker(
+              selectedTextStyle: TextStyle(
+                  color: Color(0xFF5ABFA3), fontSize: 35),
               value: seats,
               minValue: 2,
               maxValue: 10,

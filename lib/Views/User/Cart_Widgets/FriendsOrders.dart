@@ -63,6 +63,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
             }
             allEmails = friendEmails;
           }
+          context.watch<OrdersProvider>().setFriendOrders(allFriendsDishes);
           return !order_status.contains(false) &&
                   order_status.isNotEmpty &&
                   context.read<OrdersProvider>().checkMyOrderStatus()

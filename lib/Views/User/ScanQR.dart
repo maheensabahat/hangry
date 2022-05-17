@@ -137,7 +137,7 @@ class _ScanQRState extends State<ScanQR> {
 
                             Provider.of<RestaurantProvider>(context,
                                     listen: false)
-                                .setRestaurant(restaurant);
+                                .setCartRestaurant(restaurant);
 
                             Navigator.of(context).push(
                               MaterialPageRoute(

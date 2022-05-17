@@ -23,6 +23,7 @@ class ScanProvider extends ChangeNotifier {
   late String ScannedEmail;
   late Scanned scanned;
   List jsonOrders = [];
+  bool isPresent = false;
 
   //List id = [];
 
@@ -63,19 +64,22 @@ class ScanProvider extends ChangeNotifier {
   }
 
   void addToOrder({required OrderItem order}) {
+    isPresent = false;
     List productIDs = [];
     for (var order in scanned.orders) {
       productIDs.add(order.ProductID);
     }
     int index = productIDs.indexOf(order.ProductID);
     if (index > -1) {
-      if (scanned.orders[index].quantity < 5) {
-        scanned.orders[index].quantity += 1;
-      }
+      scanned.orders.remove(scanned.orders[index]);
+      // if (scanned.orders[index].quantity < 5) {
+      //   scanned.orders[index].quantity += 1;
+      // }
     } else {
       scanned.orders.add(order);
     }
 
+    isPresent = true;
     notifyListeners();
   }
 
