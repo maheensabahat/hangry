@@ -263,10 +263,6 @@ class _MyOrderState extends State<MyOrderWidget> {
             child: FittedBox(
               child: FloatingActionButton.extended(
                   onPressed: () async {
-                    context.read<ScanProvider>().exitCart(
-                        email: context.read<UserProvider>().getEmail(),
-                        qr_id: context.read<ScanProvider>().getQRID());
-                    context.read<UserProvider>().setQR(false);
                     var exit = await showDialog(
                         barrierDismissible: false,
                         context: context,
@@ -279,13 +275,13 @@ class _MyOrderState extends State<MyOrderWidget> {
                                   fontWeight: FontWeight.bold),
                             ),
                             content: const Text(
-                              "Are you sure you want to exit",
+                              "Are you sure you want to exit?",
                               style: TextStyle(fontSize: 13),
                             ),
                             actions: [
                               TextButton(
                                 child: const Text(
-                                  "OK",
+                                  "YES",
                                   style: TextStyle(
                                       color: Color(0xFF5ABFA3),
                                       fontWeight: FontWeight.bold),
@@ -310,6 +306,11 @@ class _MyOrderState extends State<MyOrderWidget> {
                         });
 
                     if (exit) {
+                      context.read<ScanProvider>().exitCart(
+                          email: context.read<UserProvider>().getEmail(),
+                          qr_id: context.read<ScanProvider>().getQRID());
+                      context.read<UserProvider>().setQR(false);
+
                       Navigator.of(context)
                           .pushAndRemoveUntil(
                               MaterialPageRoute(

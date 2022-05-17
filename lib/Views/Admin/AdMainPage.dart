@@ -2,8 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Providers/AdminProvider.dart';
-import 'package:project/Views/Admin/AdAdmins.dart';
-import 'package:project/Views/Admin/AdRestaurants.dart';
 import 'package:project/Views/Admin/AdRestaurantsDisplay.dart';
 import 'package:project/Views/Admin/AdminDisplay.dart';
 import 'package:provider/provider.dart';

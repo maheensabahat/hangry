@@ -1,19 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/Entities/My_Order.dart';
-import 'package:project/Entities/ShoppingCart.dart';
-import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/Widgets/Header.dart';
-import 'package:project/Views/User/home.dart';
 import 'package:provider/provider.dart';
 
 import '../../Entities/User.dart';
-import '../../Providers/OrdersProvider.dart';
-import 'Cart_Widgets/AnimatedButton.dart';
 import 'Cart_Widgets/FriendsOrders.dart';
 import 'Cart_Widgets/MyOrderWidget.dart';
-import 'Cart_Widgets/Order.dart';
 import 'Cart_Widgets/TotalSummary.dart';
 
 class Cart extends StatefulWidget {
@@ -31,11 +24,11 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SingleChildScrollView(
-          child: Column(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
@@ -60,41 +53,30 @@ class _CartState extends State<Cart> {
                   ),
                 ),
                 const FriendsOrders(),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 42, right: 42, bottom: 26),
-                //   child: Container(
-                //     height: 100,
-                //     child: ListView.builder(
-                //       padding: EdgeInsets.zero,
-                //       itemCount: widget.CurrentCart.friends.length - 1,
-                //       itemBuilder: (context, index) {
-                //         User friend = widget.CurrentCart.friends[index];
-                //         if (index != 0) {
-                //           return Order(
-                //               name: friend.name!, order: friend.currentOrder);
-                //         } else {
-                //           return Container();
-                //         }
-                //       },
-                //     ),
-                //   ),
-                // ),
               ] else ...[
                 const Center(
-                    child: Text(
-                  'Empty Cart',
-                ))
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text(
+                  'Scan Qr at a restaurant\n to activate cart.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Color(0xA0154038),
+                      fontSize: 13,
+                  ),
+                ),
+                    ))
               ],
             ],
           ),
-        ),
-        if (context.read<UserProvider>().getQR()) ...[
-          Padding(
-            padding: const EdgeInsets.only(right: 32, bottom: 15),
-            child: Summary(),
-          ),
+          if (context.read<UserProvider>().getQR()) ...[
+            Padding(
+              padding: const EdgeInsets.only(right: 32, bottom: 15),
+              child: Summary(),
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

@@ -2,10 +2,19 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project/Providers/UserProvider.dart';
+import 'package:provider/provider.dart';
+import '../../Entities/Restaurant.dart';
+import '../../Providers/AdminProvider.dart';
 import '../User/Widgets/InputBox.dart';
 import 'package:image_picker/image_picker.dart';
+
 class AdRestaurants extends StatefulWidget {
-  const AdRestaurants({Key? key}) : super(key: key);
+  bool canEdit;
+  Restaurant? restaurant;
+
+  AdRestaurants({Key? key, required this.canEdit, this.restaurant})
+      : super(key: key);
 
   @override
   _AdRestaurantsState createState() => _AdRestaurantsState();
@@ -21,12 +30,16 @@ class _AdRestaurantsState extends State<AdRestaurants> {
   TextEditingController desc = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-   XFile? _imageFile;
+  XFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
-
 
   @override
   Widget build(BuildContext context) {
+    if (widget.canEdit) {
+      name.text = widget.restaurant!.name;
+      cuisine.text = widget.restaurant!.category;
+      desc.text = widget.restaurant!.desc;
+    }
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -36,17 +49,19 @@ class _AdRestaurantsState extends State<AdRestaurants> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 30),
+            //   child: Image.asset(
+            //     'assets/Table.png',
+            //     height: 150,
+            //   ),
+            // ),
             Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Image.asset(
-                'assets/Table.png',
-                height: 150,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 30, 0, 70),
+              padding: EdgeInsets.fromLTRB(0, 30, 0, 40),
               child: Text(
-                'Enter Restaurant to the \n Database:',
+                widget.canEdit
+                    ? 'Edit Restaurant Details'
+                    : 'Enter Restaurant to the \n Database',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -59,18 +74,19 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     imageProfile(),
-                    InputBox(
-                      label: 'Restaurant\'s Email',
-                      hintText: '',
-                      icon: const Icon(Icons.mail, color: Color(0xFF5ABFA3)),
-                      controller: email,
-                      isNum: false,
-                    ),
+                    if (!widget.canEdit) ...[
+                      InputBox(
+                        label: 'Restaurant\'s Email',
+                        hintText: '',
+                        icon: const Icon(Icons.mail, color: Color(0xFF5ABFA3)),
+                        controller: email,
+                        isNum: false,
+                      )
+                    ],
                     InputBox(
                       label: 'Restaurant\'s Name',
                       hintText: '',
-                      icon:
-                      const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
                       controller: name,
                       isNum: false,
                     ),
@@ -98,34 +114,61 @@ class _AdRestaurantsState extends State<AdRestaurants> {
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                FirebaseStorage _storage = FirebaseStorage.instance;
-                                File file = File(_imageFile!.path);
-                                //Putting the file in firebase storage
-                                TaskSnapshot taskSnapshot =
-                                await _storage.ref(_imageFile!.path).putFile(file);
-                                //downloading URL from firebase storage
-                                final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+                                FirebaseStorage _storage =
+                                    FirebaseStorage.instance;
+                                File file;
+                                String downloadUrl = '';
+                                if (_imageFile != null) {
+                                  file = File(_imageFile!.path);
+                                  //Putting the file in firebase storage
+                                  TaskSnapshot taskSnapshot = await _storage
+                                      .ref(_imageFile!.path)
+                                      .putFile(file);
+                                  //downloading URL from firebase storage
+                                  downloadUrl =
+                                      await taskSnapshot.ref.getDownloadURL();
+                                }
 
-                                await restaurants.add({'email': email.text, 'name': name.text,
-                                'cuisine':cuisine.text, 'desc': desc.text, 'image': downloadUrl}).then(
-                                  (value) => showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Success'),
-                                      content: const Text(
-                                          'Restaurant has been added to the app successfully'),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: const Text('Ok'))
-                                      ],
+                                var r = widget.restaurant;
+                                r?.name = name.text;
+                                r?.category = cuisine.text;
+                                r?.desc = desc.text;
+
+                                if (widget.canEdit) {
+                                  if (r != null)
+                                    context
+                                        .read<AdminProvider>()
+                                        .updateRestDetails(r);
+                                } else {
+                                  await restaurants.add({
+                                    'email': email.text.trim(),
+                                    'name': name.text,
+                                    'cuisine': cuisine.text,
+                                    'desc': desc.text,
+                                    'image': _imageFile != null
+                                        ? downloadUrl
+                                        : widget.restaurant?.image
+                                  }).then(
+                                    (value) => showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Success'),
+                                        content: const Text(
+                                            'Restaurant has been added to the app successfully'),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('Ok'))
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                  Navigator.of(context).pop();
+                                }
                               }
                             },
-                            child: const Text('Submit'),
+                            child: Text(widget.canEdit ? 'Save' : 'Submit'),
                             style: ElevatedButton.styleFrom(
                                 onPrimary: const Color(0xFF154038),
                                 primary: const Color(0xff5abfa3)),
@@ -140,6 +183,7 @@ class _AdRestaurantsState extends State<AdRestaurants> {
       ),
     );
   }
+
   Widget bottomSheet() {
     return Container(
       height: 100.0,
@@ -159,63 +203,74 @@ class _AdRestaurantsState extends State<AdRestaurants> {
           const SizedBox(
             height: 20,
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton.icon(
-                  icon: const Icon(Icons.camera),
-                  onPressed: () {
-                    takePhoto(ImageSource.camera);
-                  },
-                  label: const Text("Camera"),
-                ),
-                FlatButton.icon(
-                  icon: const Icon(Icons.image),
-                  onPressed: () {
-                    takePhoto(ImageSource.gallery);
-                  },
-                  label: const Text("Gallery"),
-                ),
-              ])
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: const Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: const Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: const Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: const Text("Gallery"),
+            ),
+          ])
         ],
       ),
     );
   }
-  Widget imageProfile(){
-    return Center(
-      child: Stack(
-          children: <Widget> [
-            _imageFile != null
-      ? CircleAvatar(
-                radius: 80.0,
-                backgroundImage: FileImage(File(_imageFile!.path))
-            )
-            : const CircleAvatar(
-              radius: 80.0,
-              backgroundImage: AssetImage("assets/profile.png")
-            ),
 
-            Positioned(
-              bottom: 20.0,
-              right: 20.0,
-              child: InkWell(
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: ((builder) => bottomSheet()),
-                  );
-                },
-                child: const Icon(
-                  Icons.camera_alt,
-                  color: Color(0xFF5ABFA3),
-                  size: 28.0,
+  Widget imageProfile() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Center(
+        child: Stack(children: <Widget>[
+          CircleAvatar(
+            radius: 83.0,
+            backgroundColor: Color(0xFF5ABFA3),
+            child: Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: _imageFile != null
+                    ? CircleAvatar(
+                    radius: 80.0,
+                    backgroundImage: FileImage(File(_imageFile!.path)))
+                    : const CircleAvatar(
+                    radius: 80.0,
+                    backgroundImage: AssetImage("assets/restaurant.jpg"))),
+          ),
+          Positioned(
+            bottom: 10.0,
+            right: 10.0,
+            child: InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: ((builder) => bottomSheet()),
+                );
+              },
+              child: CircleAvatar(
+                backgroundColor: Color(0xFF5ABFA3),
+                radius: 22,
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: const Icon(
+                    Icons.camera_alt,
+                    color: Color(0xFF5ABFA3),
+                    size: 24.0,
+                  ),
                 ),
               ),
-            )
-          ]
+            ),
+          )
+        ]),
       ),
     );
   }
+
   void takePhoto(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
@@ -224,10 +279,4 @@ class _AdRestaurantsState extends State<AdRestaurants> {
       _imageFile = pickedFile;
     });
   }
-
 }
-
-
-
-
-

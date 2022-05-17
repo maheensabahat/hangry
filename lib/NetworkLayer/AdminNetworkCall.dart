@@ -9,7 +9,9 @@ abstract class ANetworkCall {
 
   Future<List> getRestaurants();
 
-  // Future updateRestDetails(Restaurant restaurant);
+  Future updateRestDetails(Restaurant restaurant);
+
+  Future DeleteRestaurant(Restaurant restaurant);
 }
 
 class AFirebaseNetworkCall implements ANetworkCall {
@@ -41,14 +43,37 @@ class AFirebaseNetworkCall implements ANetworkCall {
         var admin = jsonDecode(jsonEncode(doc.data()));
         // var name = admin['name'];
         Restaurant rest = Restaurant(
-            id: doc["email"],
             name: admin["name"],
             desc: admin["desc"],
             category: admin["cuisine"],
             image: admin["image"]);
+        rest.id = doc.id;
         restaurants.add(rest);
       });
     });
     return restaurants;
+  }
+
+  @override
+  Future<void> updateRestDetails(Restaurant restaurant) async {
+    await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .doc(restaurant.id)
+        .update({
+      'name': restaurant.name,
+      'desc': restaurant.desc,
+      'cuisine': restaurant.category,
+      'image': restaurant.image
+    }).then((value) {
+      print("Restaurant Details updated.");
+    }).catchError((error) => print("Failed to updated details: $error"));
+  }
+
+  @override
+  Future DeleteRestaurant(Restaurant restaurant) async {
+    await FirebaseFirestore.instance
+        .collection('Restaurants')
+        .doc(restaurant.id)
+        .delete();
   }
 }

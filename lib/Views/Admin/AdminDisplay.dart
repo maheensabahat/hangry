@@ -2,8 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Views/Admin/AdAdmins.dart';
 import 'package:project/Views/Admin/AdMainPage.dart';
-import 'package:project/Views/Restaurant/RestaurantAddDish.dart';
-import 'package:project/Views/Restaurant/RestaurantHome.dart';
 import 'package:provider/provider.dart';
 
 import '../../Providers/AdminProvider.dart';
@@ -63,7 +61,6 @@ class _AdminDisplayState extends State<AdminDisplay> {
             return (provider.isLoaded)
                 ? ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemExtent: 100,
                     itemCount: provider.admins.length,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -75,7 +72,7 @@ class _AdminDisplayState extends State<AdminDisplay> {
                                 color: Color(0x405ABFA3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10))),
-                            height: 100,
+                            height: 80,
                             child: Align(
                               alignment: const Alignment(0, 0),
                               child: ListTile(

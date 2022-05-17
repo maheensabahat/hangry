@@ -163,6 +163,7 @@ class _RequestListState extends State<RequestList> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ReservationDisplay(
+                                    fromList: true,
                                     request: widget.reqs[index],
                                   )));
                         },

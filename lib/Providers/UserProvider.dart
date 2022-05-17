@@ -12,6 +12,7 @@ class UserProvider extends ChangeNotifier {
   late User user;
   bool reqsLoaded = false;
   bool isLoaded = false;
+  bool FavLoaded = false;
   List<Restaurant> restaurants = [];
 
   NetworkCall networkCall = FirebaseNetworkCall();
@@ -41,7 +42,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initialiseCurrentOrder(){
+  void initialiseCurrentOrder() {
     user.currentOrder = MyOrder();
     notifyListeners();
   }
@@ -74,17 +75,6 @@ class UserProvider extends ChangeNotifier {
     return user.profilePicture;
   }
 
-  Future updatePic(String email, String imageUrl) async {
-    reqsLoaded = false;
-    notifyListeners();
-
-    await networkCall.updatePic(email, imageUrl);
-    getImage();
-
-    reqsLoaded = true;
-    notifyListeners();
-  }
-
   Future checkUser(String? email) async {
     // Firebase API call
     if (email != null) {
@@ -97,6 +87,12 @@ class UserProvider extends ChangeNotifier {
   Future addUser(User user) async {
     // Firebase API call
     await networkCall.addUser(user);
+    notifyListeners();
+    getUserFromDB(user.email);
+  }
+
+  Future updateUser(User user) async {
+    await networkCall.updateUser(user);
     notifyListeners();
     getUserFromDB(user.email);
   }
@@ -128,6 +124,10 @@ class UserProvider extends ChangeNotifier {
     changeLoadingVar(false);
 
     List<ReservationRequest> r = await getReqFromDB(status);
+    Comparator<ReservationRequest> comparator =
+        (a, b) => a.date.compareTo(b.date);
+    r.sort(comparator);
+
     if (status == 'pending') {
       user.Pending_Reservations = r;
       notifyListeners();
@@ -199,6 +199,9 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> getFav() async {
+    FavLoaded = false;
+    await Future.delayed(Duration(milliseconds: 1));
+    notifyListeners();
     var restList = await networkCall.getFavs(user);
 
     user.favs = restList
@@ -211,6 +214,7 @@ class UserProvider extends ChangeNotifier {
             isFav: true))
         .toList();
 
+    FavLoaded = true;
     notifyListeners();
   }
 

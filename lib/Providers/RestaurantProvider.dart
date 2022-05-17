@@ -17,6 +17,7 @@ class RestaurantProvider extends ChangeNotifier {
   late List<ReservationRequest> Approved_request;
   late List<ReservationRequest> Pending_request;
   late String name = '';
+  bool notFound = false;
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
@@ -31,6 +32,9 @@ class RestaurantProvider extends ChangeNotifier {
           desc: rModel.desc,
           image: rModel.image);
       this.email = email;
+      notFound = false;
+    } else {
+      notFound = true;
     }
     notifyListeners();
   }
@@ -209,4 +213,3 @@ class RestaurantProvider extends ChangeNotifier {
 //   isLoaded = true;
 //   notifyListeners();
 // }
-

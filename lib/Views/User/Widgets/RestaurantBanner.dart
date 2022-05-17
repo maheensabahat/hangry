@@ -32,27 +32,52 @@ class RestaurantBanner extends StatelessWidget {
                 fit: BoxFit.fill,
                 colorBlendMode: BlendMode.modulate),
 
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 260,
+          child: Text(''),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(9)),
+              gradient: LinearGradient(
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                  colors: [
+                    Colors.black87.withOpacity(0.5),
+                    Colors.grey.withOpacity(0.0),
+                    Colors.black54,
+                    Colors.black87,
+                  ],
+                  stops: [
+                    1.0,
+                    0.0,
+                    0.5,
+                    1.0
+                  ])),
+        ),
+
         //Rest. Name
         Text(
           Name,
           style: TextStyle(
-            fontSize: 22,
+            color: Colors.white70,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
 
         //Rest. Cuisine
         Padding(
-          padding: const EdgeInsets.only(top: 45),
+          padding: const EdgeInsets.only(top: 50),
           child: Text(
             Cuisine,
             style: TextStyle(
+              color: Colors.white70,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-
 
         //Bottom Highlight
         Padding(
