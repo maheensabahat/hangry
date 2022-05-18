@@ -48,7 +48,7 @@ class OrderDetails extends StatelessWidget {
         ),
         ListView.builder(
             itemExtent: 50,
-            itemCount: request.product_details.length,
+            itemCount: request.product_details!.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
@@ -63,11 +63,11 @@ class OrderDetails extends StatelessWidget {
                           alignment: const Alignment(0, 0),
                           child: InkWell(
                           child: ListTile(
-                            title: Text(request.product_details[index].name,
+                            title: Text(request.product_details![index].name,
                             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                             subtitle: Padding(
                             padding: const EdgeInsets.all(4.0),
-                             child: Text(" Price is " + request.product_details[index].price + "    Quantity " +request.product_details[index].quantity,
+                             child: Text(" Price is " + request.product_details![index].price.toString() + "    Quantity " +request.product_details![index].quantity.toString(),
                               style: const TextStyle(fontSize: 13),
                               ),
                             ),

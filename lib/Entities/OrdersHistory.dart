@@ -1,3 +1,5 @@
+import 'Order_details.dart';
+
 class OrdersHistory {
   String? status = 'pending';
   String user_id;
@@ -5,7 +7,7 @@ class OrdersHistory {
   String table_num;
   DateTime date;
   String qr_id;
-  List product_details;
+  List<ProductDetails>? product_details = [];
   String restaurant_id;
   var id;
 

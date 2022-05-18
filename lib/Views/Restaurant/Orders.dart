@@ -20,9 +20,9 @@ class _Orders2State extends State<Orders2> with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 
   Widget build(BuildContext context) {
-    context.read<RestaurantProvider>().getOrderHistory('pending');
-    context.read<RestaurantProvider>().getOrderHistory('approved');
-    context.read<RestaurantProvider>().getOrderHistory('rejected');
+    context.read<RestaurantProvider>().getOrderHistory('Pending');
+    context.read<RestaurantProvider>().getOrderHistory('Approved');
+    context.read<RestaurantProvider>().getOrderHistory('Rejected');
 
     return Scaffold(
       appBar: AppBar(
@@ -153,10 +153,9 @@ class _RequestListState extends State<RequestList> {
                       // leading: Icon(Icons.restaurant),
                       subtitle: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          formatter.format(widget.reqs[index].date) +
-                              "\n" +
-                              widget.reqs[index].time,
+                        child: Text( widget.reqs[index].user_id+
+                            "\n" +
+                          formatter.format(widget.reqs[index].date) ,
                           style: const TextStyle(fontSize: 13),
                         ),
                       ),
