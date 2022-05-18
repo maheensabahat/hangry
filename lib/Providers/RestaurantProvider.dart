@@ -22,9 +22,9 @@ class RestaurantProvider extends ChangeNotifier {
   late String name = '';
   bool notFound = false;
 
-  late List<OrdersHistory> Pending_orders;
-  late List<OrdersHistory> Approved_orders;
-  late List<OrdersHistory> Rejected_orders;
+  late List<OrdersHistory> Pending_orders = [];
+  late List<OrdersHistory> Approved_orders = [];
+  late List<OrdersHistory> Rejected_orders = [];
 
   RestaurantNetworkCall networkCall = RFirebaseNetworkCall();
 
