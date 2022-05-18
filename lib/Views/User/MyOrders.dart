@@ -63,63 +63,68 @@ class _MyOrdersState extends State<MyOrders> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-              child: ListView.builder(
-                itemExtent: 100,
-                itemCount:
-                    context.read<OrdersProvider>().getUserOrders().length,
-                itemBuilder: (context, index) {
-                  List<UserOrders> order =
-                      context.read<OrdersProvider>().getUserOrders();
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 25, left: 5, right: 5),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Color(0x905ABFA3),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+              child:
+                  Consumer<OrdersProvider>(builder: (context, provider, child) {
+                var order = provider.userOrders;
+                return ListView.builder(
+                  itemExtent: 100,
+                  itemCount: order.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(bottom: 25, left: 5, right: 5),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            color: Color(0x905ABFA3),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
 
-                      //List Tile - Each Order
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OrderSummaryUser(
-                                    name:
-                                        context.read<UserProvider>().getName(),
-                                    productDetails:
-                                        order[index].product_details!)),
-                          );
-                        },
-                        child: ListTile(
-                          //Order date
-                          trailing: Text(
-                            order[index].date.substring(0, 10),
-                            style: TextStyle(fontSize: 11),
-                          ),
+                        //List Tile - Each Order
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => OrderSummaryUser(
+                                      name: context
+                                          .read<UserProvider>()
+                                          .getName(),
+                                      productDetails:
+                                          order[index].product_details!)),
+                            );
+                          },
+                          child: ListTile(
+                            //Order date
+                            trailing: Text(
+                              order[index].date.substring(0, 10),
+                              style: TextStyle(fontSize: 11),
+                            ),
 
-                          //Image
+                            //Image
 
-                          //Order Title
-                          title: Text(
-                            context
-                                .read<RestaurantProvider>()
-                                .getRestaurantName(order[index].restaurant_id),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                            //Order Title
+                            title: Text(
+                              context
+                                  .read<RestaurantProvider>()
+                                  .getRestaurantName(
+                                      order[index].restaurant_id),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
 
-                          //Order No.
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(top: 4),
-                            child: Text("Order ID: " + order[index].id,
-                                style: const TextStyle(fontSize: 12)),
+                            //Order No.
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: Text("Order ID: " + order[index].id,
+                                  style: const TextStyle(fontSize: 12)),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
           ),
         ],

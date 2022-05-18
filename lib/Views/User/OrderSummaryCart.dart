@@ -78,10 +78,18 @@ class _OrderSummaryCartState extends State<OrderSummaryCart> {
                                   item.price.toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            leading: Picture(
-                                radius: 25,
-                                border: 0.5,
-                                image: 'assets/pasta.jpg')),
+                            leading: Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      item.image,
+                                    ),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ))),
                       ),
                     );
                   }),

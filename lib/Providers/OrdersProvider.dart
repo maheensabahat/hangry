@@ -3,10 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Entities/OrderItem.dart';
 import 'package:project/Entities/OrdersRest.dart';
-import 'package:project/Entities/Products.dart';
-import 'package:project/Entities/Restaurant.dart';
-import 'package:project/Views/Admin/AdRestaurants.dart';
-import 'package:project/Views/User/Cart_Widgets/Order.dart';
 
 import '../Entities/Order_details.dart';
 import '../Entities/User_order.dart';
