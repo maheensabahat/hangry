@@ -86,9 +86,7 @@ class _MyOrdersState extends State<MyOrders> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => OrderSummaryUser(
-                                      name: context
-                                          .read<UserProvider>()
-                                          .getName(),
+                                      name: 'You',
                                       productDetails:
                                           order[index].product_details!)),
                             );
