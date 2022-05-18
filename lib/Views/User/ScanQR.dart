@@ -10,11 +10,8 @@ import 'package:project/Views/User/UserMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../../Entities/ShoppingCart.dart';
 import '../../Entities/User.dart';
-import '../../Entities/My_Order.dart';
 import '../../Providers/ScanProvider.dart';
-import 'home.dart';
 
 class ScanQR extends StatefulWidget {
   User user;
@@ -108,7 +105,7 @@ class _ScanQRState extends State<ScanQR> {
                         if (!context.read<RestaurantProvider>().notFound) {
                           restaurant = context
                               .read<RestaurantProvider>()
-                              .getRestaurant(email);
+                              .getRestaurant();
                           print(restaurant.name);
                           if (!context.read<UserProvider>().getQR() &&
                               result != null) {
