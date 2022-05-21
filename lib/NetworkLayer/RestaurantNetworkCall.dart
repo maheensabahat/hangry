@@ -96,11 +96,11 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).catchError((error) => print("Failed to approve request: $error"));
   }
 
-  Future<List<OrdersHistory>> getOrderHistory1(var id, String status) async {
+  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status) async {
     List<OrdersHistory> requests = [];
     await FirebaseFirestore.instance
         .collection('Orders')
-        .where('restaurant_id', isEqualTo: id)
+        .where('restaurant_id', isEqualTo: restaurant_id)
         .where('status', isEqualTo: status)
         .get()
         .then((QuerySnapshot querySnapshot) {
