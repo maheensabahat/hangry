@@ -73,14 +73,14 @@ class _RestaurantOrderState extends State<RestaurantOrder> {
                     padding: const EdgeInsets.fromLTRB(24, 5, 24, 5),
                     child: Container(
                       alignment: const Alignment(0, 0),
-                      decoration: BoxDecoration(
-                          color: const Color(0x505ABFA3),
+                      decoration: const BoxDecoration(
+                          color: Color(0x505ABFA3),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       height: 80,
                       child: ListTile(
                         title: Text(
                           item[index],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: const Text('Price comes here'),
                         leading: const CircleAvatar(

@@ -150,6 +150,7 @@ class ScanProvider extends ChangeNotifier {
       "order_status": scanned.order_status,
       "qr_status": scanned.qr_status,
       "selected_dishes": scanned.orders,
+      "created_on": FieldValue.serverTimestamp(),
     });
   }
 
