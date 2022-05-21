@@ -66,6 +66,7 @@ class _MyOrdersState extends State<MyOrders> {
               child:
                   Consumer<OrdersProvider>(builder: (context, provider, child) {
                 var order = provider.userOrders;
+                order.sort((a, b) => b.date.compareTo(a.date));
                 return ListView.builder(
                   itemExtent: 100,
                   itemCount: order.length,
@@ -101,14 +102,9 @@ class _MyOrdersState extends State<MyOrders> {
                             //Image
 
                             //Order Title
-                            title: Text(
-                              context
-                                  .read<RestaurantProvider>()
-                                  .getRestaurantName(
-                                      order[index].restaurant_id),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            title: Text(order[index].restaurant_name,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
 
                             //Order No.
                             subtitle: Padding(

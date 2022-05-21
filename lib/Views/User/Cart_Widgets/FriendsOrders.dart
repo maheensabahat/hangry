@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
 import 'package:project/Providers/UserProvider.dart';
 import 'package:project/Views/User/Cart_Widgets/Order.dart';
-import 'package:project/Views/User/MainPage.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/My_Order.dart';
 import '../../../Entities/OrderItem.dart';
+import '../../../Providers/RestaurantProvider.dart';
 import '../../Restaurant/Widgets/Loader.dart';
-import '../Widgets/ProfilePicture.dart';
-import '../home.dart';
-import 'Counter.dart';
 
 class FriendsOrders extends StatefulWidget {
   const FriendsOrders({Key? key}) : super(key: key);
@@ -29,39 +27,45 @@ class _FriendsOrdersState extends State<FriendsOrders> {
           .collection("Scanned")
           .snapshots(includeMetadataChanges: true),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        List<String> allEmails = [];
+        //List<String> allEmails = [];
         List<String> friendEmails = [];
         List<List<OrderItem>> allFriendsDishes = [];
         List<String> image = [];
         List<String> name = [];
         List<bool> order_status = [];
+        List<DateTime> dates = [];
         if (snapshot.hasData) {
           for (var doc in snapshot.data!.docs) {
             if (doc["qr_id"] == context.read<ScanProvider>().getQRID() &&
                 doc["qr_status"] == true &&
                 doc["user_email"] != context.read<UserProvider>().getEmail()) {
-              List dishes = doc.get("selected_dishes");
-              String email = doc.get("user_email");
-              image.add(doc.get("user_picture"));
-              name.add(doc.get("user_name"));
-              order_status.add(doc.get("order_status"));
-              friendEmails.add(email);
-              List<OrderItem> singleFriendDishes = [];
-              for (var data in dishes) {
-                OrderItem order = OrderItem(
-                    user_id: email,
-                    name: data["name"],
-                    desc: data["desc"],
-                    price: data["price"] as int,
-                    quantity: data["quantity"]);
-                order.image = data["image"];
-                order.ProductID = data["product_id"];
+              int index = friendEmails.indexOf(doc["user_email"]);
+              if (index > -1) {
+                order_status[index] = false;
+              } else {
+                List dishes = doc.get("selected_dishes");
+                String email = doc.get("user_email");
+                image.add(doc.get("user_picture"));
+                name.add(doc.get("user_name"));
+                order_status.add(doc.get("order_status"));
+                friendEmails.add(email);
+                List<OrderItem> singleFriendDishes = [];
+                for (var data in dishes) {
+                  OrderItem order = OrderItem(
+                      user_id: email,
+                      name: data["name"],
+                      desc: data["desc"],
+                      price: data["price"] as int,
+                      quantity: data["quantity"]);
+                  order.image = data["image"];
+                  order.ProductID = data["product_id"];
 
-                singleFriendDishes.add(order);
+                  singleFriendDishes.add(order);
+                }
+                allFriendsDishes.add(singleFriendDishes);
               }
-              allFriendsDishes.add(singleFriendDishes);
             }
-            allEmails = friendEmails;
+            //allEmails = friendEmails;
           }
           context.watch<OrdersProvider>().setFriendOrders(allFriendsDishes);
           return !order_status.contains(false) &&
@@ -103,8 +107,11 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                         context.read<UserProvider>().getEmail(),
                                         context
                                             .read<ScanProvider>()
-                                            .getOrderList());
-
+                                            .getOrderList(),
+                                        context
+                                            .read<RestaurantProvider>()
+                                            .getRestaurant()
+                                            .name);
                                 context
                                     .read<ScanProvider>()
                                     .updateQRStatusInFirebase(
@@ -116,10 +123,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                             .getQRID(),
                                         status: false);
 
-                                // print(context.read<ScanProvider>().getOrderList());
-
                                 int i = 0;
-
                                 for (String email in friendEmails) {
                                   context
                                       .read<ScanProvider>()
@@ -129,7 +133,6 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                               .read<ScanProvider>()
                                               .getQRID(),
                                           status: false);
-
                                   context
                                       .read<OrdersProvider>()
                                       .addFinalOrdersToFirebase(
@@ -137,16 +140,18 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                               .read<ScanProvider>()
                                               .getQRID(),
                                           email,
-                                          allFriendsDishes[i]);
-
-                                  // print(allFriendsDishes[i]);
+                                          allFriendsDishes[i],
+                                          context
+                                              .read<RestaurantProvider>()
+                                              .getRestaurant()
+                                              .name);
                                   i++;
                                 }
                                 context
                                     .read<OrdersProvider>()
                                     .setMyOrderStatus(false);
                               },
-                              label: Text('Ok'),
+                              label: const Text('Ok'),
                             ),
                           ),
                         ),
@@ -167,7 +172,7 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                           ),
                         )
                       : Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 42),
+                          padding: const EdgeInsets.symmetric(horizontal: 42),
                           child: SizedBox(
                             height: 130,
                             child: ListView.builder(

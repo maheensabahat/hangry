@@ -157,15 +157,15 @@ class _ScanQRState extends State<ScanQR> {
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold)),
-                              content: Text(
+                              content: const Text(
                                 'We are closing the camera now.',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 15,
                                 ),
                               ),
                               actions: [
                                 FlatButton(
-                                  color: Color(0xFF5ABFA3),
+                                  color: const Color(0xFF5ABFA3),
                                   onPressed: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
@@ -186,9 +186,9 @@ class _ScanQRState extends State<ScanQR> {
                         }
                       }
                     : null,
-                backgroundColor: Color(0xFF5ABFA3),
-                label: Text('Next'),
-                icon: Icon(Icons.arrow_forward),
+                backgroundColor: const Color(0xFF5ABFA3),
+                label: const Text('Next'),
+                icon: const Icon(Icons.arrow_forward),
               ),
             ),
           ],
@@ -209,7 +209,7 @@ class _ScanQRState extends State<ScanQR> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Color(0xff51bfa3),
+          borderColor: const Color(0xff51bfa3),
           borderRadius: 10,
           borderLength: 30,
           borderWidth: 7,
