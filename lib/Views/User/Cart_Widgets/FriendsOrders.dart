@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/Entities/Restaurant.dart';
 import 'package:project/Entities/User.dart';
 import 'package:project/Providers/OrdersProvider.dart';
 import 'package:project/Providers/ScanProvider.dart';
@@ -8,6 +9,7 @@ import 'package:project/Views/User/Cart_Widgets/Order.dart';
 import 'package:provider/provider.dart';
 import '../../../Entities/My_Order.dart';
 import '../../../Entities/OrderItem.dart';
+import '../../../Providers/RestaurantProvider.dart';
 import '../../Restaurant/Widgets/Loader.dart';
 
 class FriendsOrders extends StatefulWidget {
@@ -105,7 +107,11 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                         context.read<UserProvider>().getEmail(),
                                         context
                                             .read<ScanProvider>()
-                                            .getOrderList());
+                                            .getOrderList(),
+                                        context
+                                            .read<RestaurantProvider>()
+                                            .getRestaurant()
+                                            .name);
                                 context
                                     .read<ScanProvider>()
                                     .updateQRStatusInFirebase(
@@ -134,7 +140,11 @@ class _FriendsOrdersState extends State<FriendsOrders> {
                                               .read<ScanProvider>()
                                               .getQRID(),
                                           email,
-                                          allFriendsDishes[i]);
+                                          allFriendsDishes[i],
+                                          context
+                                              .read<RestaurantProvider>()
+                                              .getRestaurant()
+                                              .name);
                                   i++;
                                 }
                                 context

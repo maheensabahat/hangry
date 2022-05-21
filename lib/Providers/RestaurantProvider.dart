@@ -60,7 +60,6 @@ class RestaurantProvider extends ChangeNotifier {
     restaurant_id = r.id;
   }
 
-
   getRequests(String status) async {
     isLoaded = false;
     await Future.delayed(Duration(milliseconds: 1));
@@ -82,19 +81,20 @@ class RestaurantProvider extends ChangeNotifier {
     getRequests('pending');
   }
 
-
   getOrderHistory(String status) async {
     isLoaded = false;
     await Future.delayed(const Duration(milliseconds: 1));
     notifyListeners();
 
     if (status == 'Pending') {
-      Pending_orders = await networkCall.getOrderHistory1(restaurant.id, status);
-    } else if (status == 'Approved'){
-      Approved_orders = await networkCall.getOrderHistory1(restaurant.id, status);
-    }
-    else {
-      Rejected_orders = await networkCall.getOrderHistory1(restaurant.id, status);
+      Pending_orders =
+          await networkCall.getOrderHistory1(restaurant.id, status);
+    } else if (status == 'Approved') {
+      Approved_orders =
+          await networkCall.getOrderHistory1(restaurant.id, status);
+    } else {
+      Rejected_orders =
+          await networkCall.getOrderHistory1(restaurant.id, status);
     }
 
     isLoaded = true;

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Entities/My_Order.dart';
 import '../../../Providers/OrdersProvider.dart';
+import '../../../Providers/RestaurantProvider.dart';
 import '../../../Providers/ScanProvider.dart';
 import '../../../Providers/UserProvider.dart';
 
@@ -75,7 +76,8 @@ class _AnimatedButtonState extends State<AnimatedButton>
                   context.read<OrdersProvider>().addFinalOrdersToFirebase(
                       context.read<ScanProvider>().getQRID(),
                       context.read<UserProvider>().getEmail(),
-                      context.read<ScanProvider>().getOrderList());
+                      context.read<ScanProvider>().getOrderList(),
+                      context.read<RestaurantProvider>().getRestaurant().name);
                   context.read<ScanProvider>().updateOrderStatusInFirebase(
                       email: context.read<UserProvider>().getEmail(),
                       qr_id: context.read<ScanProvider>().getQRID(),
@@ -103,7 +105,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
                       color: _color,
                       blurRadius: 21,
                       spreadRadius: -15,
-                      offset: Offset(
+                      offset: const Offset(
                         0.0,
                         20.0,
                       ),

@@ -15,33 +15,38 @@ class OrdersProvider extends ChangeNotifier {
 
   List<UserOrders> userOrders = [];
 
-  Orders createOrder(
-      {required restaurant_id,
-      required user_id,
-      required qr_id,
-      required order_status,
-      required tableNum}) {
-    return Orders(
-        restaurant_id: restaurant_id,
-        user_id: user_id,
-        qr_id: qr_id,
-        order_status: order_status,
-        tableNum: tableNum);
-  }
-
-  UserOrders createUserOrder({
+  Orders createOrder({
     required restaurant_id,
     required user_id,
     required qr_id,
     required order_status,
     required tableNum,
+    required restaurant_name,
   }) {
+    return Orders(
+      restaurant_id: restaurant_id,
+      user_id: user_id,
+      qr_id: qr_id,
+      order_status: order_status,
+      tableNum: tableNum,
+      restaurant_name: restaurant_name,
+    );
+  }
+
+  UserOrders createUserOrder(
+      {required restaurant_id,
+      required user_id,
+      required qr_id,
+      required order_status,
+      required tableNum,
+      required restaurant_name}) {
     return UserOrders(
         restaurant_id: restaurant_id,
         user_id: user_id,
         qr_id: qr_id,
         order_status: order_status,
-        tableNum: tableNum);
+        tableNum: tableNum,
+        restaurant_name: restaurant_name);
   }
 
   List<OrderItem> getFriendsOrdersList() {
@@ -50,13 +55,13 @@ class OrdersProvider extends ChangeNotifier {
 
   static fromJson(Map<String, dynamic> json) {
     return Orders(
-      restaurant_id: json['restaurant_id'],
-      user_id: json['user_id'],
-      qr_id: json['qr_id'],
-      product_ids: json['product_ids'],
-      order_status: json['order_status'],
-      tableNum: json['tableNum'],
-    );
+        restaurant_id: json['restaurant_id'],
+        user_id: json['user_id'],
+        qr_id: json['qr_id'],
+        product_ids: json['product_ids'],
+        order_status: json['order_status'],
+        tableNum: json['tableNum'],
+        restaurant_name: json['restaurant_name']);
   }
 
   Map<String, dynamic> toJson(Orders order) => {
@@ -66,6 +71,7 @@ class OrdersProvider extends ChangeNotifier {
         'product_ids': order.product_ids,
         "order_status": order.order_status,
         "tableNum": order.tableNum,
+        "restaurant_name": order.restaurant_name
       };
 
   Future<void> addOrderInFirebase(Orders order) async {
@@ -134,8 +140,8 @@ class OrdersProvider extends ChangeNotifier {
     return friendsOrderStatus;
   }
 
-  addFinalOrdersToFirebase(
-      String qr_id, String user_id, List<OrderItem> orders) async {
+  addFinalOrdersToFirebase(String qr_id, String user_id, List<OrderItem> orders,
+      String restaurant_name) async {
     List product_details = [];
     for (var order in orders) {
       product_details.add({
@@ -159,6 +165,7 @@ class OrdersProvider extends ChangeNotifier {
         "table_num": table_num,
         "date": DateTime.now(),
         "status": "Pending",
+        "restaurant_name": restaurant_name
       },
     );
   }
@@ -176,7 +183,8 @@ class OrdersProvider extends ChangeNotifier {
             user_id: doc.get("user_id"),
             qr_id: doc.get("qr_id"),
             order_status: doc.get("status"),
-            tableNum: doc.get("table_num"));
+            tableNum: doc.get("table_num"),
+            restaurant_name: doc.get("restaurant_name"));
         order.id = doc.id;
         order.date = (doc.get("date") as Timestamp).toDate().toUtc().toString();
         userOrders.add(order);

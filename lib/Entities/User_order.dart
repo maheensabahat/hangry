@@ -9,8 +9,10 @@ class UserOrders {
   final String order_status;
   final String tableNum;
   late String date;
+  final String restaurant_name;
 
   UserOrders({
+    required this.restaurant_name,
     required this.restaurant_id,
     required this.user_id,
     required this.qr_id,

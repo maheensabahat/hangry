@@ -24,7 +24,8 @@ abstract class RestaurantNetworkCall {
 
   Future<void> ApproveRequest(var id);
 
-  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status);
+  Future<List<OrdersHistory>> getOrderHistory1(
+      String restaurant_id, String status);
 
   Future<void> ApproveOrder(var id);
 
@@ -114,8 +115,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
   @override
   Future<void> ApproveOrder(var id) async {
-    CollectionReference ord =
-    FirebaseFirestore.instance.collection('Orders');
+    CollectionReference ord = FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
       'status': 'Approved',
@@ -126,8 +126,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
 
   @override
   Future<void> RejectOrder(var id) async {
-    CollectionReference ord =
-    FirebaseFirestore.instance.collection('Orders');
+    CollectionReference ord = FirebaseFirestore.instance.collection('Orders');
 
     ord.doc(id).update({
       'status': 'Rejected',
@@ -200,7 +199,9 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
             qr_id: list["qr_id"],
             order_status: list["order_status"],
             product_ids: list["product_ids"],
-            tableNum: list["tableNum"]);
+            tableNum: list["tableNum"],
+            restaurant_name: list["restaurant_name"]);
+
         orders.add(ord);
       });
     });
@@ -259,6 +260,7 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     return thedetails;
   }
 
+  @override
   getRestaurantName(String rest_id) async {
     String name = '';
     await FirebaseFirestore.instance
