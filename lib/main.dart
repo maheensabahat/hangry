@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color(0xFF5ABFA3)),
       // darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
       // home: AdMainPage(),
     );
   }
