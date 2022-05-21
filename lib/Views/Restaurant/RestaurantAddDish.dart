@@ -75,106 +75,108 @@ class _RestaurantAddDishState extends State<RestaurantAddDish> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 16),
-            //   child: ProfilePicture(),
-            // ),
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: imageProfile(),
-                  ),
-                  InputBox(
-                    label: 'Name',
-                    hintText: 'Dish\'s name',
-                    icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                    controller: nameController,
-                    isNum: false,
-                  ),
-                  InputBox(
-                    label: 'Description',
-                    hintText: 'Dish\'s description',
-                    icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                    controller: descController,
-                    isNum: false,
-                  ),
-                  InputBox(
-                    label: 'Price',
-                    hintText: 'Dish\'s price per unit',
-                    icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
-                    controller: priceController,
-                    isNum: true,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                    child: SizedBox(
-                      height: 40,
-                      width: 110,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            FirebaseStorage _storage = FirebaseStorage.instance;
-                            File file;
-                            String downloadUrl = '';
-                            if (_imageFile != null) {
-                              file = File(_imageFile!.path);
-                              //Putting the file in firebase storage
-                              TaskSnapshot taskSnapshot = await _storage
-                                  .ref(_imageFile!.path)
-                                  .putFile(file);
-                              //downloading URL from firebase storage
-                              downloadUrl =
-                                  await taskSnapshot.ref.getDownloadURL();
-                            }
-
-                            if (!widget.isEdit) {
-                              var item = Products(
-                                  name: nameController.text,
-                                  price: int.parse(priceController.text),
-                                  desc: descController.text,
-                                  image:
-                                      _imageFile != null ? downloadUrl : null);
-
-                              context
-                                  .read<RestaurantProvider>()
-                                  .addProduct(item);
-                            } else {
-                              widget.product!.name = nameController.text;
-                              widget.product!.desc = descController.text;
-                              widget.product!.price =
-                                  int.parse(priceController.text);
-
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 16),
+              //   child: ProfilePicture(),
+              // ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40),
+                      child: imageProfile(),
+                    ),
+                    InputBox(
+                      label: 'Name',
+                      hintText: 'Dish\'s name',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: nameController,
+                      isNum: false,
+                    ),
+                    InputBox(
+                      label: 'Description',
+                      hintText: 'Dish\'s description',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: descController,
+                      isNum: false,
+                    ),
+                    InputBox(
+                      label: 'Price',
+                      hintText: 'Dish\'s price per unit',
+                      icon: const Icon(Icons.person, color: Color(0xFF5ABFA3)),
+                      controller: priceController,
+                      isNum: true,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: SizedBox(
+                        height: 40,
+                        width: 110,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              FirebaseStorage _storage = FirebaseStorage.instance;
+                              File file;
+                              String downloadUrl = '';
                               if (_imageFile != null) {
-                                widget.product!.image = downloadUrl;
+                                file = File(_imageFile!.path);
+                                //Putting the file in firebase storage
+                                TaskSnapshot taskSnapshot = await _storage
+                                    .ref(_imageFile!.path)
+                                    .putFile(file);
+                                //downloading URL from firebase storage
+                                downloadUrl =
+                                    await taskSnapshot.ref.getDownloadURL();
                               }
 
-                              context
-                                  .read<RestaurantProvider>()
-                                  .updateProduct(widget.product!);
+                              if (!widget.isEdit) {
+                                var item = Products(
+                                    name: nameController.text,
+                                    price: int.parse(priceController.text),
+                                    desc: descController.text,
+                                    image:
+                                        _imageFile != null ? downloadUrl : null);
+
+                                context
+                                    .read<RestaurantProvider>()
+                                    .addProduct(item);
+                              } else {
+                                widget.product!.name = nameController.text;
+                                widget.product!.desc = descController.text;
+                                widget.product!.price =
+                                    int.parse(priceController.text);
+
+                                if (_imageFile != null) {
+                                  widget.product!.image = downloadUrl;
+                                }
+
+                                context
+                                    .read<RestaurantProvider>()
+                                    .updateProduct(widget.product!);
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const RestaurantMenu()),
+                              );
                             }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const RestaurantMenu()),
-                            );
-                          }
-                        },
-                        child: widget.isEdit ? Text('Save') : Text('Confirm'),
-                        style: ElevatedButton.styleFrom(
-                            primary: const Color(0xff5abfa3)),
+                          },
+                          child: widget.isEdit ? Text('Save') : Text('Confirm'),
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0xff5abfa3)),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

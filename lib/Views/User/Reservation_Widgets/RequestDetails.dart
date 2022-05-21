@@ -17,6 +17,17 @@ class RequestDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Text(
+            'Status: ' + request.status!,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.italic
+            ),
+          ),
+        ),
         InputBox(
           label: !isUser ? 'Name' : 'Restaurant',
           hintText: '',
@@ -36,19 +47,11 @@ class RequestDetails extends StatelessWidget {
           canEdit: false,
         ),
         InputBox(
-          label: 'Date',
+          label: 'Date & Time',
           hintText: '',
           icon: Icon(Icons.calendar_today, color: Color(0xFF5ABFA3)),
-          controller:
-              TextEditingController(text: formatter.format(request.date)),
-          isNum: false,
-          canEdit: false,
-        ),
-        InputBox(
-          label: 'Time',
-          hintText: '',
-          icon: Icon(Icons.timer_outlined, color: Color(0xFF5ABFA3)),
-          controller: TextEditingController(text: request.time),
+          controller: TextEditingController(
+              text: formatter.format(request.date) + ', ' + request.time),
           isNum: false,
           canEdit: false,
         ),

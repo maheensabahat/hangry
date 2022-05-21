@@ -30,7 +30,7 @@ class _ReserveTableState extends State<ReserveTable> {
   int persons = 2;
   String time = 'none';
   bool personSelected = false;
-  late DateTime date;
+  DateTime? date;
 
   @override
   void initState() {
@@ -211,15 +211,11 @@ class _ReserveTableState extends State<ReserveTable> {
                               textStyle:
                                   TextStyle(fontWeight: FontWeight.bold)),
                           onPressed: () {
-                            print(area);
-                            print(persons);
-                            print(time);
-                            print(date);
-
                             if (area != 'none' &&
                                 personSelected &&
-                                name.text.isNotEmpty &&
-                                contact.text.isNotEmpty) {
+                                name.text.isNotEmpty && time != 'none' &&
+                                contact.text.isNotEmpty && date != null) {
+                              DateTime d = date!;
                               ReservationRequest req = ReservationRequest(
                                   name: name.text,
                                   restaurantName: widget.restaurant.name,
@@ -227,7 +223,7 @@ class _ReserveTableState extends State<ReserveTable> {
                                   phone: int.parse(contact.text),
                                   seats: persons,
                                   time: time,
-                                  date: date,
+                                  date: d,
                                   status: 'pending');
 
                               context.read<UserProvider>().reserveTable(req);

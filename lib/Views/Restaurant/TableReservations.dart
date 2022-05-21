@@ -82,7 +82,10 @@ class _TableReservationsState extends State<TableReservations>
             return provider.isLoaded
                 ? Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 20),
-                    child: RequestList(reqs: provider.Pending_request),
+                    child: RequestList(
+                      reqs: provider.Pending_request,
+                      type: 'pending',
+                    ),
                   )
                 : Loader();
           }),
@@ -91,7 +94,10 @@ class _TableReservationsState extends State<TableReservations>
               child: provider.isLoaded
                   ? Padding(
                       padding: const EdgeInsets.only(top: 16, bottom: 20),
-                      child: RequestList(reqs: provider.Approved_request),
+                      child: RequestList(
+                        reqs: provider.Approved_request,
+                        type: 'approved',
+                      ),
                     )
                   : Loader(),
             );
@@ -104,8 +110,10 @@ class _TableReservationsState extends State<TableReservations>
 
 class RequestList extends StatefulWidget {
   List<ReservationRequest> reqs;
+  String type;
 
-  RequestList({Key? key, required this.reqs}) : super(key: key);
+  RequestList({Key? key, required this.reqs, required this.type})
+      : super(key: key);
 
   @override
   _RequestListState createState() => _RequestListState();
@@ -155,7 +163,7 @@ class _RequestListState extends State<RequestList> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ReservationRequests(
-                                    type: 'pending',
+                                    type: widget.type,
                                     request: widget.reqs[index],
                                   )));
                         },

@@ -52,7 +52,7 @@ class _RestaurantState extends State<RestaurantWidget> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     color: const Color.fromRGBO(255, 255, 255, 0.7),
                     colorBlendMode: BlendMode.modulate,
-                    fit: BoxFit.fill),
+                    fit: BoxFit.cover),
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.85,

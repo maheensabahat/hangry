@@ -60,7 +60,7 @@ class FavListView extends StatelessWidget {
               delay: Duration(milliseconds: 900),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.22,
                 child: Center(
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -69,6 +69,7 @@ class FavListView extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                             width: MediaQuery.of(context).size.width * 0.80,
+                            // height: MediaQuery.of(context).size.height * 0.25,
                             child: RestaurantWidget(restaurant: favs[index]));
                       }),
                 ),
