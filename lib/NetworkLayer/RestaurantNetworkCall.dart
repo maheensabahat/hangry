@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Entities/Order_details.dart';
 import '../Entities/OrdersHistory.dart';
 import '../Entities/ReservationRequest.dart';
 import '../Entities/OrdersRest.dart';
 import '../Entities/Restaurant.dart';
+import '../Entities/User_order.dart';
 import '../Models/OrdersModel.dart';
 import '../Models/ProductModel.dart';
 import '../Models/RestaurantModel.dart';
@@ -31,9 +33,10 @@ abstract class RestaurantNetworkCall {
 
   Future<void> RejectOrder(var id);
 
-  Future<List> getRestOrders(var restaurant_id, order_status);
+  // Future<List> getRestOrders(var restaurant_id, order_status);
 
-  Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status);
+  // Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status);
+
   Future<String> getRestaurantName(String rest_id);
 }
 
@@ -96,19 +99,31 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
     }).catchError((error) => print("Failed to approve request: $error"));
   }
 
-  Future<List<OrdersHistory>> getOrderHistory1(String restaurant_id, String status) async {
+  Future<List<OrdersHistory>> getOrderHistory1(
+      String restaurant_id, String status) async {
     List<OrdersHistory> requests = [];
+
     await FirebaseFirestore.instance
         .collection('Orders')
         .where('restaurant_id', isEqualTo: restaurant_id)
         .where('status', isEqualTo: status)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        var r = OrdersHistory.fromJson(doc.data() as Map<String, dynamic>);
-        r.id = doc.id;
-        requests.add(r);
-      });
+      for (var doc in querySnapshot.docs) {
+        var order = OrdersHistory.fromJson(doc.data() as Map<String, dynamic>);
+        order.id = doc.id;
+        requests.add(order);
+        requests[requests.length - 1].product_details = [];
+        List productdetails = doc.get("product_details");
+        for (int i = 0; i < productdetails.length; i++) {
+          requests[requests.length - 1].product_details!.add(ProductDetails(
+              ProductID: productdetails[i]["product_id"],
+              quantity: productdetails[i]["quantity"],
+              image: productdetails[i]["image"],
+              name: productdetails[i]["name"],
+              price: productdetails[i]["price"]));
+        }
+      }
     });
     return requests;
   }
@@ -179,85 +194,6 @@ class RFirebaseNetworkCall implements RestaurantNetworkCall {
       });
     });
     return products;
-  }
-
-  @override
-  Future<List<Orders>> getRestOrders(restaurant_id, order_status) async {
-    List<Orders> orders = [];
-
-    await FirebaseFirestore.instance
-        .collection('Orders')
-        .where("restaurant_id", isEqualTo: restaurant_id)
-        .where("order_status", isEqualTo: order_status)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        var list = jsonDecode(jsonEncode(doc.data()));
-        Orders ord = Orders(
-            restaurant_id: list["restaurant_id"],
-            user_id: list["user_id"],
-            qr_id: list["qr_id"],
-            order_status: list["order_status"],
-            product_ids: list["product_ids"],
-            tableNum: list["tableNum"],
-            restaurant_name: list["restaurant_name"]);
-
-        orders.add(ord);
-      });
-    });
-    return orders;
-  }
-
-  Future<List<OrdersModel>> getOrd(Restaurant restaurant, String status) async {
-    List<OrdersModel> reqs = [];
-
-    List ids = await getOrdId(restaurant);
-
-    int i = 0;
-    while (i < ids.length) {
-      OrdersModel r = await getOrdusingID(ids[i], status) as OrdersModel;
-      if (r != null) {
-        reqs.add(r);
-      }
-      i++;
-    }
-
-    return reqs;
-  }
-
-  Future<OrdersModel?> getOrdusingID(var id, String status) async {
-    var x = await FirebaseFirestore.instance
-        .collection('Orders')
-        .doc(id)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      OrdersModel req =
-          OrdersModel.fromJson(documentSnapshot.data() as Map<String, dynamic>);
-      print(req);
-      if (req.status == status) {
-        return req;
-      } else {
-        return null;
-      }
-    });
-
-    return x;
-  }
-
-  getOrdId(Restaurant restaurant) async {
-    QuerySnapshot query = await FirebaseFirestore.instance
-        .collection('Restaurants')
-        .doc(restaurant.id)
-        .collection('Orders')
-        .get();
-
-    final thedetails = query.docs
-        .map((DocumentSnapshot e) =>
-            RestaurantModel.OrderID_fromJson(e.data() as Map<String, dynamic>))
-        .toList();
-
-    print(thedetails);
-    return thedetails;
   }
 
   @override

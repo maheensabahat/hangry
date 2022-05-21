@@ -126,7 +126,7 @@ class _UserMenuState extends State<UserMenu> {
                                                                   .checkItemPresent(
                                                                       menu[index]
                                                                           .ID)
-                                                              ? Colors.green
+                                                              ? Color(0xff51bfa3)
                                                               : Colors.black,
                                                         ),
                                                         onTap: () {

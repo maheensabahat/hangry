@@ -1,10 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:project/Views/Restaurant/ShowOrders.dart';
 import 'package:provider/provider.dart';
 import '../../Entities/OrdersHistory.dart';
 import '../../Providers/RestaurantProvider.dart';
+import 'OrderDetails.dart';
 import 'RestaurantHome.dart';
 import 'Widgets/BackButton.dart';
 import 'Widgets/Loader.dart';
@@ -153,9 +153,10 @@ class _RequestListState extends State<RequestList> {
                       // leading: Icon(Icons.restaurant),
                       subtitle: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text( widget.reqs[index].user_id+
-                            "\n" +
-                          formatter.format(widget.reqs[index].date) ,
+                        child: Text(
+                          widget.reqs[index].user_id +
+                              "\n" +
+                              formatter.format(widget.reqs[index].date),
                           style: const TextStyle(fontSize: 13),
                         ),
                       ),
@@ -166,7 +167,7 @@ class _RequestListState extends State<RequestList> {
                         ),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ShowOrders(
+                              builder: (context) => OrderDetails(
                                     type: 'Pending',
                                     request: widget.reqs[index],
                                   )));

@@ -213,8 +213,10 @@ class _ReserveTableState extends State<ReserveTable> {
                           onPressed: () {
                             if (area != 'none' &&
                                 personSelected &&
-                                name.text.isNotEmpty && time != 'none' &&
-                                contact.text.isNotEmpty && date != null) {
+                                name.text.isNotEmpty &&
+                                time != 'none' &&
+                                contact.text.isNotEmpty &&
+                                date != null) {
                               DateTime d = date!;
                               ReservationRequest req = ReservationRequest(
                                   name: name.text,
@@ -229,7 +231,8 @@ class _ReserveTableState extends State<ReserveTable> {
                               context.read<UserProvider>().reserveTable(req);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => ReservationDisplay(
-                                        request: req, fromList: false,
+                                        request: req,
+                                        fromList: false,
                                       )));
                             }
                             // Navigator.of(context).push(widget.next_page);
@@ -253,7 +256,17 @@ class _ReserveTableState extends State<ReserveTable> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        floatingActionButton: BackButton());
+        floatingActionButton: FloatingActionButton.small(
+          heroTag: null,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          backgroundColor: Color(0xFF5ABFA3),
+        ));
   }
 }
 

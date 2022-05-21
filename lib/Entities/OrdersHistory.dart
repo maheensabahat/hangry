@@ -3,7 +3,7 @@ import 'Order_details.dart';
 class OrdersHistory {
   String? status = 'pending';
   String user_id;
-  String time;
+  String? time;
   String table_num;
   DateTime date;
   String qr_id;
@@ -17,7 +17,7 @@ class OrdersHistory {
   OrdersHistory(
       {required this.qr_id,
         required this.restaurant_id,
-        required this.product_details,
+        this.product_details,
         required this.table_num,
         required this.time,
         required this.user_id,
@@ -25,9 +25,6 @@ class OrdersHistory {
         this.status,
       });
 
-  void approveRequest() {
-    status = 'approved';
-  }
 
   Map<String, dynamic> toJson() => {
     'qr_id': qr_id,
@@ -48,7 +45,6 @@ class OrdersHistory {
       table_num: json['table_num'],
       user_id: json['user_id'],
       status: json['status'],
-      product_details: json['product_details'],
       restaurant_id: json['restaurant_id'],
     );
   }

@@ -87,14 +87,11 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
 
     if (status == 'Pending') {
-      Pending_orders =
-          await networkCall.getOrderHistory1(restaurant.id, status);
+      Pending_orders = await networkCall.getOrderHistory1(email, status);
     } else if (status == 'Approved') {
-      Approved_orders =
-          await networkCall.getOrderHistory1(restaurant.id, status);
+      Approved_orders = await networkCall.getOrderHistory1(email, status);
     } else {
-      Rejected_orders =
-          await networkCall.getOrderHistory1(restaurant.id, status);
+      Rejected_orders = await networkCall.getOrderHistory1(email, status);
     }
 
     isLoaded = true;
@@ -177,49 +174,6 @@ class RestaurantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Orders?>> getRestOrdersFromFirebase(
-      restaurant_id, order_status) async {
-    var orders;
-    orders = await networkCall.getRestOrders(restaurant_id, order_status);
-    for (Orders order in orders) {
-      this.orders.add(order);
-    }
-    notifyListeners();
-    return orders;
-  }
-
-  List<Orders?> getOrders(restaurant_id, order_status) {
-    getRestOrdersFromFirebase(restaurant_id, order_status);
-    return orders;
-  }
-
-  String getEmail() {
-    return restaurant.id;
-  }
-
-  Future<void> getOrd(String status) async {
-    restaurant.Pending_Orders.clear();
-    changeLoadingVar(false);
-
-    List<OrdersModel> r = await getOrdFromDB(status);
-    if (status == 'Pending') {
-      restaurant.Pending_Orders = r;
-      notifyListeners();
-    } else {
-      restaurant.Approved_Orders = r;
-    }
-
-    changeLoadingVar(true);
-  }
-
-  Future<List<OrdersModel>> getOrdFromDB(String status) async {
-    List<OrdersModel> r = [];
-
-    r = await networkCall.getOrd(this.restaurant, status);
-
-    return r;
-  }
-
   Future<void> changeLoadingVar(bool bvar) async {
     isLoaded = bvar;
     await Future.delayed(
@@ -237,25 +191,3 @@ class RestaurantProvider extends ChangeNotifier {
     return name;
   }
 }
-
-// Future<void> getRestOrders() async {
-//   isLoaded = false;
-//   await Future.delayed(const Duration(milliseconds: 1));
-//   notifyListeners();
-//
-//   var response = await networkCall.getRestOrders(id);
-//
-//   List<Orders> o = response
-//       .map((e) => Orders(
-//       user_id: e.user_id,
-//       restaurant_id: e.restaurant_id,
-//       qr_id: e.qr_id,
-//       product_ids: e.product_ids,
-//       order_status: e.order_status))
-//       .toList();
-//
-//   orders = o ;
-//
-//   isLoaded = true;
-//   notifyListeners();
-// }
